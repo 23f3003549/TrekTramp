@@ -7,6 +7,13 @@ from datetime import datetime
 class Review(db.Model):
 
     __tablename__ = "reviews"
+    __table_args__ = (
+
+    db.UniqueConstraint(
+        "user_id",
+        "trek_id",
+        name="unique_user_trek_review"
+    ),)
 
     id = db.Column(db.Integer, primary_key=True)
 

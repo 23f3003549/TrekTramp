@@ -8,6 +8,14 @@ class StaffAssign(db.Model):
 
     __tablename__ = "staff_assign"
 
+    __table_args__ = (
+
+    db.UniqueConstraint(
+        "trek_id",
+        "staff_id",
+        name="unique_staff_trek_assignment"
+    ),
+)
     id = db.Column(db.Integer, primary_key=True)
 
     trek_id = db.Column(
