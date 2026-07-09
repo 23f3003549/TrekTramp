@@ -126,7 +126,24 @@ export default {
         )
         this.errorMessage = ""
         this.successmessage = "Login Successful"
-        // alert("Login Successful")
+        
+        if (response.data.role === "admin") {
+
+          this.$router.push("/admin")
+
+        }
+
+        else if (response.data.role === "staff") {
+
+          this.$router.push("/staff")
+
+        }
+
+        else {
+
+          this.$router.push("/user")
+
+        }
 
       }
 
@@ -134,8 +151,12 @@ export default {
 
         console.log(error)
 
-        this.errorMessage =
-          error.response.data.message
+        if (error.response){
+          this.errorMessage = error.response.data.message
+        }
+        else {
+          this.errorMessage = "Unable to connect to server."
+        }
 
       }
 
