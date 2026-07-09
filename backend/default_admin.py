@@ -12,6 +12,7 @@ def default_admin():
             name = "Admin User",
             email = "trekadmin1@gmail.com",
             hash_password = hash_pass,
+            age = 30,
             role = "admin",
             status = "active",
 

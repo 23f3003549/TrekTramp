@@ -18,7 +18,7 @@ class Trek(db.Model):
     max_slots = db.Column( db.Integer, nullable=False)
     available_slots = db.Column( db.Integer,nullable=False)
     price = db.Column( db.Float, default=0)
-    status = db.Column( db.String(20), nullable=False, default="pending", index = True) #pending, approved, open, closed,started, completed, cancelled
+    status = db.Column( db.String(20), nullable=False, default="open", index = True) #open, closed,started, completed, cancelled
     start_date = db.Column( db.Date,nullable=False)
     end_date = db.Column( db.Date, nullable=False)
     created_at = db.Column( db.DateTime, default=datetime.utcnow)

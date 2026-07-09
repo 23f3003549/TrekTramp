@@ -8,20 +8,13 @@ class StaffAssign(db.Model):
 
     __tablename__ = "staff_assign"
 
-    __table_args__ = (
-
-    db.UniqueConstraint(
-        "trek_id",
-        "staff_id",
-        name="unique_staff_trek_assignment"
-    ),
-)
     id = db.Column(db.Integer, primary_key=True)
 
     trek_id = db.Column(
         db.Integer,
         db.ForeignKey("treks.id"),
-        nullable=False
+        nullable=False,
+        unique = True
     )
 
     staff_id = db.Column(

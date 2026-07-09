@@ -14,7 +14,7 @@ class Booking(db.Model):
     user_id = db.Column( db.Integer, db.ForeignKey("users.id"),nullable=False)
     trek_id = db.Column( db.Integer,db.ForeignKey("treks.id"),nullable=False)
     booking_date = db.Column(db.DateTime,default=datetime.utcnow)
-    booking_status = db.Column(db.String(20),nullable=False,default="booked") #booked, cancelled, rejected
+    booking_status = db.Column(db.String(20),nullable=False,default="booked") #booked, cancelled, rejected, completed
     status_reason = db.Column(db.String(255))
     cancelled_by = db.Column(db.String(30)) #admin, staff, user
     payment_status = db.Column(db.String(20),nullable=False,default="pending" ) #pending,paid, refunded, failed
