@@ -124,6 +124,7 @@ export default {
           "role",
           response.data.role
         )
+        localStorage.setItem("name", response.data.name);
         this.errorMessage = ""
         this.successmessage = "Login Successful"
         
@@ -134,14 +135,20 @@ export default {
         }
 
         else if (response.data.role === "staff") {
+          if(response.data.must_change_password){
+             this.$router.push("/staff/complete-profile");
 
-          this.$router.push("/staff")
+          }
+          else{
+            this.$router.push("/staff/dashboard");
+
+          }
 
         }
 
         else {
 
-          this.$router.push("/user")
+          this.$router.push("/trekker/dashboard")
 
         }
 

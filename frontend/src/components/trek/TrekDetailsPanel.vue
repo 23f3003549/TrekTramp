@@ -23,6 +23,8 @@
 
     <div class="offcanvas-body">
 
+        <!-- LOADING -->
+
         <div
             v-if="loading"
             class="text-center py-5"
@@ -32,7 +34,11 @@
 
         </div>
 
-        <div v-else-if="trek">
+        <!-- CONTENT -->
+
+        <div
+            v-else-if="trek"
+        >
 
             <!-- BASIC INFORMATION -->
 
@@ -50,13 +56,37 @@
 
                         <div class="col-md-6">
 
-                            <p><strong>Trek Name :</strong> {{ trek.trek_name }}</p>
+                            <p>
 
-                            <p><strong>Location :</strong> {{ trek.location }}</p>
+                                <strong>Trek Name :</strong>
 
-                            <p><strong>Difficulty :</strong> {{ trek.difficulty }}</p>
+                                {{ trek.trek_name }}
 
-                            <p><strong>Price :</strong> ₹ {{ trek.price }}</p>
+                            </p>
+
+                            <p>
+
+                                <strong>Location :</strong>
+
+                                {{ trek.location }}
+
+                            </p>
+
+                            <p>
+
+                                <strong>Difficulty :</strong>
+
+                                {{ trek.difficulty }}
+
+                            </p>
+
+                            <p>
+
+                                <strong>Price :</strong>
+
+                                ₹ {{ trek.price }}
+
+                            </p>
 
                         </div>
 
@@ -70,7 +100,9 @@
                                     class="badge"
                                     :class="statusBadge"
                                 >
+
                                     {{ trek.status }}
+
                                 </span>
 
                             </p>
@@ -165,23 +197,47 @@
 
                 <div class="card-body">
 
-                    <div v-if="trek.staff_name">
+                    <template
+                        v-if="trek.assigned_staff"
+                    >
 
-                        <strong>{{ trek.staff_name }}</strong>
+                        <h6>
 
-                    </div>
+                            {{ trek.assigned_staff.name }}
 
-                    <div v-else>
+                        </h6>
 
-                        No Staff Assigned
+                        <p class="mb-1">
 
-                    </div>
+                            {{ trek.assigned_staff.email }}
+
+                        </p>
+
+                        <small class="text-muted">
+
+                            {{ trek.assigned_staff.phone }}
+
+                        </small>
+
+                    </template>
+
+                    <template
+                        v-else
+                    >
+
+                        <p class="text-muted mb-0">
+
+                            No staff assigned.
+
+                        </p>
+
+                    </template>
 
                 </div>
 
             </div>
 
-            <!-- BOOKING -->
+            <!-- BOOKING SUMMARY -->
 
             <div class="card shadow-sm mb-4">
 
@@ -203,6 +259,14 @@
 
                     <p>
 
+                        <strong>Booked Participants :</strong>
+
+                        {{ trek.max_slots - trek.available_slots }}
+
+                    </p>
+
+                    <p>
+
                         <strong>Available Slots :</strong>
 
                         {{ trek.available_slots }}
@@ -213,7 +277,7 @@
 
             </div>
 
-            <!-- ACTION -->
+            <!-- ACTIONS -->
 
             <div class="card shadow-sm">
 
@@ -225,50 +289,158 @@
 
                 <div class="card-body">
 
+                    <!-- ADMIN -->
+
                     <div
                         v-if="role==='admin'"
                     >
 
                         <button
                             class="btn btn-success"
-                            @click="assignStaff"
+                            @click="openAssignPanel"
                         >
 
-                            Assign Staff
+                            {{ trek.assigned_staff ? "Change Staff" : "Assign Staff" }}
 
                         </button>
 
                     </div>
+
+                    <!-- STAFF -->
 
                     <div
                         v-else-if="role==='staff'"
                     >
 
-                        <button
-                            class="btn btn-primary me-2"
+                        <!-- OPEN -->
+
+                        <div
+                            v-if="trek.status==='open'"
                         >
 
-                            Start Trek
+                            <label class="form-label">
 
-                        </button>
+                                Maximum Capacity
 
-                        <button
-                            class="btn btn-success me-2"
+                            </label>
+
+                            <div class="input-group mb-3">
+
+                                <input
+
+                                    type="number"
+
+                                    class="form-control"
+
+                                    v-model="updatedCapacity"
+
+                                    min="0"
+
+                                    :max="trek.max_slots"
+
+                                >
+
+                                <button
+
+                                    class="btn btn-warning"
+
+                                    @click="updateCapacity"
+
+                                >
+
+                                    Update Capacity
+
+                                </button>
+
+                            </div>
+
+                            <hr>
+
+                            <button
+
+                                class="btn btn-primary"
+
+                                @click="changeStatus('started')"
+
+                            >
+
+                                Start Trek
+
+                            </button>
+
+                            <button
+
+                                class="btn btn-danger ms-2"
+
+                                @click="changeStatus('cancelled')"
+
+                            >
+
+                                Cancel Trek
+
+                            </button>
+
+                        </div>
+
+                        <!-- STARTED -->
+
+                        <div
+                            v-else-if="trek.status==='started'"
                         >
 
-                            Complete Trek
+                            <button
 
-                        </button>
+                                class="btn btn-success"
 
-                        <button
-                            class="btn btn-danger"
+                                @click="changeStatus('completed')"
+
+                            >
+
+                                Complete Trek
+
+                            </button>
+
+                            <button
+
+                                class="btn btn-danger ms-2"
+
+                                @click="changeStatus('cancelled')"
+
+                            >
+
+                                Cancel Trek
+
+                            </button>
+
+                        </div>
+
+                        <!-- COMPLETED / CANCELLED -->
+
+                        <div
+                            v-else
                         >
 
-                            Cancel Trek
+                            <div class="alert alert-secondary mb-0">
 
-                        </button>
+                                This trek is
+
+                                <strong>
+
+                                    {{ trek.status }}
+
+                                </strong>
+
+                                .
+
+                                No further actions are available.
+
+                            </div>
+
+                        </div>
 
                     </div>
+
+                    <!-- TREKKER -->
 
                     <div
                         v-else
@@ -294,16 +466,45 @@
 
 </div>
 
+<AssignStaffPanel
+
+    v-if="showAssignPanel"
+
+    :trekId="trek.id"
+
+    @close="showAssignPanel=false"
+
+    @assigned="handleStaffAssigned"
+
+/>
+
 </template>
 
 <script>
 
 import * as bootstrap from "bootstrap";
+
 import { getTrek } from "../../services/trek";
+
+import {
+
+    updateTrekCapacity,
+
+    updateTrekStatus
+
+} from "../../services/staff";
+
+import AssignStaffPanel from "../admin/AssignStaffPanel.vue";
 
 export default{
 
     name:"TrekDetailsPanel",
+
+    components:{
+
+        AssignStaffPanel
+
+    },
 
     props:{
 
@@ -323,7 +524,11 @@ export default{
 
             offcanvas:null,
 
-            role:localStorage.getItem("role")
+            role:localStorage.getItem("role"),
+
+            showAssignPanel:false,
+
+            updatedCapacity:0
 
         }
 
@@ -333,15 +538,21 @@ export default{
 
         statusBadge(){
 
+            if(!this.trek){
+
+                return {};
+
+            }
+
             return{
 
                 "bg-success":this.trek.status==="open",
 
-                "bg-warning text-dark":this.trek.status==="pending",
+                "bg-primary":this.trek.status==="started",
 
-                "bg-danger":this.trek.status==="cancelled",
+                "bg-secondary":this.trek.status==="completed",
 
-                "bg-secondary":this.trek.status==="completed"
+                "bg-danger":this.trek.status==="cancelled"
 
             }
 
@@ -351,7 +562,11 @@ export default{
 
     methods:{
 
+        //--------------------------------------------------
+
         async loadTrek(){
+
+            this.loading=true;
 
             try{
 
@@ -359,13 +574,21 @@ export default{
 
                 this.trek=response.data.trek;
 
+                this.updatedCapacity=this.trek.max_slots;
+
             }
 
             catch(error){
 
                 console.error(error);
 
-                alert("Unable to load trek.");
+                alert(
+
+                    error.response?.data?.message ||
+
+                    "Unable to load trek."
+
+                );
 
             }
 
@@ -377,15 +600,139 @@ export default{
 
         },
 
+        //--------------------------------------------------
+
         closePanel(){
 
             this.offcanvas.hide();
 
         },
 
-        assignStaff(){
+        //--------------------------------------------------
 
-            alert("Assign Staff Modal");
+        openAssignPanel(){
+
+            this.showAssignPanel=true;
+
+        },
+
+        //--------------------------------------------------
+
+        async handleStaffAssigned(){
+
+            this.showAssignPanel=false;
+
+            await this.loadTrek();
+
+        },
+
+        //--------------------------------------------------
+
+        async updateCapacity(){
+
+            if(this.updatedCapacity<0){
+
+                alert("Capacity cannot be negative.");
+
+                return;
+
+            }
+
+            if(this.updatedCapacity>this.trek.max_slots){
+
+                alert("Available slots cannot exceed maximum slots.");
+
+                return;
+
+            }
+
+            try{
+
+                await updateTrekSlots(
+
+                    this.trek.id,
+
+                    {
+
+                        max_slots:this.updatedCapacity
+
+                    }
+
+                );
+
+                alert("Slots updated successfully.");
+
+                await this.loadTrek();
+
+            }
+
+            catch(error){
+
+                console.error(error);
+
+                alert(
+
+                    error.response?.data?.message ||
+
+                    "Unable to update slots."
+
+                );
+
+            }
+
+        },
+
+        //--------------------------------------------------
+
+        async changeStatus(status){
+
+            if(
+
+                !confirm(
+
+                    `Are you sure you want to mark this trek as ${status}?`
+
+                )
+
+            ){
+
+                return;
+
+            }
+
+            try{
+
+                await updateTrekStatus(
+
+                    this.trek.id,
+
+                    {
+
+                        status:status
+
+                    }
+
+                );
+
+                alert("Trek status updated.");
+
+                await this.loadTrek();
+
+            }
+
+            catch(error){
+
+                console.error(error);
+
+                alert(
+
+                    error.response?.data?.message ||
+
+                    "Unable to update trek status."
+
+                );
+
+            }
 
         }
 
@@ -395,7 +742,11 @@ export default{
 
         await this.loadTrek();
 
-        this.offcanvas=new bootstrap.Offcanvas(this.$refs.offcanvasElement);
+        this.offcanvas=new bootstrap.Offcanvas(
+
+            this.$refs.offcanvasElement
+
+        );
 
         this.offcanvas.show();
 
@@ -456,6 +807,135 @@ export default{
 .offcanvas-body{
 
     background:#f8f9fa;
+
+}
+
+</style><style scoped>
+
+.offcanvas{
+
+    width:650px;
+
+    background:#f8f9fa;
+
+}
+
+.offcanvas-header{
+
+    border-bottom:none;
+
+}
+
+.card{
+
+    border:none;
+
+    border-radius:14px;
+
+    overflow:hidden;
+
+}
+
+.card-header{
+
+    font-weight:600;
+
+    font-size:1rem;
+
+}
+
+.badge{
+
+    padding:8px 14px;
+
+    font-size:.85rem;
+
+    border-radius:20px;
+
+}
+
+.btn{
+
+    border-radius:10px;
+
+}
+
+.btn-primary,
+.btn-success,
+.btn-danger,
+.btn-warning{
+
+    min-width:140px;
+
+}
+
+.form-label{
+
+    font-weight:600;
+
+}
+
+.form-control{
+
+    border-radius:10px;
+
+}
+
+.input-group .btn{
+
+    border-top-left-radius:0;
+
+    border-bottom-left-radius:0;
+
+}
+
+.input-group .form-control{
+
+    border-top-right-radius:0;
+
+    border-bottom-right-radius:0;
+
+}
+
+.alert{
+
+    border-radius:12px;
+
+    font-size:.95rem;
+
+}
+
+.card-body p{
+
+    margin-bottom:.6rem;
+
+}
+
+.card-body strong{
+
+    color:#198754;
+
+}
+
+h6{
+
+    margin-bottom:.25rem;
+
+    font-weight:600;
+
+}
+
+small{
+
+    font-size:.85rem;
+
+}
+
+.spinner-border{
+
+    width:3rem;
+
+    height:3rem;
 
 }
 
