@@ -23,8 +23,18 @@ class StaffAssign(db.Model):
         nullable=False
     )
 
+
     assigned_at = db.Column(
         db.DateTime,
         default=datetime.utcnow
     )
+
+    released_at = db.Column(
+        db.DateTime
+    )
+
+    status = db.Column(
+        db.String(20),
+        default="active"
+    )   # active, completed, cancelled
 

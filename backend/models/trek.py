@@ -23,6 +23,7 @@ class Trek(db.Model):
     end_date = db.Column( db.Date, nullable=False)
     created_at = db.Column( db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    is_deleted = db.Column(db.Boolean,default=False)
 
 
     bookings = db.relationship("Booking", backref="trek", lazy=True, cascade = "all, delete-orphan" )

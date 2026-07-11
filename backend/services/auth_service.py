@@ -100,6 +100,7 @@ def login(data):
         "access_token": access_token,
         "refresh_token" : refresh_token,
         "role" : user.role,
+        "name": user.name,
         "must_change_password" : user.must_change_password
     }, 200
 

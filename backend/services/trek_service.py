@@ -4,6 +4,7 @@ from extensions import db
 from models.trek import Trek
 from models.booking import Booking
 from models.staff_assign import StaffAssign
+from models.user import User
 
 
 #-------------------------------create trek------------------------------
@@ -76,7 +77,7 @@ def create_trek(data):
         }, 400
     
 
-    duplicate_trek = Trek.query.filter_by(trek_name = trek_name, location = location, start_date = start_date).first()
+    duplicate_trek = Trek.query.filter_by(trek_name = trek_name, location = location, start_date = start_date, is_deleted=False).first()
 
     if duplicate_trek:
         return{
@@ -115,7 +116,7 @@ def create_trek(data):
 
 #---------------------------------------get all treks-----------------------------
 def get_all_treks():
-    treks = Trek.query.all()
+    treks = Trek.query.filter_by(is_deleted=False).all()
     trek_list = []
 
     for trek in treks:
@@ -133,36 +134,93 @@ def get_all_treks():
     } , 200   
 
 #------------------------------get single trek-------------------------
+
 def get_trek(trek_id):
-    trek = Trek.query.get(trek_id)
+
+    trek = Trek.query.filter_by(id = trek_id , is_deleted =False).first()
 
     if trek is None:
-        return{
+
+        return {
             "message":"Trek not found"
-        }, 404
-    
-    return {
-        "trek":{
-            "id": trek.id,
-            "trek_name": trek.trek_name,
-            "location": trek.location,
-            "difficulty": trek.difficulty,
-            "duration_days": trek.duration_days,
-            "min_age":trek.min_age,
-            "max_age":trek.max_age,
-            "price": trek.price,
-            "max_slots": trek.max_slots,
-            "available_slots": trek.available_slots,
-            "status": trek.status,
-            "start_date":trek.start_date.isoformat(),
-            "end_date": trek.end_date.isoformat(),
-            "description": trek.description
+        },404
+
+
+    assignment = StaffAssign.query.filter_by(
+
+        trek_id=trek.id,
+
+        status="active"
+
+    ).first()
+
+
+    assigned_staff = None
+
+
+    if assignment:
+
+        staff = User.query.get(
+            assignment.staff_id
+        )
+
+        if staff:
+
+            assigned_staff = {
+
+                "id":staff.id,
+
+                "name":staff.name,
+
+                "email":staff.email,
+
+                "phone":staff.phone,
+
+                "status":staff.status
+
             }
-        }, 200
-        
+
+
+    return{
+
+        "trek":{
+
+            "id":trek.id,
+
+            "trek_name":trek.trek_name,
+
+            "location":trek.location,
+
+            "difficulty":trek.difficulty,
+
+            "duration_days":trek.duration_days,
+
+            "min_age":trek.min_age,
+
+            "max_age":trek.max_age,
+
+            "price":trek.price,
+
+            "max_slots":trek.max_slots,
+
+            "available_slots":trek.available_slots,
+
+            "status":trek.status,
+
+            "start_date":trek.start_date.isoformat(),
+
+            "end_date":trek.end_date.isoformat(),
+
+            "description":trek.description,
+
+            "assigned_staff":assigned_staff
+
+        }
+
+    },200       
 #------------------------------------update trek---------------------------
 def update_trek(trek_id , data):
-    trek = Trek.query.get(trek_id)  
+    trek = Trek.query.filter_by(id=trek_id, is_deleted = False).first()  
 
     if trek is None:
         return{
@@ -287,7 +345,7 @@ def update_trek(trek_id , data):
 #-------------------------------------------------delete  trek---------------
 def delete_trek(trek_id):
 
-    trek = Trek.query.get(trek_id)
+    trek = Trek.query.filter_by(id=trek_id, is_deleted = False).first() 
 
     if trek is None:
         return {
@@ -311,13 +369,16 @@ def delete_trek(trek_id):
         }, 403
 
     assignment = StaffAssign.query.filter_by(
-        trek_id=trek_id
+        trek_id=trek_id, status="active"
     ).first()
 
     if assignment:
-        db.session.delete(assignment)
+        
+        assignment.status = "cancelled"
 
-    db.session.delete(trek)
+        assignment.released_at = datetime.utcnow()
+
+    trek.is_deleted = True
     db.session.commit()
 
     return {

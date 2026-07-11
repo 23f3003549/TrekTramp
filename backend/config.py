@@ -12,3 +12,13 @@ class Config:
 
     SQLALCHEMY_DATABASE_URI = os.getenv("SQLALCHEMY_DATABASE_URI")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    MAIL_SERVER = "smtp.gmail.com"
+    MAIL_PORT = 587
+    MAIL_USE_TLS = True
+    
+    MAIL_USERNAME = "23f3003549@ds.study.iitm.ac.in"
+    
+    MAIL_PASSWORD = "nsnh iuge gaeo nobd"
+    
+    MAIL_DEFAULT_SENDER = "23f3003549@ds.study.iitm.ac.in"
