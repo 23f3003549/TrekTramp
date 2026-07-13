@@ -1,8 +1,8 @@
 import csv
 from io import StringIO
 from flask import make_response
-from sqlalchemy import extract
-from werkzeug.security import generate_password_hash
+from sqlalchemy import extract , or_
+from werkzeug.security import generate_password_hash, check_password_hash
 from extensions import db
 from datetime import datetime
 
@@ -102,11 +102,29 @@ def admin_dashboard():
 
 #----------------------------------------get all staff----------------------------------
 
-def get_all_staff():
+def get_all_staff(search=""):
 
-    staffs = User.query.filter_by(
+    query = User.query.filter_by(
         role="staff"
-    ).all()
+    )
+    if search:
+
+        query = query.filter(
+
+            or_(
+
+                User.name.ilike(f"%{search}%"),
+
+                User.email.ilike(f"%{search}%")
+
+            )
+
+        )
+    staff = query.order_by(
+
+        User.created_at.desc()
+
+    ).all()    
 
     staff_list = []
 
@@ -621,14 +639,34 @@ def update_user_account_status(user_id, data):
 
     },200
 
+from sqlalchemy import or_
+
 #------------------------------------ Get All Users ------------------------------------
 
-def get_all_users():
+def get_all_users(search=""):
 
-    users = User.query.filter_by(
+    query = User.query.filter_by(
 
         role="trekker"
 
+    )
+
+    if search:
+
+        query = query.filter(
+
+            or_(
+
+                User.name.ilike(f"%{search}%"),
+
+                User.email.ilike(f"%{search}%")
+
+            )
+
+        )
+
+    users = query.order_by(
+        User.created_at.desc()
     ).all()
 
     user_list = []
@@ -1505,6 +1543,211 @@ def export_trek_report():
     response.headers["Content-Type"] = "text/csv"
 
     return response
+
+#---------------------------------- Get Admin Profile ----------------------------------
+
+def get_admin_profile(admin_id):
+
+    admin = User.query.filter_by(
+
+        id=admin_id,
+
+        role="admin"
+
+    ).first()
+
+    if admin is None:
+
+        return {
+
+            "message":"Admin not found."
+
+        },404
+
+    return {
+
+        "admin":{
+
+            "id":admin.id,
+
+            "name":admin.name,
+
+            "email":admin.email,
+
+            "role":admin.role
+
+        }
+
+    },200
+
+#---------------------------------- Update Admin Profile ----------------------------------
+
+def update_admin_profile(admin_id,data):
+
+    admin = User.query.filter_by(
+
+        id=admin_id,
+
+        role="admin"
+
+    ).first()
+
+    if admin is None:
+
+        return{
+
+            "message":"Admin not found."
+
+        },404
+
+
+    name = data.get(
+
+        "name",
+
+        ""
+
+    ).strip()
+
+    email = data.get(
+
+        "email",
+
+        ""
+
+    ).strip().lower()
+
+
+    if not name or not email:
+
+        return{
+
+            "message":"Name and Email are required."
+
+        },400
+
+
+    existing = User.query.filter(
+
+        User.email==email,
+
+        User.id!=admin.id
+
+    ).first()
+
+    if existing:
+
+        return{
+
+            "message":"Email already exists."
+
+        },409
+
+
+    admin.name = name
+
+    admin.email = email
+
+    db.session.commit()
+
+    return{
+
+        "message":"Profile updated successfully."
+
+    },200
+
+#---------------------------------- Change Admin Password ----------------------------------
+
+def change_admin_password(admin_id,data):
+
+    admin = User.query.filter_by(
+
+        id=admin_id,
+
+        role="admin"
+
+    ).first()
+
+    if admin is None:
+
+        return{
+
+            "message":"Admin not found."
+
+        },404
+
+
+    current_password = data.get(
+
+        "current_password",
+
+        ""
+
+    )
+
+    new_password = data.get(
+
+        "new_password",
+
+        ""
+
+    )
+
+    confirm_password = data.get(
+
+        "confirm_password",
+
+        ""
+
+    )
+
+
+    if not check_password_hash(
+
+        admin.hash_password,
+
+        current_password
+
+    ):
+
+        return{
+
+            "message":"Current password is incorrect."
+
+        },400
+
+
+    if new_password != confirm_password:
+
+        return{
+
+            "message":"Passwords do not match."
+
+        },400
+
+
+    if len(new_password) < 8:
+
+        return{
+
+            "message":"Password must contain at least 8 characters."
+
+        },400
+
+
+    admin.hash_password = generate_password_hash(
+
+        new_password
+
+    )
+
+    db.session.commit()
+
+    return{
+
+        "message":"Password updated successfully."
+
+    },200
 
     
 

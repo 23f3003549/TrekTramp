@@ -115,8 +115,29 @@ def create_trek(data):
 
 
 #---------------------------------------get all treks-----------------------------
-def get_all_treks():
-    treks = Trek.query.filter_by(is_deleted=False).all()
+def get_all_treks(search=""):
+    query = Trek.query.filter_by(is_deleted=False)
+    if search:
+
+        query = query.filter(
+
+            or_(
+
+                Trek.trek_name.ilike(f"%{search}%"),
+
+                Trek.location.ilike(f"%{search}%"),
+
+                Trek.difficulty.ilike(f"%{search}%")
+
+            )
+
+        )
+    treks = query.order_by(
+
+        Trek.created_at.desc()
+
+    ).all()    
+
     trek_list = []
 
     for trek in treks:

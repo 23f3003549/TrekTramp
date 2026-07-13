@@ -2,9 +2,9 @@ import csv
 from io import StringIO
 from flask import make_response
 from flask import jsonify, request, Blueprint
-from flask_jwt_extended import jwt_required , get_jwt
+from flask_jwt_extended import jwt_required , get_jwt, get_jwt_identity
 
-from services.admin_service import create_staff , admin_dashboard , get_all_staff , get_staff_details, update_staff_account_status, get_user_details,update_user_account_status, get_all_users, get_user,get_all_bookings, get_booking_details, update_booking, get_reports, export_staff_report, export_booking_report, export_users_report,export_trek_report
+from services.admin_service import create_staff , admin_dashboard , get_all_staff , get_staff_details, update_staff_account_status, get_user_details,update_user_account_status, get_all_users, get_user,get_all_bookings, get_booking_details, update_booking, get_reports, export_staff_report, export_booking_report, export_users_report,export_trek_report, get_admin_profile, update_admin_profile,change_admin_password
 from services.staff_service import update_staff, get_staff, staff_assignment , get_available_staff , change_staff_status
 
 admin_bp = Blueprint("admin", __name__)
@@ -285,8 +285,11 @@ def get_all_users_api():
             "message":"Admin access required."
 
         },403
+    search = request.args.get(
+        "search", ""
+    ).strip()
 
-    response,status = get_all_users()
+    response,status = get_all_users(search)
 
     return jsonify(response),status
 
@@ -471,3 +474,89 @@ def export_trek_api():
         },403
 
     return export_trek_report()
+
+#---------------------------------- Get Admin Profile ----------------------------------
+
+@admin_bp.route("/profile",methods=["GET"])
+@jwt_required()
+def get_admin_profile_api():
+
+    claims = get_jwt()
+
+    if claims["role"]!="admin":
+
+        return{
+
+            "message":"Admin access required."
+
+        },403
+
+    admin_id = get_jwt_identity()
+
+    response,status = get_admin_profile(
+
+        admin_id
+
+    )
+
+    return jsonify(response),status
+
+#---------------------------------- Update Admin Profile ----------------------------------
+
+@admin_bp.route("/profile",methods=["PUT"])
+@jwt_required()
+def update_admin_profile_api():
+
+    claims = get_jwt()
+
+    if claims["role"]!="admin":
+
+        return{
+
+            "message":"Admin access required."
+
+        },403
+
+    admin_id = get_jwt_identity()
+
+    data = request.get_json()
+
+    response,status = update_admin_profile(
+
+        admin_id,
+
+        data
+
+    )
+
+    return jsonify(response),status
+
+#---------------------------------- Change Admin Password ----------------------------------
+
+@admin_bp.route("/change-password",methods=["PUT"])
+@jwt_required()
+def change_admin_password_api():
+
+    claims = get_jwt()
+
+    if claims["role"]!="admin":
+
+        return{
+
+            "message":"Admin access required."
+
+        },403
+
+    admin_id = get_jwt_identity()
+
+    data = request.get_json()
+
+    response,status = change_admin_password(
+
+        admin_id,
+
+        data
+
+    )
+
+    return jsonify(response),status

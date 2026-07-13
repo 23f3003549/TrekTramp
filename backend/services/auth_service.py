@@ -52,7 +52,7 @@ def register(data):
         "message": f"user with email id:{email} registered successfully"
     }, 201
 
-
+#-------------------login-------------------------
 def login(data):
     email = data.get("email")
     password = data.get("password")
