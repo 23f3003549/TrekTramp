@@ -6,7 +6,8 @@ import RegisterView from '../views/RegisterView.vue'
 import AdminDashboard from '../views/AdminDashboard.vue'
 import ManageTreks from '../views/ManageTreks.vue'
 import ManageStaff from '../views/ManageStaff.vue'
-
+import ManageUsers from '../views/ManageUsers.vue'
+import ManageBookings from '../views/ManageBookings.vue'
 import CreateTrek from '../views/CreateTrek.vue'
 import TrekDetails from '../views/TrekDetails.vue'
 import CompleteProfile from '../views/staff/CompleteProfile.vue'
@@ -62,6 +63,16 @@ const routes = [
         path : '/admin/staff',
         name : 'ManageStaff',
         component: ManageStaff
+    },
+    {
+        path : '/admin/users',
+        name : 'ManageUsers',
+        component: ManageUsers
+    },
+    {
+        path : '/admin/bookings',
+        name : 'ManageBookings',
+        component: ManageBookings
     },
     {
         path: "/staff/complete-profile",

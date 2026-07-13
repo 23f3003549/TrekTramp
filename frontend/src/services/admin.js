@@ -77,3 +77,137 @@ export function getUser(userId){
     );
 
 }
+
+// ---------------------- Get All Bookings ----------------------
+
+export function getAllBookings(){
+
+    return api.get(
+
+        "/admin/bookings"
+
+    );
+
+}
+
+
+// ---------------------- Get Booking Details ----------------------
+
+export function getBookingDetails(bookingId){
+
+    return api.get(
+
+        `/admin/booking/${bookingId}`
+
+    );
+
+}
+
+
+// ---------------------- Update Booking ----------------------
+
+export function updateBooking(bookingId,data){
+
+    return api.put(
+
+        `/admin/booking/${bookingId}`,
+
+        data
+
+    );
+
+}
+
+// ---------------------- Reports Dashboard ----------------------
+
+export function getReports(){
+
+    return api.get(
+
+        "/admin/reports"
+
+    );
+
+}
+//-------------------------------------------user reports-----------------
+export function getReports(){
+
+    return api.get(
+
+        "/admin/reports/users"
+
+    );
+
+}
+
+// ---------------------- Export Users Report ----------------------
+
+export function exportUsersReport(){
+
+    return api.get(
+
+        "/admin/reports/users",
+
+        {
+
+            responseType:"blob"
+
+        }
+
+    );
+
+}
+
+// ---------------------- Export Staff Report ----------------------
+
+export function exportStaffReport(){
+
+    return api.get(
+
+        "/admin/reports/staff",
+
+        {
+
+            responseType:"blob"
+
+        }
+
+    );
+
+}
+
+// ---------------------- Export Booking Report ----------------------
+
+export function exportBookingReport(){
+
+    return api.get(
+
+        "/admin/reports/bookings",
+
+        {
+
+            responseType:"blob"
+
+        }
+
+    );
+
+}
+
+// ---------------------- Export Trek Report ----------------------
+
+export function exportTrekReport(){
+
+    return api.get(
+
+        "/admin/reports/treks",
+
+        {
+
+            responseType:"blob"
+
+        }
+
+    );
+
+}
