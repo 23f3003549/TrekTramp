@@ -1,7 +1,7 @@
 from flask import jsonify, request, Blueprint
 from flask_jwt_extended import jwt_required , get_jwt
 
-from services.admin_service import create_staff , admin_dashboard , get_all_staff
+from services.admin_service import create_staff , admin_dashboard , get_all_staff , get_staff_details
 from services.staff_service import update_staff, get_staff, staff_assignment , get_available_staff , change_staff_status
 
 admin_bp = Blueprint("admin", __name__)
@@ -162,3 +162,27 @@ def change_staff_status_api(staff_id):
     )
 
     return jsonify(response),status
+
+#----------------------- Get Staff Details -----------------------
+
+@admin_bp.route("/staff/<int:staff_id>", methods=["GET"])
+@jwt_required()
+def get_staff_details_api():
+
+    claims = get_jwt()
+
+    if claims["role"] != "admin":
+
+        return jsonify({
+
+            "message":"Admin access required."
+
+        }),403
+
+    response, status = get_staff_details(
+
+        staff_id
+
+    )
+
+    return jsonify(response), status

@@ -1,7 +1,7 @@
 from flask import jsonify, request, Blueprint
 from flask_jwt_extended import jwt_required , get_jwt, get_jwt_identity
 
-from services.user_service import dashboard_statistics, browse_treks, book_trek
+from services.user_service import dashboard_statistics, browse_treks, book_trek, get_my_bookings, cancel_booking, pay_booking, get_review, submit_review, update_review
 
 
 user_bp = Blueprint("user", __name__)
@@ -43,6 +43,125 @@ def book_trek_api(trek_id):
     response, status_code = book_trek(
         int(user_id),
         trek_id
+    )
+
+    return jsonify(response), status_code
+
+# # ------------------------- My Bookings -------------------------
+
+# @user_bp.route(
+
+#     "/bookings",
+
+#     methods=["GET"]
+
+# )
+# @jwt_required()
+# def get_my_bookings_api():
+
+#     user_id = int(
+
+#         get_jwt_identity()
+
+#     )
+
+#     response,status_code = get_my_bookings(
+
+#         user_id
+
+#     )
+
+#     return jsonify(
+
+#         response
+
+    # ),status_code
+
+# ------------------------- My Bookings -------------------------
+
+@user_bp.route("/bookings", methods=["GET"])
+@jwt_required()
+def get_my_bookings_api():
+
+    user_id = int(get_jwt_identity())
+
+    response, status_code = get_my_bookings(user_id)
+
+    return jsonify(response), status_code
+
+# ------------------------- Cancel Booking -------------------------
+
+@user_bp.route("/bookings/<int:booking_id>/cancel", methods=["PUT"])
+@jwt_required()
+def cancel_booking_api(booking_id):
+
+    user_id = int(get_jwt_identity())
+
+    response, status_code = cancel_booking(
+        user_id,
+        booking_id
+    )
+
+    return jsonify(response), status_code
+
+# ------------------------- Pay Booking -------------------------
+
+@user_bp.route("/bookings/<int:booking_id>/pay", methods=["PUT"])
+@jwt_required()
+def pay_booking_api(booking_id):
+
+    user_id = int(get_jwt_identity())
+
+    response, status_code = pay_booking(
+        user_id,
+        booking_id
+    )
+
+    return jsonify(response), status_code
+
+# ------------------------- Submit Review -------------------------
+
+@user_bp.route("/bookings/<int:booking_id>/review", methods=["POST"])
+@jwt_required()
+def submit_review_api(booking_id):
+
+    user_id = int(get_jwt_identity())
+
+    response, status_code = submit_review(
+        user_id,
+        booking_id,
+        request.get_json()
+    )
+
+    return jsonify(response), status_code
+
+# ------------------------- Get Review -------------------------
+
+@user_bp.route("/reviews/<int:trek_id>", methods=["GET"])
+@jwt_required()
+def get_review_api(trek_id):
+
+    user_id = int(get_jwt_identity())
+
+    response, status_code = get_review(
+        user_id,
+        trek_id
+    )
+
+    return jsonify(response), status_code
+
+# ------------------------- Update Review -------------------------
+
+@user_bp.route("/reviews/<int:trek_id>", methods=["PUT"])
+@jwt_required()
+def update_review_api(trek_id):
+
+    user_id = int(get_jwt_identity())
+
+    response, status_code = update_review(
+        user_id,
+        trek_id,
+        request.get_json()
     )
 
     return jsonify(response), status_code

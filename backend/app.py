@@ -25,6 +25,7 @@ def create_app():
     from routes.trek_route import trek_bp
     from routes.staff_route import staff_bp
     from routes.user_route import user_bp
+    from routes.profile_route import profile_bp
 
 
     app.register_blueprint(auth_bp, url_prefix="/api/auth")
@@ -32,6 +33,7 @@ def create_app():
     app.register_blueprint(trek_bp, url_prefix ="/api")
     app.register_blueprint(staff_bp,url_prefix="/api/staff")
     app.register_blueprint(user_bp,url_prefix="/api/user")
+    app.register_blueprint(profile_bp,url_prefix="/api")
 
     
 

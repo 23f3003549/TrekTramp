@@ -1100,3 +1100,566 @@ def get_participants(user_id):
         "treks": trek_list
 
     }, 200
+
+# ---------------------- Trek Participants ----------------------
+
+def get_trek_participants(user_id, trek_id):
+
+    staff = User.query.filter_by(
+
+        id=user_id,
+
+        role="staff"
+
+    ).first()
+
+    if staff is None:
+
+        return{
+
+            "message":"Staff not found."
+
+        },404
+
+    assignment = StaffAssign.query.filter_by(
+
+        staff_id=staff.id,
+
+        trek_id=trek_id
+
+    ).first()
+
+    if assignment is None:
+
+        return{
+
+            "message":"You are not assigned to this trek."
+
+        },403
+
+    trek = Trek.query.filter_by(
+
+        id=trek_id,
+
+        is_deleted=False
+
+    ).first()
+
+    if trek is None:
+
+        return{
+
+            "message":"Trek not found."
+
+        },404
+
+    bookings = Booking.query.filter(
+
+        Booking.trek_id==trek.id
+
+    ).order_by(
+
+        Booking.booking_date.desc()
+
+    ).all()
+
+    participant_list=[]
+
+    for booking in bookings:
+
+        user = User.query.get(
+
+            booking.user_id
+
+        )
+
+        if user is None:
+
+            continue
+
+        participant_list.append({
+
+            "booking_id":booking.id,
+
+            "user_id":user.id,
+
+            "name":user.name,
+
+            "email":user.email,
+
+            "phone":user.phone,
+
+            "gender":user.gender,
+
+            "booking_status":booking.booking_status,
+
+            "payment_status":booking.payment_status
+
+        })
+
+    return{
+
+        "trek":{
+
+            "id":trek.id,
+
+            "trek_name":trek.trek_name,
+
+            "status":trek.status
+
+        },
+
+        "participants":participant_list
+
+    },200
+
+# ---------------------- Participant Details ----------------------
+
+def get_participant_details(user_id, booking_id):
+
+    staff = User.query.filter_by(
+
+        id=user_id,
+
+        role="staff"
+
+    ).first()
+
+    if staff is None:
+
+        return{
+
+            "message":"Staff not found."
+
+        },404
+
+    booking = Booking.query.get(
+
+        booking_id
+
+    )
+
+    if booking is None:
+
+        return{
+
+            "message":"Booking not found."
+
+        },404
+
+    assignment = StaffAssign.query.filter_by(
+
+        staff_id=staff.id,
+
+        trek_id=booking.trek_id
+
+    ).first()
+
+    if assignment is None:
+
+        return{
+
+            "message":"Access denied."
+
+        },403
+
+    trek = Trek.query.get(
+
+        booking.trek_id
+
+    )
+
+    user = User.query.get(
+
+        booking.user_id
+
+    )
+
+    return{
+
+        "participant":{
+
+            "booking_id":booking.id,
+
+            "name":user.name,
+
+            "email":user.email,
+
+            "phone":user.phone,
+
+            "gender":user.gender,
+
+            "age":user.age,
+            "user_status_reason": user.status_reason,
+            "user_status": user.status,
+
+            "trek_name":trek.trek_name,
+
+            "booking_date":booking.booking_date.strftime("%d/%m/%Y"),
+
+            "booking_status":booking.booking_status,
+
+            "payment_status":booking.payment_status,
+
+            "total_amount":booking.total_amount,
+
+            "status_reason":booking.status_reason,
+           
+
+        }
+
+    },200
+
+# ---------------------- Update Participant ----------------------
+
+def update_participant(user_id, booking_id, data):
+
+    staff = User.query.filter_by(
+
+        id=user_id,
+
+        role="staff"
+
+    ).first()
+
+    if staff is None:
+
+        return{
+
+            "message":"Staff not found."
+
+        },404
+
+
+    booking = Booking.query.get(booking_id)
+
+    if booking is None:
+
+        return{
+
+            "message":"Booking not found."
+
+        },404
+
+
+    assignment = StaffAssign.query.filter_by(
+
+        staff_id=staff.id,
+
+        trek_id=booking.trek_id,
+
+        status="active"
+
+    ).first()
+
+    if assignment is None:
+
+        return{
+
+            "message":"You are not assigned to this trek."
+
+        },403
+
+
+    user = User.query.get(
+
+        booking.user_id
+
+    )
+
+    trek = Trek.query.get(
+
+        booking.trek_id
+
+    )
+
+
+    booking_status = data.get("booking_status")
+
+    user_status = data.get("user_status")
+
+    reason = data.get("status_reason","").strip()
+
+
+    # ----------------------------------------------------
+    # Validate Booking Status
+    # ----------------------------------------------------
+
+    allowed_booking_status = [
+
+        "booked",
+
+        "completed",
+
+        "cancelled"
+
+    ]
+
+    if booking_status not in allowed_booking_status:
+
+        return{
+
+            "message":"Invalid booking status."
+
+        },400
+
+
+    # ----------------------------------------------------
+    # Validate User Status
+    # ----------------------------------------------------
+
+    if user_status not in [
+
+        "active",
+
+        "inactive"
+
+    ]:
+
+        return{
+
+            "message":"Invalid user status."
+
+        },400
+
+
+    # ----------------------------------------------------
+    # Prevent Impossible Combination
+    # ----------------------------------------------------
+
+    if(
+
+        user_status == "inactive"
+
+        and
+
+        booking_status != "cancelled"
+
+    ):
+
+        return{
+
+            "message":"Inactive user must have cancelled booking."
+
+        },400
+
+
+    # ----------------------------------------------------
+    # Booking Completed
+    # ----------------------------------------------------
+
+    if booking_status == "completed":
+
+        booking.booking_status = "completed"
+
+
+    # ----------------------------------------------------
+    # Booking Cancelled
+    # ----------------------------------------------------
+
+    elif(
+
+        booking_status == "cancelled"
+
+        and
+
+        booking.booking_status != "cancelled"
+
+    ):
+
+        if not reason:
+
+            return{
+
+                "message":"Reason is required."
+
+            },400
+
+        booking.booking_status = "cancelled"
+
+        booking.cancelled_by = "staff"
+
+        booking.status_reason = reason
+
+        trek.available_slots += 1
+
+        if booking.payment_status == "paid":
+
+            booking.payment_status = "refunded"
+
+
+    # ----------------------------------------------------
+    # User Active
+    # ----------------------------------------------------
+
+    if user_status == "active":
+
+        user.status = "active"
+
+        user.status_reason = None
+
+
+    # ----------------------------------------------------
+    # User Inactive
+    # ----------------------------------------------------
+
+    else:
+
+        if not reason:
+
+            return{
+
+                "message":"Reason is required."
+
+            },400
+
+        user.status = "inactive"
+
+        user.status_reason = (
+
+            f"Inactivated by Staff | {reason}"
+
+        )
+
+        if booking.booking_status != "cancelled":
+
+            booking.booking_status = "cancelled"
+
+            booking.cancelled_by = "staff"
+
+            booking.status_reason = reason
+
+            trek.available_slots += 1
+
+            if booking.payment_status == "paid":
+
+                booking.payment_status = "refunded"
+
+
+    db.session.commit()
+
+    return{
+
+        "message":"Participant updated successfully."
+
+    },200
+
+# ---------------------- All Assigned Participants ----------------------
+
+def get_all_assigned_participants(user_id):
+
+    staff = User.query.filter_by(
+
+        id=user_id,
+
+        role="staff"
+
+    ).first()
+
+    if staff is None:
+
+        return{
+
+            "message":"Staff not found."
+
+        },404
+
+    assignments = StaffAssign.query.filter_by(
+
+        staff_id=staff.id
+
+    ).all()
+
+    trek_list=[]
+
+    for assignment in assignments:
+
+        trek = Trek.query.filter_by(
+
+            id=assignment.trek_id,
+
+            is_deleted=False
+
+        ).first()
+
+        if trek is None:
+
+            continue
+
+        bookings = (
+
+            Booking.query
+
+            .filter(
+
+                Booking.trek_id == trek.id
+
+            )
+
+            .order_by(
+
+                Booking.booking_date.desc()
+
+            )
+
+            .all()
+
+        )
+
+        participant_list=[]
+
+        for booking in bookings:
+
+            user = User.query.get(
+
+                booking.user_id
+
+            )
+
+            if user is None:
+
+                continue
+
+            participant_list.append({
+
+                "booking_id":booking.id,
+
+                "user_id":user.id,
+
+                "name":user.name,
+
+                "email":user.email,
+
+                "phone":user.phone,
+
+                "gender":user.gender,
+
+                "booking_status":booking.booking_status,
+
+                "payment_status":booking.payment_status
+
+            })
+
+        trek_list.append({
+
+            "trek_id":trek.id,
+
+            "trek_name":trek.trek_name,
+
+            "start_date":trek.start_date.strftime("%d/%m/%Y"),
+
+            "end_date":trek.end_date.strftime("%d/%m/%Y"),
+
+            "status":trek.status,
+
+            "participant_count":len(participant_list),
+
+            "participants":participant_list
+
+        })
+
+    return{
+
+        "treks":trek_list
+
+    },200

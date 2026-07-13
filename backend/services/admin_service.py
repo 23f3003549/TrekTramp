@@ -158,6 +158,129 @@ def get_all_staff():
         "staffs": staff_list
 
     }, 200
+
+#--------------------------------------------get a single staff  details ----------------------------
+def get_staff_details(staff_id):
+
+    staff = User.query.filter_by(
+
+        id=staff_id,
+
+        role="staff"
+
+    ).first()
+
+    if staff is None:
+
+        return{
+
+            "message":"Staff not found."
+
+        },404
+
+
+    assignments = StaffAssign.query.filter_by(
+
+        staff_id=staff.id
+
+    ).order_by(
+
+        StaffAssign.assigned_at.desc()
+
+    ).all()
+
+
+    completed = 0
+
+    cancelled = 0
+
+    active = 0
+
+    recent_treks = []
+
+
+    for assignment in assignments:
+
+        trek = Trek.query.get(
+
+            assignment.trek_id
+
+        )
+
+        if trek is None:
+
+            continue
+
+
+        if assignment.status == "completed":
+
+            completed += 1
+
+        elif assignment.status == "cancelled":
+
+            cancelled += 1
+
+        elif assignment.status == "active":
+
+            active += 1
+
+
+        recent_treks.append({
+
+            "trek_id": trek.id,
+
+            "trek_name": trek.trek_name,
+
+            "location": trek.location,
+
+            "start_date": trek.start_date.strftime("%Y-%m-%d"),
+
+            "end_date": trek.end_date.strftime("%Y-%m-%d"),
+
+            "status": assignment.status
+
+        })
+
+
+    return{
+
+        "staff":{
+
+            "id":staff.id,
+
+            "name":staff.name,
+
+            "email":staff.email,
+
+            "phone":staff.phone,
+
+            "age":staff.age,
+
+            "gender":staff.gender,
+
+            "status":staff.status,
+
+            "status_reason":staff.status_reason,
+
+            "must_change_password":staff.must_change_password
+
+        },
+
+        "statistics":{
+
+            "active":active,
+
+            "completed":completed,
+
+            "cancelled":cancelled,
+
+            "total":len(assignments)
+
+        },
+
+        "recent_treks":recent_treks[:5]
+
+    },200
     
     
     

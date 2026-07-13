@@ -15,7 +15,12 @@ from services.staff_service import (
     get_my_treks,
     update_trek_capacity,
     update_trek_status,
-    get_participants
+    get_trek_participants,
+    update_participant,
+    get_participant_details,
+    get_all_assigned_participants,
+    
+    
 )
 
 staff_bp = Blueprint(
@@ -125,7 +130,7 @@ def get_my_treks_api():
 
 #-----------------------update slots-----------------------
 
-@staff_bp.route("/trek/<int:trek_id>/capacity", methods=["PUT"])
+@staff_bp.route("/treks/<int:trek_id>/capacity", methods=["PUT"])
 @jwt_required()
 def update_slots_api(trek_id):
 
@@ -139,7 +144,7 @@ def update_slots_api(trek_id):
 
     user_id = get_jwt_identity()
 
-    response,status = update_trek_slots(
+    response,status = update_trek_capacity(
         user_id,
         trek_id,
         request.get_json()
@@ -149,7 +154,7 @@ def update_slots_api(trek_id):
 
 #-----------------------update trek status-----------------------
 
-@staff_bp.route("/trek/<int:trek_id>/status", methods=["PUT"])
+@staff_bp.route("/treks/<int:trek_id>/status", methods=["PUT"])
 @jwt_required()
 def update_status_api(trek_id):
 
@@ -175,11 +180,11 @@ def update_status_api(trek_id):
 
     return jsonify(response),status
 
-#-----------------------participants-----------------------
+#-----------------------get trek participants-----------------------
 
-@staff_bp.route("/participants", methods=["GET"])
+@staff_bp.route("/treks/<int:trek_id>/participants", methods=["GET"])
 @jwt_required()
-def get_participants_api():
+def get_trek_participants_api(trek_id):
 
     claims = get_jwt()
 
@@ -191,6 +196,80 @@ def get_participants_api():
 
     user_id = get_jwt_identity()
 
-    response, status = get_participants(user_id)
+    response, status = get_trek_participants(user_id, trek_id)
 
     return jsonify(response), status
+#----------------------- trek participants details-----------------------
+
+@staff_bp.route("/participants/<int:booking_id>", methods=["GET"])
+@jwt_required()
+def get_participant_details_api(booking_id):
+
+    claims = get_jwt()
+
+    if claims["role"] != "staff":
+
+        return jsonify({
+            "message": "Staff access required."
+        }), 403
+
+    user_id = get_jwt_identity()
+
+    response, status = get_participant_details(user_id, booking_id)
+
+    return jsonify(response), status
+
+#----------------------- update participants details-----------------------
+
+@staff_bp.route("/participants/<int:booking_id>", methods=["PATCH"])
+@jwt_required()
+def update_participant_api(booking_id):
+
+    claims = get_jwt()
+
+    if claims["role"] != "staff":
+
+        return jsonify({
+            "message": "Staff access required."
+        }), 403
+
+    user_id = get_jwt_identity()
+    data = request.get_json()
+
+    response, status = update_participant(user_id, booking_id, data)
+
+    return jsonify(response), status
+
+# ---------------------- All Assigned Participants ----------------------
+
+@staff_bp.route(
+
+    "/participants",
+
+    methods=["GET"]
+
+)
+
+@jwt_required()
+
+def get_all_assigned_participants_api():
+
+    claims = get_jwt()
+
+    if claims["role"] != "staff":
+
+        return jsonify({
+
+            "message":"Staff access required."
+
+        }),403
+
+    user_id = get_jwt_identity()
+
+    response,status = get_all_assigned_participants(
+
+        user_id
+
+    )
+
+    return jsonify(response),status

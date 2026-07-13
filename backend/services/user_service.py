@@ -1,6 +1,6 @@
 from werkzeug.security import generate_password_hash
 from extensions import db
-from datetime import datetime
+from datetime import datetime, date
 
 
 from models.user import User
@@ -183,6 +183,14 @@ def book_trek(user_id, trek_id):
             "message":"You are not eligible for this trek due to age restriction."
         }, 400
     
+    if trek.available_slots<=0:
+
+        return{
+
+            "message":"No slots available."
+
+        },400
+    
     existing_booking = Booking.query.filter_by(
 
         user_id=user.id,
@@ -209,6 +217,14 @@ def book_trek(user_id, trek_id):
             },409
          
          if existing_booking.booking_status == "cancelled":
+            if trek.available_slots <= 0:
+
+                return {
+            
+                    "message":"No slots available."
+            
+                },400
+            trek.available_slots -= 1
 
             existing_booking.booking_date = datetime.utcnow()
 
@@ -222,13 +238,12 @@ def book_trek(user_id, trek_id):
 
             existing_booking.total_amount = trek.price
 
-            trek.available_slots -= 1
 
             db.session.commit()
 
             return{
 
-                "message":"Trek booked successfully.",
+                "message":"Trek rebooked successfully.",
 
                 "booking":{
 
@@ -244,16 +259,6 @@ def book_trek(user_id, trek_id):
 
                 }
              }, 200
-
-        
-    
-    if trek.available_slots<=0:
-
-        return{
-
-            "message":"No slots available."
-
-        },400
     
 
     booking = Booking(
@@ -294,3 +299,437 @@ def book_trek(user_id, trek_id):
         }
 
     },201
+
+
+# ------------------------- My Bookings -------------------------
+
+from datetime import date
+
+def get_my_bookings(user_id):
+
+    user = User.query.filter_by(
+
+        id=user_id,
+
+        role="trekker"
+
+    ).first()
+
+    if user is None:
+
+        return {
+
+            "message": "User not found."
+
+        }, 404
+
+    bookings = (
+        Booking.query
+        .join(Trek)
+        .filter(Booking.user_id == user.id)
+        .order_by(Trek.start_date.asc())
+        .all()
+    )
+
+    today = date.today()
+
+    result = []
+
+    summary = {
+
+        "all": 0,
+
+        "upcoming": 0,
+
+        "ongoing": 0,
+
+        "completed": 0,
+
+        "cancelled": 0
+
+    }
+
+    for booking in bookings:
+
+        trek = Trek.query.get(booking.trek_id)
+
+        review = Review.query.filter_by(
+
+        user_id=user.id,
+
+        trek_id=trek.id
+
+        ).first()
+
+        has_review = review is not None
+
+        # ---------------- Status ----------------
+
+        if booking.booking_status == "cancelled":
+
+            current_status = "Cancelled"
+
+            summary["cancelled"] += 1
+
+        elif booking.booking_status == "completed":
+
+            current_status = "Completed"
+
+            summary["completed"] += 1
+
+        elif trek.start_date > today:
+
+            current_status = "Upcoming"
+
+            summary["upcoming"] += 1
+
+        elif trek.start_date <= today <= trek.end_date:
+
+            current_status = "Ongoing"
+
+            summary["ongoing"] += 1
+
+        else:
+
+            current_status = "Completed"
+
+            summary["completed"] += 1
+
+        summary["all"] += 1
+
+        result.append({
+
+            "booking_id": booking.id,
+
+            "trek_id": trek.id,
+
+            "trek_name": trek.trek_name,
+
+            "location": trek.location,
+
+            "difficulty": trek.difficulty,
+
+            "duration_days": trek.duration_days,
+
+            "start_date": trek.start_date.strftime("%Y-%m-%d"),
+
+            "end_date": trek.end_date.strftime("%Y-%m-%d"),
+
+            "booking_date": booking.booking_date.strftime("%Y-%m-%d"),
+
+            "booking_status": booking.booking_status,
+
+            "payment_status": booking.payment_status,
+
+            "total_amount": booking.total_amount,
+
+            "status": current_status,
+            "has_review": has_review
+
+        })
+
+    return {
+
+        "summary": summary,
+
+        "bookings": result
+
+    }, 200
+
+# ------------------------- Cancel Booking -------------------------
+
+def cancel_booking(user_id, booking_id):
+
+    booking = Booking.query.filter_by(
+
+        id=booking_id,
+
+        user_id=user_id
+
+    ).first()
+
+    if booking is None:
+
+        return {
+
+            "message":"Booking not found."
+
+        },404
+
+    if booking.booking_status != "booked":
+
+        return {
+
+            "message":"Only active bookings can be cancelled."
+
+        },400
+
+    trek = Trek.query.filter_by(
+
+        id=booking.trek_id,
+
+        is_deleted=False
+
+    ).first()
+
+    if trek is None:
+
+        return {
+
+            "message":"Trek not found."
+
+        },404
+
+    if trek.start_date <= date.today():
+
+        return {
+
+            "message":"Trek has already started."
+
+        },400
+
+    booking.booking_status = "cancelled"
+
+    booking.cancelled_by = "user"
+
+    booking.status_reason = "Cancelled by user"
+
+    if booking.payment_status == "paid":
+
+        booking.payment_status = "refunded"
+
+    trek.available_slots += 1
+
+    db.session.commit()
+
+    return {
+
+        "message":"Booking cancelled successfully."
+
+    },200
+
+# ------------------------- Pay Booking -------------------------
+
+def pay_booking(user_id, booking_id):
+
+    booking = Booking.query.filter_by(
+
+        id=booking_id,
+
+        user_id=user_id
+
+    ).first()
+
+    if booking is None:
+
+        return {
+
+            "message":"Booking not found."
+
+        },404
+
+    if booking.booking_status != "booked":
+
+        return {
+
+            "message":"Booking is not active."
+
+        },400
+
+    if booking.payment_status != "pending":
+
+        return {
+
+            "message":"Payment already completed."
+
+        },400
+
+    booking.payment_status = "paid"
+
+    db.session.commit()
+
+    return {
+
+        "message":"Payment completed successfully."
+
+    },200
+
+# ------------------------- Submit Review -------------------------
+
+def submit_review(user_id, booking_id, data):
+
+    booking = Booking.query.filter_by(
+
+        id=booking_id,
+
+        user_id=user_id
+
+    ).first()
+
+    if booking is None:
+
+        return {
+
+            "message":"Booking not found."
+
+        },404
+
+    if booking.booking_status != "completed":
+
+        return {
+
+            "message":"You can review only completed treks."
+
+        },400
+
+    if booking.payment_status != "paid":
+
+        return {
+
+            "message":"Complete payment before reviewing."
+
+        },400
+
+    existing_review = Review.query.filter_by(
+
+        user_id=user_id,
+
+        trek_id=booking.trek_id
+
+    ).first()
+
+    if existing_review:
+
+        return {
+
+            "message":"You have already reviewed this trek."
+
+        },409
+
+    rating = data.get("rating")
+
+    comment = data.get("comment")
+
+    if rating is None:
+
+        return {
+
+            "message":"Rating is required."
+
+        },400
+
+    if not isinstance(rating, int):
+
+        return {
+
+            "message":"Rating must be an integer."
+
+        },400
+
+    if rating < 1 or rating > 5:
+
+        return {
+
+            "message":"Rating must be between 1 and 5."
+
+        },400
+
+    review = Review(
+
+        user_id=user_id,
+
+        trek_id=booking.trek_id,
+
+        rating=rating,
+
+        comment=comment
+
+    )
+
+    db.session.add(review)
+
+    db.session.commit()
+
+    return {
+
+        "message":"Review submitted successfully."
+
+    },201
+
+# ------------------------- Get Review -------------------------
+
+def get_review(user_id, trek_id):
+
+    review = Review.query.filter_by(
+
+        user_id=user_id,
+
+        trek_id=trek_id
+
+    ).first()
+
+    if review is None:
+
+        return {
+
+            "review":None
+
+        },200
+
+    return {
+
+        "review":{
+
+            "rating":review.rating,
+
+            "comment":review.comment,
+
+            "created_at":review.created_at.strftime("%Y-%m-%d")
+
+        }
+
+    },200
+
+# ------------------------- Update Review -------------------------
+
+def update_review(user_id, trek_id, data):
+
+    review = Review.query.filter_by(
+
+        user_id=user_id,
+
+        trek_id=trek_id
+
+    ).first()
+
+    if review is None:
+
+        return {
+
+            "message":"Review not found."
+
+        },404
+
+    rating = data.get("rating")
+
+    comment = data.get("comment")
+
+    if rating < 1 or rating > 5:
+
+        return {
+
+            "message":"Rating must be between 1 and 5."
+
+        },400
+
+    review.rating = rating
+
+    review.comment = comment
+
+    db.session.commit()
+
+    return {
+
+        "message":"Review updated successfully."
+
+    },200

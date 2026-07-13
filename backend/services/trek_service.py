@@ -388,3 +388,5 @@ def delete_trek(trek_id):
 
         )
     }, 200
+
+
