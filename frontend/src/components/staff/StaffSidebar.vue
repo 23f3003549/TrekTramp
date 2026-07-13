@@ -181,6 +181,8 @@ export default{
 
 }
 
+
+
 .logo-section{
 
     text-align:center;

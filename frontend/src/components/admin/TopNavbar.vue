@@ -2,14 +2,58 @@
 
     <header class="top-navbar">
 
-        <button class="btn btn-outline-success">
-            ☰
+        <!-- Left -->
 
-        </button>
-        <div class="admin-profile">
-            Admin ▼
+        <div>
+
+            <h4 class="mb-0 fw-bold">
+
+                Hello Admin
+
+            </h4>
 
         </div>
+
+        <!-- Center -->
+
+        <div class="search-box">
+
+            <i class="bi bi-search search-icon"></i>
+
+            <input
+
+                type="text"
+
+                class="form-control"
+
+                placeholder="Search users, staff, treks..."
+
+                disabled
+
+            >
+
+        </div>
+
+        <!-- Right -->
+
+        <div
+            class="profile-avatar"
+            @click="showProfile=true"
+        >
+
+            {{ initials }}
+
+        </div>
+
+        <!-- Admin Profile Panel -->
+
+        <AdminProfilePanel
+
+            v-if="showProfile"
+
+            @close="showProfile=false"
+
+        />
 
     </header>
 
@@ -17,8 +61,122 @@
 
 <script>
 
+import AdminProfilePanel from "./AdminProfilePanel.vue";
+
+import{
+
+    getAdminProfile
+
+}from "../../services/admin";
+
 export default{
-    name: "TopNavbar"
+
+    name:"TopNavbar",
+
+    components:{
+
+        AdminProfilePanel
+
+    },
+
+    data(){
+
+        return{
+
+            showProfile:false,
+
+            admin:{
+
+                name:"",
+
+                email:"",
+
+                role:""
+
+            }
+
+        }
+
+    },
+
+    computed:{
+
+        initials(){
+
+            if(!this.admin.name){
+
+                return "A";
+
+            }
+
+            return this.admin.name
+
+                .split(" ")
+
+                .map(
+
+                    word=>word.charAt(0)
+
+                )
+
+                .join("")
+
+                .substring(0,2)
+
+                .toUpperCase();
+
+        }
+
+    },
+
+    methods:{
+
+        //--------------------------------------------------
+
+        async loadProfile(){
+
+            try{
+
+                const response = await getAdminProfile();
+
+                this.admin = response.data.admin;
+
+            }
+
+            catch(error){
+
+                console.error(error);
+
+                alert(
+
+                    error.response?.data?.message ||
+
+                    "Unable to load admin profile."
+
+                );
+
+            }
+
+        },
+
+        //--------------------------------------------------
+
+        logout(){
+
+            localStorage.clear();
+
+            this.$router.push("/login");
+
+        }
+
+    },
+
+    mounted(){
+
+        this.loadProfile();
+
+    }
+
 }
 
 </script>
@@ -26,17 +184,147 @@ export default{
 <style scoped>
 
 .top-navbar{
+
     height:70px;
+
     background:white;
+
     display:flex;
+
     justify-content:space-between;
+
     align-items:center;
+
     padding:0 25px;
+
     border-bottom:1px solid #dee2e6;
+
 }
 
-.admin-profile{
-    font-weight:600;
+/* ================= Left ================= */
+
+h4{
+
+    color:#212529;
+
+    font-weight:700;
+
+    margin:0;
+
+}
+
+/* ================= Search ================= */
+
+.search-box{
+
+    width:420px;
+
+    position:relative;
+
+}
+
+.search-box input{
+
+    border-radius:30px;
+
+    padding-left:45px;
+
+    height:42px;
+
+    border:1px solid #ced4da;
+
+}
+
+.search-box input:focus{
+
+    border-color:#198754;
+
+    box-shadow:0 0 0 .15rem rgba(25,135,84,.2);
+
+}
+
+.search-icon{
+
+    position:absolute;
+
+    top:13px;
+
+    left:18px;
+
+    color:#6c757d;
+
+    font-size:15px;
+
+}
+
+/* ================= Profile ================= */
+
+.profile-avatar{
+
+    width:46px;
+
+    height:46px;
+
+    border-radius:50%;
+
+    background:#198754;
+
+    color:white;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:18px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    user-select:none;
+
+    transition:.25s;
+
+}
+
+.profile-avatar:hover{
+
+    background:#157347;
+
+    transform:scale(1.05);
+
+    box-shadow:0 4px 12px rgba(25,135,84,.3);
+
+}
+
+/* ================= Responsive ================= */
+
+@media(max-width:992px){
+
+    .search-box{
+
+        width:280px;
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    .top-navbar{
+
+        padding:0 15px;
+
+    }
+
+    .search-box{
+
+        display:none;
+
+    }
+
 }
 
 </style>

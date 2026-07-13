@@ -3,14 +3,18 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
+
 import AdminDashboard from '../views/AdminDashboard.vue'
 import ManageTreks from '../views/ManageTreks.vue'
 import ManageStaff from '../views/ManageStaff.vue'
 import ManageUsers from '../views/ManageUsers.vue'
 import ManageBookings from '../views/ManageBookings.vue'
+import Reports from "../views/Reports.vue";
+
 import CreateTrek from '../views/CreateTrek.vue'
 import TrekDetails from '../views/TrekDetails.vue'
 import CompleteProfile from '../views/staff/CompleteProfile.vue'
+
 import StaffDashboard from '../views/staff/Dashboard.vue'
 import StaffMyTreks from "../views/staff/MyTreks.vue";
 import TrekkerDashboard from "../views/trekker/Dashboard.vue"
@@ -115,6 +119,13 @@ const routes = [
         name: "StaffParticipants",
     
         component: StaffParticipants
+    },
+    {
+        path: "/admin/reports",
+    
+        name: "Reports",
+    
+        component: Reports
     },
 
 

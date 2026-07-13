@@ -2,11 +2,11 @@
 
     <div class="layout">
 
-        <div class="d-flex">
+        <!-- <div class="d-flex"> -->
 
             <Sidebar />
 
-            <div class="main-content flex-grow-1">
+            <div class="main-content ">
                 
                 <header>
                     <TopNavbar /> 
@@ -22,7 +22,7 @@
 
         </div>
 
-    </div>
+    <!-- </div> -->
 
 </template>
 
@@ -40,16 +40,41 @@ export default {
 }
 
 </script>
+<style>
 
-<style scoped>
 .layout{
-    width: 100%;
-    min-height:100vh ;
+
+    min-height:100vh;
+
 }
 
 .main-content{
-    min-height: 100vh;
-    background: #f8f9fa ;
+
+    margin-left:260px;
+
+    min-height:100vh;
+
+    background:#f8f9fa;
+
 }
 
+.sidebar{
+
+    position:fixed;
+
+    top:0;
+
+    left:0;
+
+    width:260px;
+
+    height:100vh;
+
+    overflow-y:auto;
+
+    background:#fff;
+
+    z-index:1000;
+
+}
 </style>

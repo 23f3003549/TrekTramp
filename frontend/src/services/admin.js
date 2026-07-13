@@ -118,23 +118,12 @@ export function updateBooking(bookingId,data){
 
 }
 
-// ---------------------- Reports Dashboard ----------------------
-
-export function getReports(){
-
-    return api.get(
-
-        "/admin/reports"
-
-    );
-
-}
 //-------------------------------------------user reports-----------------
 export function getReports(){
 
     return api.get(
 
-        "/admin/reports/users"
+        "/admin/reports"
 
     );
 
@@ -207,6 +196,46 @@ export function exportTrekReport(){
             responseType:"blob"
 
         }
+
+    );
+
+}
+
+// ---------------------- Get Admin Profile ----------------------
+
+export function getAdminProfile(){
+
+    return api.get(
+
+        "/admin/profile"
+
+    );
+
+}
+
+// ---------------------- Update Admin Profile ----------------------
+
+export function updateAdminProfile(data){
+
+    return api.put(
+
+        "/admin/profile",
+
+        data
+
+    );
+
+}
+
+// ---------------------- Change Admin Password ----------------------
+
+export function changeAdminPassword(data){
+
+    return api.put(
+
+        "/admin/change-password",
+
+        data
 
     );
 
