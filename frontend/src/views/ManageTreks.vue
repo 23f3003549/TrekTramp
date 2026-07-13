@@ -116,6 +116,7 @@
 import MainLayout from '../layouts/MainLayout.vue';
 import TrekFormModal from '../components/admin/TrekFormModal.vue';
 import TrekDetailsPanel from '../components/trek/TrekDetailsPanel.vue';
+import StaffDetailsPanel from '../components/admin/StaffDetailsPanel.vue';
 
 import { RouterLink } from 'vue-router';
 import { getAllTreks , getTrek } from '../services/trek.js';
@@ -129,7 +130,8 @@ export default {
     components: {
         MainLayout,
         TrekFormModal,
-        TrekDetailsPanel
+        TrekDetailsPanel,
+        StaffDetailsPanel
     },
 
     data(){
@@ -139,6 +141,7 @@ export default {
             selectedTrek:null,
             showDetails:false,
             selectedTrekId:null,
+            selectedStaff:null
         }
         
     },
@@ -175,6 +178,7 @@ export default {
             this.selectedTrekId = id;
             this.showDetails = true;
         },
+
         async editTrek(trek){
 
             try{

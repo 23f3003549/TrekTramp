@@ -5,9 +5,10 @@ import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import AdminDashboard from '../views/AdminDashboard.vue'
 import ManageTreks from '../views/ManageTreks.vue'
+import ManageStaff from '../views/ManageStaff.vue'
+
 import CreateTrek from '../views/CreateTrek.vue'
 import TrekDetails from '../views/TrekDetails.vue'
-import ManageStaff from '../views/ManageStaff.vue'
 import CompleteProfile from '../views/staff/CompleteProfile.vue'
 import StaffDashboard from '../views/staff/Dashboard.vue'
 import StaffMyTreks from "../views/staff/MyTreks.vue";
@@ -103,7 +104,7 @@ const routes = [
         name: "StaffParticipants",
     
         component: StaffParticipants
-},
+    },
 
 
 

@@ -106,72 +106,6 @@
 
                                 </button>
 
-                                <div
-                                    class="dropdown d-inline"
-                                >                                
-                                
-                                    <button
-                                        class="btn btn-secondary btn-sm dropdown-toggle"
-                                        data-bs-toggle="dropdown"
-                                    >
-                                
-                                        Action
-                                
-                                    </button>
-                                
-                                    <ul
-                                        class="dropdown-menu"
-                                    >
-                                
-                                        <li
-                                            v-if="staff.status!='active'"
-                                        >
-                                
-                                            <button
-                                                class="dropdown-item"
-                                                @click.stop="changeStatus(staff,'active')"
-                                            >
-                                
-                                                🟢 Active
-                                
-                                            </button>
-                                
-                                        </li>
-                                
-                                        <li
-                                            v-if="staff.status!='inactive'"
-                                        >
-                                
-                                            <button
-                                                class="dropdown-item"
-                                                @click.stop="changeStatus(staff,'inactive')"
-                                            >
-                                
-                                                🟡 Inactive
-                                
-                                            </button>
-                                
-                                        </li>
-                                
-                                        <li
-                                            v-if="staff.status!='blacklisted'"
-                                        >
-                                
-                                            <button
-                                                class="dropdown-item text-danger"
-                                                @click.stop="changeStatus(staff,'blacklisted')"
-                                            >
-                                
-                                                🔴 Blacklist
-                                
-                                            </button>
-                                
-                                        </li>
-                                
-                                    </ul>
-
-                                </div>
-
                             </td>
 
                         </tr>
@@ -195,6 +129,17 @@
             @staffSaved="handleStaffSaved"
 
         />
+        <StaffDetailsPanel
+
+            v-if="selectedStaffId"
+        
+            :staffId="selectedStaffId"
+        
+            @close="selectedStaffId=null"
+
+            @updated="loadStaff"
+
+        />
 
     </MainLayout>
 
@@ -205,6 +150,7 @@
 import MainLayout from "../layouts/MainLayout.vue";
 
 import StaffFormPanel from "../components/staff/StaffFormPanel.vue";
+import StaffDetailsPanel from "../components/admin/StaffDetailsPanel.vue";
 
 import {
 
@@ -224,7 +170,8 @@ export default{
 
         MainLayout,
 
-        StaffFormPanel
+        StaffFormPanel,
+        StaffDetailsPanel
 
     },
 
@@ -236,7 +183,8 @@ export default{
 
             showPanel:false,
 
-            selectedStaff:null
+            selectedStaff:null,
+            selectedStaffId:null
 
         }
 
@@ -328,7 +276,7 @@ export default{
 
         viewStaff(id){
 
-            alert("Staff Details Panel (Coming Next)");
+            this.selectedStaffId=id;
 
         },
 
