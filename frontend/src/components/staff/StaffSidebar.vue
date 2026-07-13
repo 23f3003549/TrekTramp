@@ -83,7 +83,7 @@
 
         </li>
 
-        <li class="nav-item">
+        <!-- <li class="nav-item">
 
             <router-link
                 to="/staff/profile"
@@ -97,7 +97,7 @@
 
             </router-link>
 
-        </li>
+        </li> -->
 
     </ul>
 

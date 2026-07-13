@@ -10,12 +10,12 @@ import TrekDetails from '../views/TrekDetails.vue'
 import ManageStaff from '../views/ManageStaff.vue'
 import CompleteProfile from '../views/staff/CompleteProfile.vue'
 import StaffDashboard from '../views/staff/Dashboard.vue'
-import MyTreks from "../views/staff/MyTreks.vue";
+import StaffMyTreks from "../views/staff/MyTreks.vue";
 import TrekkerDashboard from "../views/trekker/Dashboard.vue"
 import BrowseTreks from "../views/trekker/BrowseTreks.vue";
-import MyBookings from "../views/trekker/MyBookings.vue";
-import History from "../views/trekker/History.vue";
-import TrekkerProfile from "../views/trekker/Profile.vue";
+// import TrekkerProfile from "../views/trekker/Profile.vue";
+import TrekkerMyTreks from '../views/trekker/MyTreks.vue'
+import StaffParticipants from '../views/staff/Participants.vue'
 
 const routes = [
 
@@ -74,9 +74,14 @@ const routes = [
     },
     {
         path: "/staff/my-treks",
-        name: "MyTreks",
-        component: MyTreks
+        name: "staff-my-Treks",
+        component: StaffMyTreks
     },
+    // {   path: "/staff/profile",
+    //     name: "staff-profile",
+    //     component : Profile
+
+    // },
     {
         path: "/trekker/dashboard",
         name: "trekker-dashboard",
@@ -88,20 +93,17 @@ const routes = [
         component: BrowseTreks
     },
     {
-        path: "/trekker/bookings",
-        name: "my-bookings",
-        component: MyBookings
+        path: "/trekker/my-treks",
+        name: "trekker-my-treks",
+        component: TrekkerMyTreks
     },
     {
-        path: "/trekker/history",
-        name: "trekker-history",
-        component: History
-    },
-    {
-        path: "/trekker/profile",
-        name: "trekker-profile",
-        component: TrekkerProfile
-    },
+        path: "/staff/participants",
+    
+        name: "StaffParticipants",
+    
+        component: StaffParticipants
+},
 
 
 

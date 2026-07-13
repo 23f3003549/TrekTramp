@@ -62,20 +62,20 @@
             <li class="nav-item mb-2">
 
                 <RouterLink
-                    to="/trekker/bookings"
+                    to="/trekker/my-treks"
                     class="nav-link"
                     active-class="active-link"
                 >
 
                     <i class="bi bi-calendar-check me-2"></i>
 
-                    My Bookings
+                    My Treks
 
                 </RouterLink>
 
             </li>
 
-            <li class="nav-item mb-2">
+            <!-- <li class="nav-item mb-2">
 
                 <RouterLink
                     to="/trekker/history"
@@ -89,9 +89,9 @@
 
                 </RouterLink>
 
-            </li>
+            </li> -->
 
-            <li class="nav-item mb-2">
+            <!-- <li class="nav-item mb-2">
 
                 <RouterLink
                     to="/trekker/profile"
@@ -105,7 +105,7 @@
 
                 </RouterLink>
 
-            </li>
+            </li> -->
 
         </ul>
 

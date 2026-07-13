@@ -334,9 +334,7 @@
 
                                     v-model="updatedCapacity"
 
-                                    min="0"
-
-                                    :max="trek.max_slots"
+                                    min="1"
 
                                 >
 
@@ -448,9 +446,11 @@
 
                         <button
                             class="btn btn-success"
+                            @click="bookCurrentTrek"
+                            :disabled="trek.available_slots===0 || trek.status!== 'open'"
                         >
 
-                            Book Trek
+                            {{ trek.available_slots===0? "Fully Booked" : "Book Trek" }}
 
                         </button>
 
@@ -485,6 +485,7 @@
 import * as bootstrap from "bootstrap";
 
 import { getTrek } from "../../services/trek";
+import { bookTrek } from "../../services/trekker";
 
 import {
 
@@ -600,6 +601,75 @@ export default{
 
         },
 
+        async bookCurrentTrek(){
+
+            try{
+        
+                const response = await bookTrek(
+        
+                    this.trek.id
+        
+                );
+        
+                alert(
+        
+                    response.data.message
+        
+                );
+        
+                await this.loadTrek();
+        
+                this.$emit("refresh");
+        
+            }
+        
+            catch(error){
+
+                const message = error.response?.data?.message;
+            
+                if(message==="Please complete your profile before booking."){
+            
+                    const openProfile = confirm(
+                       "Please complete your profile before booking.\n\nOpen your profile now?"
+                    );
+
+                    if(openProfile){
+                        this.$emit("close")
+                        setTimeout(()=>{
+                            window.dispatchEvent(
+
+                            new CustomEvent(
+                        
+                                "open-profile",
+                        
+                                {
+                        
+                                    detail:{
+                        
+                                        trekId:this.trek.id
+                        
+                                    }
+                        
+                                }
+                        
+                            )
+                        
+                        );
+
+                        },200);
+                                                
+                        
+                    }
+
+                    return;
+            
+                }
+            
+                alert(message || "Unable to book trek.");
+                                        
+            }
+        },    
+            
         //--------------------------------------------------
 
         closePanel(){
@@ -638,17 +708,9 @@ export default{
 
             }
 
-            if(this.updatedCapacity>this.trek.max_slots){
-
-                alert("Available slots cannot exceed maximum slots.");
-
-                return;
-
-            }
-
             try{
 
-                await updateTrekSlots(
+                await updateTrekCapacity(
 
                     this.trek.id,
 

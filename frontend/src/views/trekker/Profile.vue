@@ -5,7 +5,7 @@
     placeholder="Search..."
 >
 
-    <h3>Profile</h3>
+    <ProfilePanel />
 
 </TrekkerLayout>
 
@@ -14,6 +14,7 @@
 <script>
 
 import TrekkerLayout from "../../layouts/TrekkerLayout.vue";
+import ProfilePanel from "../../components/common/ProfilePanel.vue";
 
 export default{
 
@@ -21,7 +22,8 @@ export default{
 
     components:{
 
-        TrekkerLayout
+        TrekkerLayout,
+        ProfilePanel
 
     }
 

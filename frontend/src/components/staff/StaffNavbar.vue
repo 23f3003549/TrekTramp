@@ -62,7 +62,8 @@
 
             </div>
 
-            <div class="profile-circle">
+            <div class="profile-circle"
+            @click="showProfile=true">
 
                 {{ initials }}
 
@@ -73,14 +74,26 @@
     </div>
 
 </nav>
+<ProfilePanel
+
+    v-if="showProfile"
+
+    @close="showProfile=false"
+
+/>
 
 </template>
 
 <script>
 
+import ProfilePanel from '../common/ProfilePanel.vue';
+
 export default{
 
     name:"StaffNavbar",
+    components :{
+        ProfilePanel
+    },
 
     props:{
 
@@ -114,7 +127,9 @@ export default{
 
             searchText:"",
 
-            staffName:localStorage.getItem("name") || "Staff"
+            staffName:localStorage.getItem("name") || "Staff",
+
+            showProfile:false
 
         }
 
@@ -235,6 +250,17 @@ export default{
     font-weight:bold;
 
     font-size:16px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+.profile-circle:hover{
+
+    transform:scale(1.08);
+
+    box-shadow:0 0 10px rgba(0,0,0,.2);
 
 }
 

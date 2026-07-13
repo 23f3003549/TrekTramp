@@ -62,7 +62,8 @@
 
             </div>
 
-            <div class="profile-circle">
+            <div class="profile-circle"
+            @click="showProfile=true">
 
                 {{ initials }}
 
@@ -74,13 +75,26 @@
 
 </nav>
 
+<ProfilePanel
+
+    v-if="showProfile"
+
+    @close="showProfile=false"
+
+/>
+
 </template>
 
 <script>
 
+import ProfilePanel from "../common/ProfilePanel.vue";
+
 export default{
 
     name:"TrekkerNavbar",
+    components :{
+        ProfilePanel
+    },
 
     props:{
 
@@ -114,7 +128,9 @@ export default{
 
             searchText:"",
 
-            trekkerName:localStorage.getItem("name") || "Trekker"
+            trekkerName:localStorage.getItem("name") || "Trekker",
+
+            showProfile:false
 
         }
 
@@ -172,7 +188,28 @@ export default{
 
             );
 
+        },
+        openProfile(){
+
+            this.showProfile = true;
+
         }
+
+    },
+    mounted(){
+
+        window.addEventListener(
+            "open-profile",
+            this.openProfile
+        );
+
+    },
+    beforeUnmount(){
+
+        window.removeEventListener(
+            "open-profile",
+            this.openProfile
+        );
 
     }
 
@@ -235,6 +272,18 @@ export default{
     font-weight:bold;
 
     font-size:16px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.profile-circle:hover{
+
+    transform:scale(1.08);
+
+    box-shadow:0 0 10px rgba(0,0,0,.2);
 
 }
 

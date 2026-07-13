@@ -78,13 +78,13 @@ export function getMyTreks(){
 
 export function updateTrekCapacity(id,data){
 
-    return api.put(`/staff/trek/${id}/capacity`,data);
+    return api.put(`/staff/treks/${id}/capacity`,data);
 
 }
 
 export function updateTrekStatus(id,data){
 
-    return api.put(`/staff/trek/${id}/status`,data);
+    return api.put(`/staff/treks/${id}/status`,data);
 
 }
 
@@ -93,4 +93,38 @@ export function getParticipants(){
     return api.get("/staff/participants");
 
 }
+
+export function getAllAssignedParticipants(){
+
+    return api.get(
+
+        "/staff/participants"
+
+    );
+
+}
+
+export function getParticipantDetails(bookingId){
+
+    return api.get(
+
+        `/staff/participants/${bookingId}`
+
+    );
+
+}
+
+export function updateParticipant(bookingId, data){
+
+    return api.patch(
+
+        `/staff/participants/${bookingId}`,
+
+        data
+
+    );
+
+}
+
+
 

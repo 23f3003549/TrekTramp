@@ -89,7 +89,9 @@ export default{
 
             selectedTrek:null,
 
-            search:""
+            search:"",
+
+            lastOpenedTrek:null
 
         }
 
@@ -150,6 +152,17 @@ export default{
         openDetails(id){
 
             this.selectedTrek=id;
+            this.lastOpenedTrek = id;
+
+        },
+
+        reopenLastTrek(){
+
+            if(this.lastOpenedTrek){
+
+                 this.selectedTrek = this.lastOpenedTrek;
+
+            }
 
         },
 
@@ -159,11 +172,26 @@ export default{
 
         }
 
+        
+
     },
 
     mounted(){
 
         this.loadTreks();
+        window.addEventListener(
+            "profile-updated",
+             this.reopenLastTrek
+        );
+
+    },
+
+    beforeUnmount(){
+
+        window.removeEventListener(
+            "profile-updated",
+            this.reopenLastTrek
+        );
 
     }
 
