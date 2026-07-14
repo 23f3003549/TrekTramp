@@ -576,7 +576,7 @@ def pay_booking(user_id, booking_id):
 
         return {
 
-            "message":"Booking is not active."
+            "message":"This booking has already been cancelled."
 
         },400
 
@@ -777,3 +777,4 @@ def update_review(user_id, trek_id, data):
         "message":"Review updated successfully."
 
     },200
+

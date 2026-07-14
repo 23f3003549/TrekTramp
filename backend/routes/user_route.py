@@ -137,3 +137,33 @@ def update_review_api(trek_id):
     )
 
     return jsonify(response), status_code
+
+# ---------------- Export Booking History ----------------
+
+@user_bp.route(
+    "/export-bookings",
+    methods=["POST"]
+)
+@jwt_required()
+def export_booking_history_api():
+    from tasks import export_booking_history
+
+    claims = get_jwt()
+
+    if claims["role"] != "trekker":
+
+        return {
+
+            "message": "User access required."
+
+        },403
+
+    user_id = get_jwt_identity()
+
+    export_booking_history.delay(user_id)
+
+    return {
+
+        "message":"Export started. CSV will be sent to your email shortly."
+
+    },202
