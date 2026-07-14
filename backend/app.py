@@ -2,8 +2,7 @@ from flask import Flask
 from flask_cors import CORS
 
 from config import Config
-from extensions import db, jwt
-from extensions import mail
+from extensions import db, jwt, mail, cache
 
 from default_admin import default_admin
 
@@ -17,6 +16,7 @@ def create_app():
     db.init_app(app)
     jwt.init_app(app)
     mail.init_app(app)
+    cache.init_app(app)
 
     # ---------------------------blueprint----------------------------
 

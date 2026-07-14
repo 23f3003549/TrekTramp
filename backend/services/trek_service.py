@@ -1,11 +1,13 @@
 from datetime import datetime
 from sqlalchemy import or_
 
-from extensions import db
+from extensions import db, cache
 from models.trek import Trek
 from models.booking import Booking
 from models.staff_assign import StaffAssign
 from models.user import User
+
+from services.user_service import browse_treks
 
 
 #-------------------------------create trek------------------------------
@@ -103,6 +105,7 @@ def create_trek(data):
 
     db.session.add(new_trek)
     db.session.commit()
+    cache.delete_memoized(browse_treks)
 
     return{
         "message": "Trek created successfully.",
@@ -359,6 +362,7 @@ def update_trek(trek_id , data):
         )
 
     db.session.commit()
+    cache.delete_memoized(browse_treks)
 
     return {
         "message": "Trek updated successfully."
@@ -402,6 +406,7 @@ def delete_trek(trek_id):
 
     trek.is_deleted = True
     db.session.commit()
+    cache.delete_memoized(browse_treks)
 
     return {
         "message": (

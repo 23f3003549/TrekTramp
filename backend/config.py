@@ -22,3 +22,22 @@ class Config:
     MAIL_PASSWORD = "nsnh iuge gaeo nobd"
     
     MAIL_DEFAULT_SENDER = "23f3003549@ds.study.iitm.ac.in"
+
+
+
+    REDIS_URL = "redis://localhost:6379/0"
+
+    CACHE_TYPE = "RedisCache"
+
+    CACHE_REDIS_URL = REDIS_URL
+
+    CACHE_DEFAULT_TIMEOUT = 300
+
+
+    broker_url = REDIS_URL
+
+    result_backend = REDIS_URL
+    
+    timezone = "Asia/Kolkata"
+    
+    enable_utc = False

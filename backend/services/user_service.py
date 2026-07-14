@@ -1,5 +1,5 @@
 from werkzeug.security import generate_password_hash
-from extensions import db
+from extensions import db, cache
 from datetime import datetime, date
 
 
@@ -77,7 +77,7 @@ def dashboard_statistics(user_id):
 from sqlalchemy import or_
 
 # ------------------------- Browse Treks -------------------------
-
+@cache.memoize(timeout=300)
 def browse_treks(search=""):
 
     query = Trek.query.filter(
