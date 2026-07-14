@@ -1,4 +1,5 @@
 from datetime import datetime
+from sqlalchemy import or_
 
 from extensions import db
 from models.trek import Trek

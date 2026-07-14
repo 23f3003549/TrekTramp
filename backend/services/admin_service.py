@@ -120,7 +120,7 @@ def get_all_staff(search=""):
             )
 
         )
-    staff = query.order_by(
+    staffs = query.order_by(
 
         User.created_at.desc()
 
@@ -743,33 +743,49 @@ def get_user(user_id):
 
 #------------------------------------ Get All Bookings ------------------------------------
 
-def get_all_bookings():
+def get_all_bookings(search=""):
+
+    trek_list = []
 
     treks = Trek.query.filter_by(
 
         is_deleted=False
 
-    ).order_by(
-
-        Trek.start_date.asc()
-
     ).all()
-
-    trek_list = []
 
     for trek in treks:
 
-        bookings = Booking.query.filter(
+        query = db.session.query(
 
-            Booking.trek_id == trek.id,
+            Booking
 
-            Booking.booking_status.in_(
+        ).join(
 
-                ["booked", "completed", "cancelled"]
+            User
+
+        ).filter(
+
+            Booking.trek_id == trek.id
+
+        )
+
+        if search:
+
+            query = query.filter(
+
+                or_(
+
+                    User.name.ilike(f"%{search}%"),
+
+                    User.email.ilike(f"%{search}%"),
+
+                    Booking.id.cast(db.String).ilike(f"%{search}%")
+
+                )
 
             )
 
-        ).all()
+        bookings = query.all()
 
         participants = []
 
@@ -817,8 +833,6 @@ def get_all_bookings():
 
             })
 
-        # Show only treks having bookings
-
         if participants:
 
             trek_list.append({
@@ -854,7 +868,7 @@ def get_all_bookings():
         "treks":trek_list
 
     },200
-#------------------------------------ Get Booking Details ------------------------------------
+#--------------------------- Get Booking Details ------------------------------------
 
 def get_booking_details(booking_id):
 

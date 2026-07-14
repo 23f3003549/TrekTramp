@@ -121,10 +121,12 @@ def get_my_treks_api():
         return {
             "message":"Staff access required."
         },403
+    
+    search = request.args.get("search","").strip()
 
     user_id = get_jwt_identity()
 
-    response,status = get_my_treks(user_id)
+    response,status = get_my_treks(user_id, search)
 
     return jsonify(response),status
 
@@ -193,10 +195,12 @@ def get_trek_participants_api(trek_id):
         return jsonify({
             "message": "Staff access required."
         }), 403
+    
+    search = request.args.get("search","").strip()
 
     user_id = get_jwt_identity()
 
-    response, status = get_trek_participants(user_id, trek_id)
+    response, status = get_trek_participants(user_id, trek_id, search)
 
     return jsonify(response), status
 #----------------------- trek participants details-----------------------
@@ -266,9 +270,11 @@ def get_all_assigned_participants_api():
 
     user_id = get_jwt_identity()
 
+    search = request.args.get("search","").strip()
+
     response,status = get_all_assigned_participants(
 
-        user_id
+        user_id, search
 
     )
 

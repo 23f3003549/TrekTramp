@@ -55,8 +55,10 @@ def get_all_staff_api():
         return {
             "message": "Admin access required."
         }, 403
+    
+    search = request.args.get("search", "").strip()
 
-    response, status_code = get_all_staff()
+    response, status_code = get_all_staff( search)
 
     return jsonify(response), status_code
 
@@ -285,6 +287,7 @@ def get_all_users_api():
             "message":"Admin access required."
 
         },403
+    
     search = request.args.get(
         "search", ""
     ).strip()

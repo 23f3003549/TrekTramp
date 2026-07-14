@@ -1,6 +1,7 @@
 from datetime import datetime
 from flask_jwt_extended import get_jwt_identity
 from werkzeug.security import generate_password_hash
+from sqlalchemy import or_
 
 from models.staff_assign import StaffAssign
 from models.trek import Trek
@@ -722,54 +723,108 @@ def get_dashboard_statistics(user_id):
 
 #---------------------------my assigned treks---------------------------
 
-def get_my_treks(user_id):
+from sqlalchemy import or_
+from datetime import datetime
+
+def get_my_treks(user_id, search=""):
 
     staff = User.query.filter_by(
+
         id=user_id,
+
         role="staff"
+
     ).first()
 
     if staff is None:
 
         return {
+
             "message": "Staff not found."
+
         },404
 
+
     assignments = StaffAssign.query.filter_by(
+
         staff_id=staff.id
+
     ).all()
 
-    trek_list = []
+
+    active_treks = []
+
+    completed_treks = []
+
+    cancelled_treks = []
 
     updated = False
+
 
     for assignment in assignments:
 
         trek = Trek.query.filter_by(
+
             id=assignment.trek_id,
+
             is_deleted=False
+
         ).first()
 
-        # Trek deleted -> release assignment
+
+        # Trek deleted
         if trek is None:
 
             assignment.status = "cancelled"
+
             assignment.released_at = datetime.utcnow()
 
             updated = True
 
             continue
 
-        participants = Booking.query.filter_by(
-            trek_id=trek.id,
-            booking_status="booked"
+
+        # ---------------- Search ----------------
+
+        if search:
+
+            keyword = search.lower()
+
+            if not (
+
+                keyword in trek.trek_name.lower()
+
+                or
+
+                keyword in trek.location.lower()
+
+                or
+
+                keyword in trek.difficulty.lower()
+
+            ):
+
+                continue
+
+
+        participants = Booking.query.filter(
+
+            Booking.trek_id == trek.id,
+
+            Booking.booking_status.in_([ "booked", "completed"])
+
         ).count()
 
-        trek_list.append({
+
+        trek_data = {
 
             "id": trek.id,
 
             "trek_name": trek.trek_name,
+
+            "location": trek.location,
+
+            "difficulty": trek.difficulty,
 
             "start_date": trek.start_date.isoformat(),
 
@@ -781,15 +836,48 @@ def get_my_treks(user_id):
 
             "status": trek.status
 
-        })
+        }
+
+
+        # ---------------- Categorize ----------------
+
+        if assignment.status == "cancelled" or trek.status == "cancelled":
+
+            cancelled_treks.append(
+
+                trek_data
+
+            )
+
+        elif trek.status == "completed":
+
+            completed_treks.append(
+
+                trek_data
+
+            )
+
+        else:
+
+            active_treks.append(
+
+                trek_data
+
+            )
+
 
     if updated:
 
         db.session.commit()
 
+
     return {
 
-        "treks": trek_list
+        "active_treks": active_treks,
+
+        "completed_treks": completed_treks,
+
+        "cancelled_treks": cancelled_treks
 
     },200
 
@@ -1018,7 +1106,7 @@ def update_trek_status(user_id, trek_id, data):
 
 #--------------------------get participants--------------------------
 
-def get_participants(user_id):
+def get_participants(user_id, search=""):
 
     staff = User.query.filter_by(
         id=user_id,
@@ -1046,12 +1134,48 @@ def get_participants(user_id):
 
         if trek is None:
             continue
-
-        bookings = Booking.query.filter(
+        query = db.session.query(Booking).join(User).filter(
+        
             Booking.trek_id == trek.id,
+        
             Booking.booking_status.in_(
-                ["booked", "completed", "cancelled", "rejected"]
+        
+                [
+        
+                    "booked",
+        
+                    "completed",
+        
+                    "cancelled",
+        
+                    "rejected"
+        
+                ]
+        
             )
+        
+        )
+        
+        if search:
+        
+            query = query.filter(
+        
+                or_(
+        
+                    User.name.ilike(f"%{search}%"),
+        
+                    User.email.ilike(f"%{search}%"),
+        
+                    Booking.id.cast(db.String).ilike(f"%{search}%")
+        
+                )
+        
+            )
+        
+        bookings = query.order_by(
+        
+            Booking.booking_date.desc()
+        
         ).all()
 
         participant_list = []
@@ -1544,9 +1668,11 @@ def update_participant(user_id, booking_id, data):
 
     },200
 
+from sqlalchemy import or_
+
 # ---------------------- All Assigned Participants ----------------------
 
-def get_all_assigned_participants(user_id):
+def get_all_assigned_participants(user_id, search=""):
 
     staff = User.query.filter_by(
 
@@ -1564,13 +1690,16 @@ def get_all_assigned_participants(user_id):
 
         },404
 
+
     assignments = StaffAssign.query.filter_by(
 
         staff_id=staff.id
 
     ).all()
 
-    trek_list=[]
+
+    trek_list = []
+
 
     for assignment in assignments:
 
@@ -1586,15 +1715,82 @@ def get_all_assigned_participants(user_id):
 
             continue
 
-        bookings = (
 
-            Booking.query
+        # ----------------------------------------------------
+        # Search Trek Name / Location
+        # ----------------------------------------------------
+
+        trek_match = False
+
+        if search:
+
+            keyword = search.lower()
+
+            trek_match = (
+
+                keyword in trek.trek_name.lower()
+
+                or
+
+                keyword in trek.location.lower()
+
+            )
+
+
+        # ----------------------------------------------------
+        # Booking + User Query
+        # ----------------------------------------------------
+
+        query = (
+
+            db.session.query(
+
+                Booking,
+
+                User
+
+            )
+
+            .join(
+
+                User,
+
+                Booking.user_id == User.id
+
+            )
 
             .filter(
 
                 Booking.trek_id == trek.id
 
             )
+
+        )
+
+
+        # If trek name/location didn't match,
+        # search participant details instead.
+
+        if search and not trek_match:
+
+            query = query.filter(
+
+                or_(
+
+                    User.name.ilike(f"%{search}%"),
+
+                    User.email.ilike(f"%{search}%"),
+
+                    Booking.id.cast(db.String).ilike(f"%{search}%")
+
+                )
+
+            )
+
+
+        results = (
+
+            query
 
             .order_by(
 
@@ -1606,19 +1802,11 @@ def get_all_assigned_participants(user_id):
 
         )
 
-        participant_list=[]
 
-        for booking in bookings:
+        participant_list = []
 
-            user = User.query.get(
 
-                booking.user_id
-
-            )
-
-            if user is None:
-
-                continue
+        for booking, user in results:
 
             participant_list.append({
 
@@ -1640,23 +1828,33 @@ def get_all_assigned_participants(user_id):
 
             })
 
-        trek_list.append({
 
-            "trek_id":trek.id,
+        # ----------------------------------------------------
+        # Only include trek if:
+        # 1. Trek matched search
+        # 2. OR participants matched
+        # ----------------------------------------------------
 
-            "trek_name":trek.trek_name,
+        if trek_match or participant_list:
 
-            "start_date":trek.start_date.strftime("%d/%m/%Y"),
+            trek_list.append({
 
-            "end_date":trek.end_date.strftime("%d/%m/%Y"),
+                "trek_id":trek.id,
 
-            "status":trek.status,
+                "trek_name":trek.trek_name,
 
-            "participant_count":len(participant_list),
+                "start_date":trek.start_date.strftime("%d/%m/%Y"),
 
-            "participants":participant_list
+                "end_date":trek.end_date.strftime("%d/%m/%Y"),
 
-        })
+                "status":trek.status,
+
+                "participant_count":len(participant_list),
+
+                "participants":participant_list
+
+            })
+
 
     return{
 

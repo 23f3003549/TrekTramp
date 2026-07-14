@@ -26,8 +26,9 @@ def dashboard_statistics_api():
 @jwt_required()
 def browse_treks_api():
     print("Browse Treks API called")
+    search = request.args.get( "search","").strip()
 
-    response, status_code = browse_treks()
+    response, status_code = browse_treks(search)
 
     return jsonify(response), status_code
 
@@ -47,36 +48,6 @@ def book_trek_api(trek_id):
 
     return jsonify(response), status_code
 
-# # ------------------------- My Bookings -------------------------
-
-# @user_bp.route(
-
-#     "/bookings",
-
-#     methods=["GET"]
-
-# )
-# @jwt_required()
-# def get_my_bookings_api():
-
-#     user_id = int(
-
-#         get_jwt_identity()
-
-#     )
-
-#     response,status_code = get_my_bookings(
-
-#         user_id
-
-#     )
-
-#     return jsonify(
-
-#         response
-
-    # ),status_code
-
 # ------------------------- My Bookings -------------------------
 
 @user_bp.route("/bookings", methods=["GET"])
@@ -84,8 +55,9 @@ def book_trek_api(trek_id):
 def get_my_bookings_api():
 
     user_id = int(get_jwt_identity())
+    search = request.args.get( "search","").strip()
 
-    response, status_code = get_my_bookings(user_id)
+    response, status_code = get_my_bookings(user_id, search)
 
     return jsonify(response), status_code
 

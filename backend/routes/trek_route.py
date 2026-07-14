@@ -23,7 +23,19 @@ def create_trek_api():
 @trek_bp.route("/treks", methods=["GET"])
 @jwt_required()
 def get_all_treks_api():
-    response, status_code = get_all_treks()
+
+    claims = get_jwt()
+
+    if claims["role"]!="admin":
+
+        return{
+
+            "message":"Admin access required."
+
+        },403
+
+    search = request.args.get("search", "").strip()
+    response, status_code = get_all_treks(search)
     return jsonify(response) , status_code
     
 

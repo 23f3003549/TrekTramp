@@ -74,17 +74,35 @@ def dashboard_statistics(user_id):
 
     }, 200
 
+from sqlalchemy import or_
+
 # ------------------------- Browse Treks -------------------------
 
-def browse_treks():
+def browse_treks(search=""):
 
-    treks = Trek.query.filter(
+    query = Trek.query.filter(
 
         Trek.is_deleted == False,
 
         Trek.status == "open"
 
-    ).order_by(
+    )
+
+    if search:
+
+        query = query.filter(
+
+            or_(
+
+                Trek.trek_name.ilike(f"%{search}%"),
+
+                Trek.location.ilike(f"%{search}%")
+
+            )
+
+        )
+
+    treks = query.order_by(
 
         Trek.start_date.asc()
 
@@ -124,7 +142,7 @@ def browse_treks():
 
         "treks": trek_list
 
-    }, 200
+    },200
 
 # ------------------------- Book Trek -------------------------
 
@@ -305,7 +323,7 @@ def book_trek(user_id, trek_id):
 
 from datetime import date
 
-def get_my_bookings(user_id):
+def get_my_bookings(user_id, search=""):
 
     user = User.query.filter_by(
 
@@ -323,14 +341,40 @@ def get_my_bookings(user_id):
 
         }, 404
 
-    bookings = (
-        Booking.query
-        .join(Trek)
-        .filter(Booking.user_id == user.id)
-        .order_by(Trek.start_date.asc())
-        .all()
-    )
+    query = (
 
+        Booking.query
+    
+        .join(Trek)
+    
+        .filter(
+    
+            Booking.user_id == user.id
+    
+        )
+    
+    )
+    
+    if search:
+    
+        query = query.filter(
+    
+            or_(
+    
+                Trek.trek_name.ilike(f"%{search}%"),
+    
+                Trek.location.ilike(f"%{search}%")
+    
+            )
+    
+        )
+    
+    bookings = query.order_by(
+    
+        Trek.start_date.asc()
+    
+    ).all()
+    
     today = date.today()
 
     result = []
