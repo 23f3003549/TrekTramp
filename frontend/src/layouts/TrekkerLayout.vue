@@ -20,6 +20,8 @@
 
                 :placeholder="placeholder"
 
+                :searchEnabled="searchEnabled"
+
                 @search="handleSearch"
 
             />
@@ -73,6 +75,13 @@ export default{
             type:String,
 
             default:"Search Treks..."
+
+        },
+        searchEnabled:{
+
+            type:Boolean,
+    
+            default:true
 
         }
 

@@ -4,7 +4,9 @@
 
     title="My Treks"
 
-    placeholder="Search your treks..."
+    placeholder="Search your treks by name/location..."
+
+    @search="searchBookings"
 
 >
 
@@ -158,45 +160,55 @@
 
     <div
 
-        v-else
+    v-else
 
-        class="text-center py-5"
+    class="text-center py-5"
+
+>
+
+    <i
+
+        class="bi bi-search"
+
+        style="font-size:70px;color:#adb5bd"
+
+    ></i>
+
+    <h3 class="mt-3 fw-bold">
+
+        No Treks Found
+
+    </h3>
+
+    <p class="text-muted">
+
+        <span v-if="selectedFilter==='All'">
+
+            No trek matched your search.
+
+        </span>
+
+        <span v-else>
+
+            No {{ selectedFilter.toLowerCase() }} trek matched your search.
+
+        </span>
+
+    </p>
+
+    <button
+
+        class="btn btn-success mt-2"
+
+        @click="$router.push('/trekker/browse')"
 
     >
 
-        <i
+        Browse Treks
 
-            class="bi bi-backpack2"
+    </button>
 
-            style="font-size:70px;color:#198754"
-
-        ></i>
-
-        <h3 class="mt-3">
-
-            No Treks Found
-
-        </h3>
-
-        <p class="text-muted">
-
-            You don't have any treks in this category.
-
-        </p>
-
-        <button
-
-            class="btn btn-success"
-
-            @click="$router.push('/trekker/browse')"
-
-        >
-
-            Browse Treks
-
-        </button>
-
-    </div>
+</div>
 
     <!-- ===================== Trek Details ===================== -->
 
@@ -276,6 +288,7 @@ export default{
             selectedBooking:null,
 
             showReview:false,
+            loading:false
 
         }
 
@@ -287,55 +300,9 @@ export default{
 
             return this.bookings.filter(
 
-                booking=>{
+                booking=>
+                   this.selectedFilter==="All" || booking.status===this.selectedFilter
 
-                    const matchesFilter =
-
-                        this.selectedFilter==="All"
-
-                        ||
-
-                        booking.status===this.selectedFilter;
-
-                    const keyword =
-
-                        this.searchText.toLowerCase();
-
-                    const matchesSearch =
-
-                        booking.trek_name
-
-                        .toLowerCase()
-
-                        .includes(keyword)
-
-                        ||
-
-                        booking.location
-
-                        .toLowerCase()
-
-                        .includes(keyword)
-
-                        ||
-
-                        booking.difficulty
-
-                        .toLowerCase()
-
-                        .includes(keyword);
-
-                    return(
-
-                        matchesFilter
-
-                        &&
-
-                        matchesSearch
-
-                    );
-
-                }
 
             );
 
@@ -345,11 +312,12 @@ export default{
 
     methods:{
 
-        async loadBookings(){
+        async loadBookings(search=""){
+            this.loading=true;
 
             try{
 
-                const response = await getMyBookings();
+                const response = await getMyBookings(search);
 
                 this.bookings = response.data.bookings;
                 this.summary = response.data.summary;
@@ -360,6 +328,9 @@ export default{
 
                 console.error(error);
 
+            }
+            finally{
+                this.loading=false;
             }
         },
         async cancelBookingAction(bookingId){
@@ -483,9 +454,8 @@ export default{
             this.showReview = true;
 
         },
-        search(keyword){
-
-            this.searchText = keyword;
+        async searchBookings(keyword){
+            await this.loadBookings(  keyword   );
 
         },
         viewDetails(trekId){

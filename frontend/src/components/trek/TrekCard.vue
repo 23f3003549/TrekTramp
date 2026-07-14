@@ -129,15 +129,18 @@ export default{
     
                 case "easy":
     
-                    return "/image/treks/green.jpg";
+                    return "/image/treks/easy.jpg";
     
                 case "medium":
     
-                    return "/image/treks/snow.jpg";
+                    return "/image/treks/medium.jpg";
+                case "hard":
+    
+                    return "/image/treks/hard.jpg";
     
                 default:
     
-                    return "/image/treks/everest.jpg";
+                    return "/image/treks/hard.jpg";
     
             }
     

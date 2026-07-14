@@ -6,9 +6,9 @@ export function getDashboardStatistics(){
 
 }
 
-export function getTreks(){
+export function getTreks(search=""){
 
-    return api.get("/user/treks");
+    return api.get("/user/treks", {params:{search}});
 
 }
 
@@ -23,13 +23,11 @@ export function bookTrek(trekId){
 }
 
 
-export function getMyBookings(){
+export function getMyBookings(search=""){
 
     return api.get(
 
-        "/user/bookings"
-
-    );
+        "/user/bookings", {params:{search}});
 
 }
 

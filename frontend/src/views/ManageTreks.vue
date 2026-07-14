@@ -1,6 +1,9 @@
 <template>
 
-    <MainLayout>
+    <MainLayout
+       placeholder="Search Treks..."
+
+       @search="searchTreks">
 
         <div class="d-flex justify-content-between align-items-center mb-4">
 
@@ -146,9 +149,40 @@ export default {
         
     },
     methods:{
-        async handleTrekSaved(){
+
+        async loadTreks(search=""){
+        
+            try{
+        
+                const response = await getAllTreks(
+        
+                    search
+        
+                );
+        
+                this.treks = response.data.treks;
+        
+            }
+        
+            catch(error){
+        
+                console.error(error);
+        
+                alert(
+        
+                    error.response?.data?.message ||
+        
+                    "Unable to load treks."
+        
+                );
+        
+            }
+        
+        },
+
+        async handleTrekSaved(search=""){
             this.showModal = false;
-            const response = await getAllTreks();
+            const response = await this.loadTreks();
             this.treks=response.data.treks;
         },
 
@@ -156,7 +190,7 @@ export default {
             try{
                 await deleteapi(id);
                 alert("Trek deleted successfully.");
-                const response = await getAllTreks();
+                const response = await this.loadTreks();
                 this.treks = response.data.treks;
 
             }
@@ -199,23 +233,24 @@ export default {
         
             }
 
-        }
+        },
+
+        async searchTreks(keyword){
+        
+            await this.loadTreks(
+        
+                keyword
+        
+            );
+        
+        },
        
 
 
     },
 
-    async mounted(){
-        try{
-            const response = await getAllTreks();
-            this.treks = response.data.treks;
-        }
-
-        catch(error){
-            console.error("Failed to fetch treks.", error);
-        }
-
-        
+    mounted(){
+        this.loadTreks();
     }
 
 

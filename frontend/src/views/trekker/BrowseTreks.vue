@@ -4,40 +4,75 @@
 
     title="Browse Treks"
 
-    placeholder="Search Trek..."
+    placeholder="Search Trek or Location..."
 
     @search="handleSearch"
     
 >
-    <h3 class="text-danger">
+    <!-- Empty State -->
 
-       Browse Treks Page Loaded
+<div
+
+    v-if="!loading && treks.length===0"
+
+    class="text-center py-5"
+
+>
+
+    <i
+
+        class="bi bi-map"
+
+        style="font-size:70px;color:#adb5bd;"
+
+    ></i>
+
+    <h3 class="mt-3">
+
+        No Treks Found
 
     </h3>
-    <p>Total Treks : {{ treks.length }}</p>
-    <div class="row">
 
-        <div
+    <p class="text-muted">
 
-            class="col-lg-4 col-md-6 mb-4"
+        No trek matched your search.
 
-            v-for="trek in filteredTreks"
+    </p>
 
-            :key="trek.id"
+</div>
 
-        >
+<!-- Trek Cards -->
 
-            <TrekCard
+<div
 
-                :trek="trek"
+    v-else
 
-                @view="openDetails"
+    class="row"
 
-            />
+>
 
-        </div>
+    <div
+
+        class="col-lg-4 col-md-6 mb-4"
+
+        v-for="trek in treks"
+
+        :key="trek.id"
+
+    >
+
+        <TrekCard
+
+            :trek="trek"
+
+            @view="openDetails"
+
+        />
 
     </div>
+
+</div>
+    
 
     <TrekDetailsPanel
 
@@ -89,49 +124,22 @@ export default{
 
             selectedTrek:null,
 
-            search:"",
-
-            lastOpenedTrek:null
-
-        }
-
-    },
-
-    computed:{
-
-        filteredTreks(){
-
-            if(!this.search){
-
-                return this.treks;
-
-            }
-
-            return this.treks.filter(trek=>
-
-                trek.trek_name
-
-                    .toLowerCase()
-
-                    .includes(
-
-                        this.search.toLowerCase()
-
-                    )
-
-            );
+            lastOpenedTrek:null,
+            loading:false,
 
         }
 
     },
+
 
     methods:{
 
-        async loadTreks(){
+        async loadTreks(search=""){
+            this.loading = true;
 
             try{
 
-                const response=await getTreks();
+                const response=await getTreks( search);
                 console.log("API Response:", response.data);
 
                 this.treks=response.data.treks;
@@ -146,8 +154,20 @@ export default{
                 alert("Unable to load treks.");
 
             }
+            finally{
+                this.loading=false;
+            }
 
         },
+        // async searchTreks(keyword){
+
+        //     await this.loadTreks(
+        
+        //         keyword
+        
+        //     );
+
+        // },
 
         openDetails(id){
 
@@ -166,9 +186,13 @@ export default{
 
         },
 
-        handleSearch(value){
+        async handleSearch(value){
 
-            this.search=value;
+            await this.loadTreks(
+
+             value
+
+        );
 
         }
 

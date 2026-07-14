@@ -55,11 +55,15 @@ export function updateUserStatus(userId, data){
 
 //---------------------- Get All Users ----------------------
 
-export function getAllUsers(){
+export function getAllUsers(search=""){
 
     return api.get(
 
-        "/admin/users"
+        "/admin/users", {
+            params:{
+                search
+            }
+        }
 
     );
 
@@ -80,11 +84,15 @@ export function getUser(userId){
 
 // ---------------------- Get All Bookings ----------------------
 
-export function getAllBookings(){
+export function getAllBookings(search=""){
 
     return api.get(
 
-        "/admin/bookings"
+        "/admin/bookings", {
+            params:{
+                search
+            }
+        }
 
     );
 

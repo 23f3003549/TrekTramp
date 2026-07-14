@@ -1,6 +1,8 @@
 <template>
 
-    <MainLayout>
+    <MainLayout
+    :searchEnabled="false" placeholder=""
+    >
 
         <div class="container py-4">
 

@@ -1,8 +1,12 @@
 
 import api from "./api";
 
-export function getAllTreks(){
-    return api.get("treks");
+export function getAllTreks(search=""){
+    return api.get("treks", {
+        params:{
+            search
+        }
+    });
 }
 
 export function createTrek(data){

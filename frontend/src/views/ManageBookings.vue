@@ -1,8 +1,11 @@
 <template>
 
-    <MainLayout>
+    <MainLayout
+    
+    placeholder="Search Bookings..."
 
-        <!-- Header -->
+    @search="searchBookings">
+
 
         <div class="d-flex justify-content-between align-items-center mb-4">
 
@@ -420,13 +423,13 @@ export default{
 
         //--------------------------------------------------
 
-        async loadBookings(){
+        async loadBookings(search=""){
 
             this.loading=true;
 
             try{
 
-                const response = await getAllBookings();
+                const response = await getAllBookings(search);
 
                 this.treks = response.data.treks;
 
@@ -454,11 +457,19 @@ export default{
 
         },
 
-        //--------------------------------------------------
-
         viewBooking(bookingId){
 
             this.selectedBookingId = bookingId;
+
+        },
+
+        async searchBookings(keyword){
+
+            await this.loadBookings(
+        
+                keyword
+        
+            );
 
         }
 

@@ -5,14 +5,11 @@
     <!-- Trek Image -->
 
     <img
-
-        :src="getImage()"
+    :src="getImage()"
 
         class="card-img-top"
 
-        :alt="booking.trek_name"
-
-    >
+        :alt="booking.trek_name">
 
     <div class="card-body d-flex flex-column">
 
@@ -374,24 +371,25 @@ export default{
         getImage(){
 
             const difficulty = this.booking.difficulty?.toLowerCase();
+            console.log(this.booking.difficulty);
 
             switch(difficulty){
 
                 case "easy":
 
-                    return "/image/treks/green.jpg";
+                    return "/image/treks/easy.jpg";
 
                 case "medium":
 
-                    return "/image/treks/snow.jpg";
+                    return "/image/treks/medium.jpg";
 
                 case "hard":
 
-                    return "/image/treks/everest.jpg";
+                    return "/image/treks/hard.jpg";
 
                 default:
 
-                    return "/image/treks/default.jpg";
+                    return "/image/treks/hard.jpg";
 
             }
 

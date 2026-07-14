@@ -18,7 +18,7 @@
 
             <div class="input-group">
 
-                <span class="input-group-text bg-white">
+                <span class="input-group-text bg-white search-icon" @click="search">
 
                     <i class="bi bi-search"></i>
 
@@ -32,9 +32,11 @@
 
                     :placeholder="placeholder"
 
+                    :disabled="!searchEnabled"
+
                     v-model="searchText"
 
-                    @input="search"
+                    @keyup.enter="search"
 
                 >
 
@@ -111,7 +113,15 @@ export default{
 
             default:"Search..."
 
+        },
+        searchEnabled:{
+
+            type:Boolean,
+        
+            default:true
+        
         }
+        
 
     },
 
@@ -208,6 +218,12 @@ export default{
 .search-box{
 
     width:420px;
+
+}
+
+.search-icon{
+
+    cursor:pointer;
 
 }
 

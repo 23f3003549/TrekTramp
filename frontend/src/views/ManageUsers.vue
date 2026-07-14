@@ -1,6 +1,8 @@
 <template>
 
-    <MainLayout>
+    <MainLayout 
+    placeholder="Search Users....." @search="searchUsers"
+    >
 
         <!-- Header -->
 
@@ -184,13 +186,11 @@ export default{
 
     methods:{
 
-        //--------------------------------------------------
-
-        async loadUsers(){
+        async loadUsers(search=""){
 
             try{
 
-                const response=await getAllUsers();
+                const response=await getAllUsers(search);
 
                 this.users=response.data.users;
 
@@ -212,12 +212,15 @@ export default{
 
         },
 
-        //--------------------------------------------------
 
         viewUser(id){
 
             this.selectedUserId=id;
 
+        },
+
+        async searchUsers(keyword){
+            this.loadUsers(keyword);
         }
 
     },

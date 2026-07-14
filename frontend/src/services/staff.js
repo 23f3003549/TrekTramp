@@ -6,9 +6,13 @@ export function createStaff(data){
 
 }
 
-export function getAllStaff(){
+export function getAllStaff(search=""){
 
-    return api.get("/admin/staff");
+    return api.get("/admin/staff",{
+        params:{
+            search
+        }
+    });
 
 }
 
@@ -70,9 +74,10 @@ export function getDashboardStatistics(){
 
 }
 
-export function getMyTreks(){
+export function getMyTreks(search=""){
 
-    return api.get("/staff/my-treks");
+    return api.get("/staff/my-treks",{params:{search}
+        });
 
 }
 
@@ -94,11 +99,20 @@ export function getParticipants(){
 
 }
 
-export function getAllAssignedParticipants(){
+export function getAllAssignedParticipants(search=""){
 
     return api.get(
 
-        "/staff/participants"
+        "/staff/participants",
+        {
+
+            params:{
+
+                search: search
+
+            }
+
+        }
 
     );
 

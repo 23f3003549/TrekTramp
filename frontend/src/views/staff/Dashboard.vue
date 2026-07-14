@@ -4,7 +4,7 @@
 
     title="Dashboard"
 
-    placeholder="Search Trek..."
+    :searchEnabled="false"
 
 >
 

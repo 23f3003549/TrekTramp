@@ -17,6 +17,7 @@
             :title="title"
 
             :placeholder="placeholder"
+            :searchEnabled="searchEnabled"
 
             @search="handleSearch"
 
@@ -68,8 +69,15 @@ export default{
 
             type:String,
 
-            default:"Search..."
+            default:"Search Trek or Participant.."
 
+        },
+        searchEnabled:{
+
+            type:Boolean,
+        
+            default:true
+        
         }
 
     },

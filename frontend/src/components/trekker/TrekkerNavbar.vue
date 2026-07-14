@@ -14,7 +14,7 @@
 
         <!-- Search -->
 
-        <div class="mx-auto search-box">
+        <div v-if="searchEnabled" class="mx-auto search-box">
 
             <div class="input-group">
 
@@ -33,6 +33,8 @@
                     :placeholder="placeholder"
 
                     v-model="searchText"
+
+                    @keyup.enter="search"
 
                     @input="search"
 
@@ -111,6 +113,13 @@ export default{
             type:String,
 
             default:"Search Treks..."
+
+        },
+        searchEnabled:{
+
+            type:Boolean,
+        
+            default:true
 
         }
 

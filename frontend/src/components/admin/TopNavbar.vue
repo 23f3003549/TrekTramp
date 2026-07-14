@@ -1,9 +1,6 @@
 <template>
 
     <header class="top-navbar">
-
-        <!-- Left -->
-
         <div>
 
             <h4 class="mb-0 fw-bold">
@@ -14,28 +11,25 @@
 
         </div>
 
-        <!-- Center -->
 
         <div class="search-box">
 
-            <i class="bi bi-search search-icon"></i>
+            <i class="bi bi-search search-icon"
+               @click="searchData"></i>
 
             <input
 
                 type="text"
-
                 class="form-control"
-
-                placeholder="Search users, staff, treks..."
-
+                :placeholder="placeholder"
+                :disabled = "!searchEnabled"
+                v-model ="search"
+                @keyup.enter="searchData"
                 disabled
 
             >
 
         </div>
-
-        <!-- Right -->
-
         <div
             class="profile-avatar"
             @click="showProfile=true"
@@ -44,8 +38,6 @@
             {{ initials }}
 
         </div>
-
-        <!-- Admin Profile Panel -->
 
         <AdminProfilePanel
 
@@ -82,6 +74,7 @@ export default{
     data(){
 
         return{
+            search:"",
 
             showProfile:false,
 
@@ -95,6 +88,26 @@ export default{
 
             }
 
+        }
+
+    },
+
+    props:{
+
+        placeholder:{
+    
+            type:String,
+    
+            default:"Search..."
+    
+        },
+    
+        searchEnabled:{
+    
+            type:Boolean,
+    
+            default:true
+    
         }
 
     },
@@ -131,8 +144,6 @@ export default{
 
     methods:{
 
-        //--------------------------------------------------
-
         async loadProfile(){
 
             try{
@@ -158,8 +169,17 @@ export default{
             }
 
         },
+        searchData(){
 
-        //--------------------------------------------------
+            this.$emit(
+        
+                "search",
+        
+                this.search.trim()
+        
+            );
+        
+        },        
 
         logout(){
 
@@ -201,8 +221,6 @@ export default{
 
 }
 
-/* ================= Left ================= */
-
 h4{
 
     color:#212529;
@@ -212,9 +230,6 @@ h4{
     margin:0;
 
 }
-
-/* ================= Search ================= */
-
 .search-box{
 
     width:420px;
@@ -254,11 +269,9 @@ h4{
     color:#6c757d;
 
     font-size:15px;
+    cursor:pointer;
 
 }
-
-/* ================= Profile ================= */
-
 .profile-avatar{
 
     width:46px;
@@ -298,8 +311,6 @@ h4{
     box-shadow:0 4px 12px rgba(25,135,84,.3);
 
 }
-
-/* ================= Responsive ================= */
 
 @media(max-width:992px){
 

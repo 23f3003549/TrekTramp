@@ -1,8 +1,7 @@
 <template>
 
-    <MainLayout>
-
-        <!-- Page Header -->
+    <MainLayout
+    :searchEnabled="false" placeholder="">
 
         <div class="d-flex justify-content-between align-items-center mb-4">
 

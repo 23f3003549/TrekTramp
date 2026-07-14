@@ -2,14 +2,20 @@
 
     <div class="layout">
 
-        <!-- <div class="d-flex"> -->
-
             <Sidebar />
 
             <div class="main-content ">
                 
                 <header>
-                    <TopNavbar /> 
+                    <TopNavbar
+
+                        :placeholder="placeholder"
+                    
+                        :searchEnabled="searchEnabled"
+                    
+                        @search="handleSearch"
+
+                    />
                 </header>
 
                 <main class="p-4">
@@ -21,8 +27,6 @@
             </div>
 
         </div>
-
-    <!-- </div> -->
 
 </template>
 
@@ -36,6 +40,35 @@ export default {
     components : {
         Sidebar,
         TopNavbar
+    },
+    props:{
+
+        placeholder:{
+
+            type:String,
+
+            default:"Search..."
+
+        },
+
+        searchEnabled:{
+
+            type:Boolean,
+
+            default:true
+
+        }
+
+    },
+    emits:[
+        "search"
+    ],
+    methods:{
+        handleSearch(keyword){
+            this.$emit(
+                "search", keyword
+            );
+        }
     }
 }
 

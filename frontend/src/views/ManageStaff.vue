@@ -1,6 +1,9 @@
 <template>
 
-    <MainLayout>
+    <MainLayout
+    placeholder="Search Staff..."
+
+    @search="searchStaff">
 
         <div class="d-flex justify-content-between align-items-center mb-4">
 
@@ -192,11 +195,11 @@ export default{
 
     methods:{
 
-        async loadStaff(){
+        async loadStaff(search=""){
 
             try{
 
-                const response=await getAllStaff();
+                const response=await getAllStaff(search);
 
                 this.staffs=response.data.staffs;
 
@@ -277,6 +280,16 @@ export default{
         viewStaff(id){
 
             this.selectedStaffId=id;
+
+        },
+
+        async searchStaff(keyword){
+
+            await this.loadStaff(
+        
+                keyword
+        
+            );
 
         },
 

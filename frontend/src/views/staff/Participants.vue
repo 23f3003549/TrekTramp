@@ -6,11 +6,11 @@
 
     placeholder="Search Trek or Participant..."
 
-    @search="handleSearch"
+    @search="searchParticipants"
 
 >
 
-    <div v-if="filteredTreks.length===0" class="text-center py-5">
+    <div v-if="treks.length===0" class="text-center py-5">
 
         <h5 class="text-muted">
 
@@ -34,7 +34,7 @@
 
             class="accordion-item mb-3 shadow-sm"
 
-            v-for="(trek,index) in filteredTreks"
+            v-for="(trek,index) in treks"
 
             :key="trek.trek_id"
 
@@ -334,9 +334,8 @@ export default{
 
             treks:[],
 
-            searchText:"",
-
             selectedBooking:null,
+            // searchText:""
 
             loading:false
 
@@ -344,119 +343,128 @@ export default{
 
     },
 
-    computed:{
+    // computed:{
 
-        filteredTreks(){
+    //     filteredTreks(){
 
-            if(!this.searchText){
+    //         if(!this.searchText){
 
-                return this.treks;
+    //             return this.treks;
 
-            }
+    //         }
 
-            const keyword = this.searchText.toLowerCase();
+    //         const keyword = this.searchText.toLowerCase();
 
-            return this.treks
+    //         return this.treks
 
-                .map(trek=>{
+    //             .map(trek=>{
 
-                    const trekMatch =
+    //                 const trekMatch =
 
-                        trek.trek_name
+    //                     trek.trek_name
 
-                            .toLowerCase()
+    //                         .toLowerCase()
 
-                            .includes(keyword);
+    //                         .includes(keyword);
 
-                    const participants =
+    //                 const participants =
 
-                        trek.participants.filter(
+    //                     trek.participants.filter(
 
-                            participant=>
+    //                         participant=>
 
-                                participant.name
+    //                             participant.name
 
-                                    .toLowerCase()
+    //                                 .toLowerCase()
 
-                                    .includes(keyword)
+    //                                 .includes(keyword)
 
-                        );
+    //                     );
 
-                    if(trekMatch){
+    //                 if(trekMatch){
 
-                        return trek;
+    //                     return trek;
 
-                    }
+    //                 }
 
-                    if(participants.length>0){
+    //                 if(participants.length>0){
 
-                        return{
+    //                     return{
 
-                            ...trek,
+    //                         ...trek,
 
-                            participants
+    //                         participants
 
-                        };
+    //                     };
 
-                    }
+    //                 }
 
-                    return null;
+    //                 return null;
 
-                })
+    //             })
 
-                .filter(
+    //             .filter(
 
-                    trek=>trek!==null
+    //                 trek=>trek!==null
 
-                );
+    //             );
 
-        }
+    //     }
 
-    },
+    // },
 
     methods:{
 
-        // ---------------- Load Participants ----------------
-
-        async loadParticipants(){
+        async loadParticipants(search=""){
 
             this.loading=true;
-
+            
+        
             try{
-
-                const response = await getAllAssignedParticipants();
-
-                this.treks = response.data.treks;
-
-            }
-
-            catch(error){
-
-                console.error(error);
-
-                alert(
-
-                    error.response?.data?.message ||
-
-                    "Unable to load participants."
-
+                console.log("API Search:", search);
+        
+                const response = await getAllAssignedParticipants(
+        
+                    search
+        
                 );
-
+                  console.log(response.data);
+        
+                this.treks = response.data.treks;
+               
+        
             }
-
+        
+            catch(error){
+        
+                console.error(error);
+        
+                alert(
+        
+                    error.response?.data?.message ||
+        
+                    "Unable to load participants."
+        
+                );
+        
+            }
+        
             finally{
-
+        
                 this.loading=false;
-
+        
             }
-
+        
         },
 
-        // ---------------- Search ----------------
+        async searchParticipants(keyword){
+             console.log("Searching:", keyword);
 
-        handleSearch(value){
-
-            this.searchText = value;
+            await this.loadParticipants(
+        
+                keyword
+        
+            );
 
         },
 

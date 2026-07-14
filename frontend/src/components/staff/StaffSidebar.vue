@@ -2,7 +2,7 @@
 
 <div class="sidebar d-flex flex-column">
 
-    <!-- Logo -->
+    <!-- Logo
      <h6 class="mt-2 mb-0">
 
     {{ staffName }}
@@ -13,7 +13,7 @@
 
     Trek Staff
 
-</small>
+</small> -->
 
     <div class="logo-section">
 
@@ -23,11 +23,11 @@
 
         </h3>
 
-        <small class="text-light">
+        <!-- <small class="text-light">
 
             Staff Panel
 
-        </small>
+        </small> -->
 
     </div>
 
