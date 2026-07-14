@@ -94,27 +94,36 @@
 
         </button>
 
+        <button
+        class="btn btn-outline-success export-btn"
+        @click="exportBookingHistory"
+    >
+        <i class="bi bi-download me-2"></i>
+        Export CSV
+    </button>
+
     </div>
 
     <!-- ===================== Heading ===================== -->
 
-    <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="booking-header">
 
-        <h5 class="mb-0 fw-bold">
+    <h4 class="page-title">
+        My Trek Bookings
+    </h4>
 
-            My Trek Bookings
+    <div class="header-actions">
 
-        </h5>
+        <span class="booking-count">
 
-        <span class="text-muted">
-
-            Showing {{ filteredBookings.length }}
-
-            Trek(s)
+            Showing {{ filteredBookings.length }} Trek(s)
 
         </span>
 
+
     </div>
+
+</div>
 
     <!-- ===================== Booking Cards ===================== -->
 
@@ -242,7 +251,7 @@
 
 import TrekkerLayout from "../../layouts/TrekkerLayout.vue";
 import BookingCard from "../../components/trekker/BookingCard.vue";
-import { getMyBookings, cancelBooking, payBooking, submitReview, bookTrek } from "../../services/trekker.js"; 
+import { getMyBookings, cancelBooking, payBooking, submitReview, bookTrek, exportBookings } from "../../services/trekker.js"; 
 import TrekDetailsPanel from "../../components/trek/TrekDetailsPanel.vue";
 import ReviewModal from "../../components/trekker/ReviewModal.vue";
 
@@ -482,6 +491,34 @@ export default{
 
         },
 
+        async exportBookingHistory(){
+
+            try{
+        
+                const response = await exportBookings();
+        
+                alert(
+        
+                    response.data.message
+        
+                );
+        
+            }
+        
+            catch(error){
+        
+                alert(
+        
+                    error.response?.data?.message ||
+        
+                    "Unable to export booking history."
+        
+                );
+        
+            }
+        
+        }
+
     },
 
     mounted(){
@@ -493,3 +530,151 @@ export default{
 }
 
 </script>
+
+<style scoped>
+
+/* ================= Header ================= */
+
+.booking-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:28px;
+
+    flex-wrap:wrap;
+
+    gap:15px;
+
+}
+
+.page-title{
+
+    font-weight:700;
+
+    color:#212529;
+
+    margin:0;
+
+}
+
+.header-actions{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+}
+
+.booking-count{
+
+    color:#6c757d;
+
+    font-size:15px;
+
+    font-weight:500;
+
+}
+
+/* ================= Export Button ================= */
+
+.export-btn{
+
+    border-radius:12px;
+
+    padding:10px 18px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.export-btn:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 8px 20px rgba(25,135,84,.18);
+
+}
+
+/* ================= Filter Buttons ================= */
+
+.btn{
+
+    border-radius:12px;
+
+    font-weight:600;
+
+}
+
+/* ================= Empty State ================= */
+
+.text-center{
+
+    animation:fadeIn .4s ease;
+
+}
+
+.text-center h3{
+
+    font-weight:700;
+
+}
+
+.text-center p{
+
+    font-size:15px;
+
+}
+
+/* ================= Responsive ================= */
+
+@media(max-width:768px){
+
+    .booking-header{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+    }
+
+    .header-actions{
+
+        width:100%;
+
+        justify-content:space-between;
+
+    }
+
+}
+
+/* ================= Animation ================= */
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(10px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+</style>

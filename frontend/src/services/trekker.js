@@ -83,5 +83,16 @@ export function updateReview(trekId, data){
 
     );
 
+
+}
+
+export function exportBookings(){
+
+    return api.post(
+
+        "/user/export-bookings"
+
+    );
+
 }
 
