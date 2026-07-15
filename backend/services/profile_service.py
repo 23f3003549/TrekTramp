@@ -103,11 +103,6 @@ def update_profile(user_id, data):
             "message": "Phone number already exists."
         }, 409
 
-
-    # ============================================================
-    # STAFF / ADMIN
-    # ============================================================
-
     if user.role in ["staff", "admin"]:
 
         user.phone = phone

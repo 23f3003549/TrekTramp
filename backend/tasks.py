@@ -203,7 +203,7 @@ Team TrekTramp
 @celery.task(name="tasks.monthly_admin_report")
 def monthly_admin_report():
 
-    # ---------------- Dashboard ----------------
+  
 
     total_treks = Trek.query.filter_by(
         is_deleted=False
@@ -219,7 +219,7 @@ def monthly_admin_report():
 
     total_bookings = Booking.query.count()
 
-    # ---------------- Booking Statistics ----------------
+   
 
     booked = Booking.query.filter_by(
         booking_status="booked"
@@ -233,7 +233,7 @@ def monthly_admin_report():
         booking_status="cancelled"
     ).count()
 
-    # ---------------- Payment Statistics ----------------
+   
 
     paid = Booking.query.filter_by(
         payment_status="paid"
@@ -247,7 +247,6 @@ def monthly_admin_report():
         payment_status="refunded"
     ).count()
 
-    # ---------------- Revenue ----------------
 
     revenue = 0
 
@@ -263,7 +262,7 @@ def monthly_admin_report():
 
             revenue += trek.price
 
-    # ---------------- Popular Treks ----------------
+    
 
     trek_stats = []
 
@@ -346,7 +345,6 @@ def monthly_admin_report():
 
     """
 
-    # ---------------- Send Mail ----------------
 
     msg = Message(
 
@@ -398,7 +396,7 @@ def auto_cancel_pending_bookings():
 
             continue
 
-        # ---------------- Cancel Booking ----------------
+     
 
         booking.booking_status = "cancelled"
 
@@ -408,7 +406,7 @@ def auto_cancel_pending_bookings():
 
         booking.status_reason = "Payment not completed within 15 minutes."
 
-        # ---------------- Release Slot ----------------
+ 
 
         if trek.available_slots < trek.max_slots:
 
@@ -416,7 +414,7 @@ def auto_cancel_pending_bookings():
 
         cancelled += 1
 
-        # ---------------- Send Email ----------------
+    
 
         try:
 

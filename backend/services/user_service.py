@@ -258,6 +258,7 @@ def book_trek(user_id, trek_id):
 
 
             db.session.commit()
+            cache.delete_memoized(browse_treks)
 
             return{
 
@@ -297,6 +298,7 @@ def book_trek(user_id, trek_id):
     db.session.add(booking)
 
     db.session.commit()
+    cache.delete_memoized(browse_treks)
 
     return{
 
@@ -407,8 +409,7 @@ def get_my_bookings(user_id, search=""):
 
         has_review = review is not None
 
-        # ---------------- Status ----------------
-
+    
         if booking.booking_status == "cancelled":
 
             current_status = "Cancelled"
@@ -545,6 +546,7 @@ def cancel_booking(user_id, booking_id):
     trek.available_slots += 1
 
     db.session.commit()
+    cache.delete_memoized(browse_treks)
 
     return {
 

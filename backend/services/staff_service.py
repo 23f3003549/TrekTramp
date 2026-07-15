@@ -243,7 +243,7 @@ def staff_assignment(data):
 
     for assignment in active_assignments:
 
-        # Ignore if checking the same trek
+       
         if assignment.trek_id == trek.id:
             continue
 
@@ -266,7 +266,6 @@ def staff_assignment(data):
             }, 409
     existing_assignment = StaffAssign.query.filter_by(
         trek_id=trek.id,
-        status="active"
     ).first()
 
     if existing_assignment:
@@ -347,7 +346,6 @@ def get_available_staff():
             status="active"
         ).first()
 
-        # No active assignment -> available
         if assignment is None:
 
             available.append({
@@ -362,13 +360,12 @@ def get_available_staff():
 
             continue
 
-        # Check whether the assigned trek still exists
         trek = Trek.query.filter_by(
             id=assignment.trek_id,
             is_deleted=False
         ).first()
 
-        # Trek is deleted -> release staff automatically
+  
         if trek is None:
 
             assignment.status = "cancelled"
@@ -723,9 +720,6 @@ def get_dashboard_statistics(user_id):
 
 #---------------------------my assigned treks---------------------------
 
-from sqlalchemy import or_
-from datetime import datetime
-
 def get_my_treks(user_id, search=""):
 
     staff = User.query.filter_by(
@@ -772,7 +766,7 @@ def get_my_treks(user_id, search=""):
         ).first()
 
 
-        # Trek deleted
+       
         if trek is None:
 
             assignment.status = "cancelled"
@@ -784,7 +778,7 @@ def get_my_treks(user_id, search=""):
             continue
 
 
-        # ---------------- Search ----------------
+ 
 
         if search:
 
@@ -838,8 +832,6 @@ def get_my_treks(user_id, search=""):
 
         }
 
-
-        # ---------------- Categorize ----------------
 
         if assignment.status == "cancelled" or trek.status == "cancelled":
 
@@ -1030,7 +1022,6 @@ def update_trek_status(user_id, trek_id, data):
             "message":"Invalid trek status."
         },400
 
-    # OPEN -> STARTED
 
     if status=="started":
 
@@ -1042,7 +1033,7 @@ def update_trek_status(user_id, trek_id, data):
 
         trek.status="started"
 
-    # STARTED -> COMPLETED
+
 
     elif status=="completed":
 
@@ -1067,7 +1058,7 @@ def update_trek_status(user_id, trek_id, data):
 
             booking.booking_status="completed"
 
-    # CANCEL
+
 
     elif status=="cancelled":
 
@@ -1505,10 +1496,6 @@ def update_participant(user_id, booking_id, data):
     reason = data.get("status_reason","").strip()
 
 
-    # ----------------------------------------------------
-    # Validate Booking Status
-    # ----------------------------------------------------
-
     allowed_booking_status = [
 
         "booked",
@@ -1527,11 +1514,6 @@ def update_participant(user_id, booking_id, data):
 
         },400
 
-
-    # ----------------------------------------------------
-    # Validate User Status
-    # ----------------------------------------------------
-
     if user_status not in [
 
         "active",
@@ -1546,10 +1528,6 @@ def update_participant(user_id, booking_id, data):
 
         },400
 
-
-    # ----------------------------------------------------
-    # Prevent Impossible Combination
-    # ----------------------------------------------------
 
     if(
 
@@ -1567,19 +1545,10 @@ def update_participant(user_id, booking_id, data):
 
         },400
 
-
-    # ----------------------------------------------------
-    # Booking Completed
-    # ----------------------------------------------------
-
     if booking_status == "completed":
 
         booking.booking_status = "completed"
 
-
-    # ----------------------------------------------------
-    # Booking Cancelled
-    # ----------------------------------------------------
 
     elif(
 
@@ -1611,21 +1580,12 @@ def update_participant(user_id, booking_id, data):
 
             booking.payment_status = "refunded"
 
-
-    # ----------------------------------------------------
-    # User Active
-    # ----------------------------------------------------
-
     if user_status == "active":
 
         user.status = "active"
 
         user.status_reason = None
 
-
-    # ----------------------------------------------------
-    # User Inactive
-    # ----------------------------------------------------
 
     else:
 
@@ -1716,10 +1676,6 @@ def get_all_assigned_participants(user_id, search=""):
             continue
 
 
-        # ----------------------------------------------------
-        # Search Trek Name / Location
-        # ----------------------------------------------------
-
         trek_match = False
 
         if search:
@@ -1736,10 +1692,6 @@ def get_all_assigned_participants(user_id, search=""):
 
             )
 
-
-        # ----------------------------------------------------
-        # Booking + User Query
-        # ----------------------------------------------------
 
         query = (
 
@@ -1767,9 +1719,6 @@ def get_all_assigned_participants(user_id, search=""):
 
         )
 
-
-        # If trek name/location didn't match,
-        # search participant details instead.
 
         if search and not trek_match:
 
@@ -1828,12 +1777,6 @@ def get_all_assigned_participants(user_id, search=""):
 
             })
 
-
-        # ----------------------------------------------------
-        # Only include trek if:
-        # 1. Trek matched search
-        # 2. OR participants matched
-        # ----------------------------------------------------
 
         if trek_match or participant_list:
 

@@ -4,12 +4,8 @@ from celery.schedules import crontab
 from app import create_app
 
 
-# ---------------- Flask App ----------------
-
 flask_app = create_app()
 
-
-# ---------------- Celery Factory ----------------
 
 def make_celery(app):
 
@@ -25,17 +21,12 @@ def make_celery(app):
 
     celery.conf.update(app.config)
 
-    # ---------------- Timezone ----------------
-
     celery.conf.timezone = "Asia/Kolkata"
 
     celery.conf.enable_utc = False
 
-    # ---------------- Beat Schedule ----------------
-
     celery.conf.beat_schedule = {
 
-        # Daily Reminder (Every day at 8:00 AM)
 
         "daily-trek-reminder": {
 
@@ -79,8 +70,6 @@ def make_celery(app):
 
     }
 
-    # ---------------- Flask Context ----------------
-
     class ContextTask(celery.Task):
 
         def __call__(self, *args, **kwargs):
@@ -94,11 +83,7 @@ def make_celery(app):
     return celery
 
 
-# ---------------- Celery Object ----------------
-
 celery = make_celery(flask_app)
 
-
-# ---------------- Import Tasks ----------------
 
 import tasks

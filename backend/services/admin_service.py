@@ -22,10 +22,7 @@ def create_staff(data):
     name = data.get("name")
     email = data.get("email")
     alphabet = string.ascii_letters + string.digits + "@#$%&"
-    password = "".join(
-    secrets.choice(alphabet)
-    for _ in range(10)
-    )
+    password = "Newstaff@123"
     name = name.strip()
     email = email.strip().lower()
 
@@ -347,16 +344,11 @@ def update_staff_account_status(staff_id, data):
         },400
 
 
-    # ---------------- Activate ----------------
-
     if status == "active":
 
         staff.status = "active"
 
         staff.status_reason = None
-
-
-    # ---------------- Inactive ----------------
 
     elif status == "inactive":
 
@@ -377,9 +369,6 @@ def update_staff_account_status(staff_id, data):
             assignment.status = "cancelled"
 
             assignment.released_at = datetime.utcnow()
-
-
-    # ---------------- Blacklisted ----------------
 
     else:
 
@@ -539,7 +528,7 @@ def get_user_details(user_id):
 
     },200
 
-#------------------------------------ Update User Account Status ------------------------------------
+#-------------------- Update User Account Status --------------
 
 def update_user_account_status(user_id, data):
 
@@ -581,7 +570,6 @@ def update_user_account_status(user_id, data):
 
         },400
 
-    # Update user status
 
     user.status = status
     
@@ -592,8 +580,6 @@ def update_user_account_status(user_id, data):
     else:
     
         user.status_reason = reason if reason else None
-    
-        # Cancel all active bookings
     
         bookings = Booking.query.filter_by(
     
@@ -641,7 +627,7 @@ def update_user_account_status(user_id, data):
 
 from sqlalchemy import or_
 
-#------------------------------------ Get All Users ------------------------------------
+#--------------------------- Get All Users -----------------------
 
 def get_all_users(search=""):
 
@@ -699,7 +685,7 @@ def get_all_users(search=""):
 
     },200
 
-#------------------------------------ Get Single User ------------------------------------
+#------------------- Get Single User -----------------------
 
 def get_user(user_id):
 
@@ -741,7 +727,7 @@ def get_user(user_id):
 
     },200
 
-#------------------------------------ Get All Bookings ------------------------------------
+#------------------------Get All Bookings ---------------------
 
 def get_all_bookings(search=""):
 
@@ -868,7 +854,7 @@ def get_all_bookings(search=""):
         "treks":trek_list
 
     },200
-#--------------------------- Get Booking Details ------------------------------------
+#--------------------------- Get Booking Details ---------------------
 
 def get_booking_details(booking_id):
 
@@ -958,7 +944,7 @@ def get_booking_details(booking_id):
 
     },200
 
-#------------------------------------ Update Booking ------------------------------------
+#--------------------------Update Booking -------------
 
 def update_booking(booking_id, data):
 
@@ -1041,11 +1027,9 @@ def update_booking(booking_id, data):
 
     },200
 
-#------------------------------------ Reports Dashboard ------------------------------------
+#-------------------------- Reports Dashboard -------------------
 
 def get_reports():
-
-    # ---------------- Dashboard ----------------
 
     total_treks = Trek.query.filter_by(
 
@@ -1067,8 +1051,6 @@ def get_reports():
 
     total_bookings = Booking.query.count()
 
-    # ---------------- Booking Statistics ----------------
-
     booked = Booking.query.filter_by(
 
         booking_status="booked"
@@ -1086,8 +1068,6 @@ def get_reports():
         booking_status="cancelled"
 
     ).count()
-
-    # ---------------- Payment Statistics ----------------
 
     paid = Booking.query.filter_by(
 
@@ -1107,8 +1087,6 @@ def get_reports():
 
     ).count()
 
-    # ---------------- Revenue ----------------
-
     revenue = 0
 
     for booking in Booking.query.filter_by(
@@ -1127,7 +1105,6 @@ def get_reports():
 
             revenue += trek.price
 
-    # ---------------- Popular Trek ----------------
 
     trek_stats = []
 
@@ -1160,8 +1137,6 @@ def get_reports():
         reverse=True
 
     )
-
-    # ---------------- Staff Statistics ----------------
 
     staff_statistics = []
 
@@ -1284,7 +1259,7 @@ def get_reports():
 
     },200
 
-#-------------------------------- Export Users Report -------------------------------
+#-------------------------------- Export Users Report --------------
 
 def export_users_report():
 
@@ -1356,7 +1331,7 @@ def export_users_report():
 
     return response
 
-#-------------------------------- Export Staff Report -------------------------------
+#---------------------------- Export Staff Report --------------
 
 def export_staff_report():
 
@@ -1422,7 +1397,7 @@ def export_staff_report():
 
     return response
 
-#-------------------------------- Export Booking Report -------------------------------
+#------------------------ Export Booking Report ----------------------
 
 def export_booking_report():
 
@@ -1494,7 +1469,7 @@ def export_booking_report():
 
     return response
 
-#-------------------------------- Export Trek Report -------------------------------
+#-------------------------------- Export Trek Report ------------
 
 def export_trek_report():
 
@@ -1558,7 +1533,7 @@ def export_trek_report():
 
     return response
 
-#---------------------------------- Get Admin Profile ----------------------------------
+#------------------------ Get Admin Profile ---------------------
 
 def get_admin_profile(admin_id):
 
@@ -1594,7 +1569,7 @@ def get_admin_profile(admin_id):
 
     },200
 
-#---------------------------------- Update Admin Profile ----------------------------------
+#------------------------ Update Admin Profile -------------------
 
 def update_admin_profile(admin_id,data):
 
@@ -1670,7 +1645,7 @@ def update_admin_profile(admin_id,data):
 
     },200
 
-#---------------------------------- Change Admin Password ----------------------------------
+#------------------- Change Admin Password -----------------------
 
 def change_admin_password(admin_id,data):
 

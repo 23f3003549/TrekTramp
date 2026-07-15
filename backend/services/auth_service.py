@@ -6,6 +6,7 @@ from extensions import db
 
 from models.user import User
 
+#----------------register------------------
 def register(data):
     name = data.get("name")
     email = data.get("email")
