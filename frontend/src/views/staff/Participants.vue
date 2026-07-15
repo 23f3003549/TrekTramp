@@ -40,8 +40,6 @@
 
         >
 
-            <!-- Accordion Header -->
-
             <h2
 
                 class="accordion-header"
@@ -124,7 +122,6 @@
 
             </h2>
 
-            <!-- Accordion Body -->
 
             <div
 
@@ -286,7 +283,6 @@
 
     </div>
 
-    <!-- Participant Details -->
 
     <ParticipantDetailsPanel
 
@@ -343,75 +339,6 @@ export default{
 
     },
 
-    // computed:{
-
-    //     filteredTreks(){
-
-    //         if(!this.searchText){
-
-    //             return this.treks;
-
-    //         }
-
-    //         const keyword = this.searchText.toLowerCase();
-
-    //         return this.treks
-
-    //             .map(trek=>{
-
-    //                 const trekMatch =
-
-    //                     trek.trek_name
-
-    //                         .toLowerCase()
-
-    //                         .includes(keyword);
-
-    //                 const participants =
-
-    //                     trek.participants.filter(
-
-    //                         participant=>
-
-    //                             participant.name
-
-    //                                 .toLowerCase()
-
-    //                                 .includes(keyword)
-
-    //                     );
-
-    //                 if(trekMatch){
-
-    //                     return trek;
-
-    //                 }
-
-    //                 if(participants.length>0){
-
-    //                     return{
-
-    //                         ...trek,
-
-    //                         participants
-
-    //                     };
-
-    //                 }
-
-    //                 return null;
-
-    //             })
-
-    //             .filter(
-
-    //                 trek=>trek!==null
-
-    //             );
-
-    //     }
-
-    // },
 
     methods:{
 
@@ -468,15 +395,11 @@ export default{
 
         },
 
-        // ---------------- Open Details ----------------
-
         viewParticipant(bookingId){
 
             this.selectedBooking = bookingId;
 
         },
-
-        // ---------------- Booking Status Badge ----------------
 
         bookingStatusClass(status){
 
@@ -506,8 +429,7 @@ export default{
 
         },
 
-        // ---------------- Payment Status Badge ----------------
-
+    
         paymentStatusClass(status){
 
             switch(status){
@@ -531,8 +453,6 @@ export default{
             }
 
         },
-
-        // ---------------- Trek Status Badge ----------------
 
         statusClass(status){
 
@@ -576,8 +496,6 @@ export default{
 
 <style scoped>
 
-/* ================= Page ================= */
-
 .accordion{
 
     --bs-accordion-border-color:#e9ecef;
@@ -585,8 +503,6 @@ export default{
     --bs-accordion-btn-focus-box-shadow:none;
 
 }
-
-/* ================= Accordion ================= */
 
 .accordion-item{
 
@@ -632,8 +548,6 @@ export default{
 
 }
 
-/* ================= Table ================= */
-
 .participant-table{
 
     max-height:420px;
@@ -643,8 +557,6 @@ export default{
     overflow-x:auto;
 
 }
-
-/* Sticky Header */
 
 thead{
 
@@ -670,8 +582,6 @@ thead th{
 
 }
 
-/* Table Rows */
-
 tbody td{
 
     vertical-align:middle;
@@ -692,8 +602,6 @@ tbody tr:hover{
 
 }
 
-/* ================= Badges ================= */
-
 .badge{
 
     padding:8px 12px;
@@ -707,8 +615,6 @@ tbody tr:hover{
     text-transform:capitalize;
 
 }
-
-/* ================= Buttons ================= */
 
 .btn-success{
 
@@ -732,8 +638,6 @@ tbody tr:hover{
 
 }
 
-/* ================= Scrollbar ================= */
-
 .participant-table::-webkit-scrollbar{
 
     width:8px;
@@ -756,15 +660,11 @@ tbody tr:hover{
 
 }
 
-/* ================= Empty State ================= */
-
 .text-muted{
 
     font-size:15px;
 
 }
-
-/* ================= Responsive ================= */
 
 @media(max-width:768px){
 

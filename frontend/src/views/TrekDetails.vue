@@ -58,7 +58,7 @@
     
             <div v-else-if="role==='staff'">
 
-                <!-- OPEN TREK -->
+       
             
                 <div v-if="trekStatus==='open'">
             
@@ -128,7 +128,7 @@
             
                 </div>
             
-                <!-- STARTED TREK -->
+        
             
                 <div v-else-if="trekStatus==='started'">
             
@@ -157,8 +157,6 @@
                     </button>
             
                 </div>
-            
-                <!-- COMPLETED / CANCELLED -->
             
                 <div v-else>
             

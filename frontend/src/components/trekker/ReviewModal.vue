@@ -10,8 +10,6 @@
 
 >
 
-    <!-- Header -->
-
     <div class="offcanvas-header">
 
         <div>
@@ -42,8 +40,6 @@
 
     <div class="offcanvas-body">
 
-        <!-- Trek Information -->
-
         <div class="text-center mb-4">
 
             <h4 class="fw-bold">
@@ -63,8 +59,6 @@
         </div>
 
         <hr>
-
-        <!-- Rating -->
 
         <div class="mb-4">
 
@@ -118,8 +112,6 @@
 
         </div>
 
-        <!-- Comment -->
-
         <div class="mb-4">
 
             <label class="form-label fw-semibold">
@@ -157,8 +149,6 @@
             </div>
 
         </div>
-
-        <!-- Buttons -->
 
         <div class="d-grid gap-2">
 
@@ -270,8 +260,6 @@ export default{
 
     methods:{
 
-        // ---------------- Load Existing Review ----------------
-
         async loadReview(){
 
             if(!this.booking.has_review){
@@ -309,8 +297,6 @@ export default{
             }
 
         },
-
-        // ---------------- Submit / Update ----------------
 
         async saveReview(){
 
@@ -384,8 +370,6 @@ export default{
 
         },
 
-        // ---------------- Close ----------------
-
         closePanel(){
 
             this.offcanvas.hide();
@@ -426,8 +410,6 @@ export default{
 
 <style scoped>
 
-/* ================= Offcanvas ================= */
-
 .offcanvas{
 
     width:500px;
@@ -437,8 +419,6 @@ export default{
     border-bottom-left-radius:20px;
 
 }
-
-/* ================= Header ================= */
 
 .offcanvas-header{
 
@@ -455,16 +435,11 @@ export default{
     color:#198754;
 
 }
-
-/* ================= Body ================= */
-
 .offcanvas-body{
 
     padding:1.5rem;
 
 }
-
-/* ================= Trek Information ================= */
 
 .text-center h4{
 
@@ -480,8 +455,6 @@ export default{
 
 }
 
-/* ================= Divider ================= */
-
 hr{
 
     opacity:.15;
@@ -490,7 +463,6 @@ hr{
 
 }
 
-/* ================= Form Labels ================= */
 
 .form-label{
 
@@ -501,8 +473,6 @@ hr{
     margin-bottom:.8rem;
 
 }
-
-/* ================= Rating Stars ================= */
 
 .stars{
 
@@ -542,8 +512,6 @@ hr{
 
 }
 
-/* ================= Textarea ================= */
-
 textarea{
 
     resize:none;
@@ -564,15 +532,11 @@ textarea:focus{
 
 }
 
-/* ================= Character Counter ================= */
-
 .text-end small{
 
     font-size:.82rem;
 
 }
-
-/* ================= Buttons ================= */
 
 .btn{
 
@@ -600,8 +564,6 @@ textarea:focus{
 
 }
 
-/* ================= Validation ================= */
-
 .text-danger{
 
     display:block;
@@ -611,8 +573,6 @@ textarea:focus{
     font-size:.88rem;
 
 }
-
-/* ================= Mobile ================= */
 
 @media(max-width:768px){
 

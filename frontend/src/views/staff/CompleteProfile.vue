@@ -28,8 +28,6 @@
 
                     <form @submit.prevent="saveProfile">
 
-                        <!-- Name -->
-
                         <div class="mb-3">
 
                             <label class="form-label">
@@ -49,8 +47,6 @@
                             >
 
                         </div>
-
-                        <!-- Email -->
 
                         <div class="mb-3">
 
@@ -72,8 +68,7 @@
 
                         </div>
 
-                        <!-- Phone -->
-
+                    
                         <div class="mb-3">
 
                             <label class="form-label">
@@ -96,8 +91,6 @@
 
                         </div>
 
-                        <!-- Age -->
-
                         <div class="mb-3">
 
                             <label class="form-label">
@@ -119,8 +112,6 @@
                             >
 
                         </div>
-
-                        <!-- Gender -->
 
                         <div class="mb-3">
 
@@ -168,8 +159,6 @@
 
                         </div>
 
-                        <!-- Password -->
-
                         <div class="mb-3">
 
                             <label class="form-label">
@@ -191,8 +180,6 @@
                             >
 
                         </div>
-
-                        <!-- Confirm Password -->
 
                         <div class="mb-4">
 

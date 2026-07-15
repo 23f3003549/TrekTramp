@@ -6,8 +6,6 @@
         ref="offcanvasElement"
     >
 
-        <!-- Header -->
-
         <div class="offcanvas-header bg-success text-white">
 
             <h4 class="offcanvas-title">
@@ -29,11 +27,8 @@
 
         </div>
 
-        <!-- Body -->
 
         <div class="offcanvas-body">
-
-            <!-- Loading -->
 
             <div
                 v-if="loading"
@@ -44,8 +39,7 @@
 
             </div>
 
-            <!-- ================= VIEW PROFILE ================= -->
-
+            
             <div
                 v-else-if="mode==='view'"
             >
@@ -146,8 +140,6 @@
 
             </div>
 
-            <!-- ================= EDIT PROFILE ================= -->
-
             <div
                 v-else-if="mode==='edit'"
             >
@@ -213,8 +205,6 @@
                 </form>
 
             </div>
-
-            <!-- ================= CHANGE PASSWORD ================= -->
 
             <div
                 v-else
@@ -398,8 +388,6 @@ export default{
 
     methods:{
 
-        //--------------------------------------------------
-
         async loadProfile(){
 
             this.loading = true;
@@ -441,8 +429,6 @@ export default{
             }
 
         },
-
-        //--------------------------------------------------
 
         async saveProfile(){
 
@@ -489,8 +475,6 @@ export default{
             }
 
         },
-
-        //--------------------------------------------------
 
         async updatePassword(){
 
@@ -546,8 +530,6 @@ export default{
 
         },
 
-        //--------------------------------------------------
-
         closePanel(){
 
             this.offcanvas.hide();
@@ -594,15 +576,11 @@ export default{
 
 }
 
-/* ================= HEADER ================= */
-
 .offcanvas-header{
 
     border-bottom:1px solid #dee2e6;
 
 }
-
-/* ================= AVATAR ================= */
 
 .profile-avatar{
 
@@ -634,8 +612,6 @@ export default{
 
 }
 
-/* ================= CARD ================= */
-
 .card{
 
     border:none;
@@ -662,8 +638,6 @@ export default{
 
 }
 
-/* ================= FORM ================= */
-
 .form-label{
 
     font-weight:600;
@@ -688,8 +662,6 @@ export default{
 
 }
 
-/* ================= BUTTONS ================= */
-
 .btn{
 
     border-radius:10px;
@@ -700,8 +672,6 @@ export default{
 
 }
 
-/* ================= BADGE ================= */
-
 .badge{
 
     font-size:13px;
@@ -711,8 +681,6 @@ export default{
     border-radius:20px;
 
 }
-
-/* ================= PASSWORD SECTION ================= */
 
 h5{
 
@@ -728,8 +696,6 @@ hr{
 
 }
 
-/* ================= SPINNER ================= */
-
 .spinner-border{
 
     width:3rem;
@@ -737,8 +703,6 @@ hr{
     height:3rem;
 
 }
-
-/* ================= MOBILE ================= */
 
 @media(max-width:576px){
 

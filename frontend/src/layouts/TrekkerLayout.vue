@@ -2,19 +2,15 @@
 
 <div class="d-flex">
 
-    <!-- Sidebar -->
 
     <TrekkerSidebar />
 
-    <!-- Main Content -->
-
-    <div class="flex-grow-1 bg-light min-vh-100">
-
-        <!-- Navbar -->
+    <div class="main-content">
+      
 
         <div class="p-3 pb-0">
 
-            <TrekkerNavbar
+            <TrekkerNavbar 
 
                 :title="title"
 
@@ -28,9 +24,8 @@
 
         </div>
 
-        <!-- Page Content -->
 
-        <div class="p-3">
+        <div class="page-content">
 
             <slot></slot>
 
@@ -119,6 +114,16 @@ export default{
 
     background:#f8f9fa !important;
 
+}
+.main-content{
+    margin-left: 260px;
+    width: 100%;
+    min-height: 100vh;
+    background: #f8f9fa;
+
+}
+.page-content{
+    padding:25px
 }
 
 </style>

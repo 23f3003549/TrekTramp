@@ -2,7 +2,6 @@
 
 <div class="row g-4">
 
-    <!-- Upcoming Bookings -->
 
     <div class="col-md-4">
 
@@ -34,8 +33,6 @@
 
     </div>
 
-    <!-- Completed Treks -->
-
     <div class="col-md-4">
 
         <div class="card stat-card shadow-sm">
@@ -65,8 +62,6 @@
         </div>
 
     </div>
-
-    <!-- Reviews Given -->
 
     <div class="col-md-4">
 

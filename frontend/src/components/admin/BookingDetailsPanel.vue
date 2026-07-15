@@ -6,8 +6,6 @@
     ref="offcanvasElement"
 >
 
-    <!-- Header -->
-
     <div class="offcanvas-header bg-success text-white">
 
         <h4 class="offcanvas-title">
@@ -25,8 +23,6 @@
 
     <div class="offcanvas-body">
 
-        <!-- Loading -->
-
         <div
             v-if="loading"
             class="text-center py-5"
@@ -36,15 +32,9 @@
 
         </div>
 
-        <!-- Content -->
-
         <template
             v-else-if="booking"
         >
-
-            <!-- ======================================= -->
-            <!-- User Information -->
-            <!-- ======================================= -->
 
             <div class="card shadow-sm mb-4">
 
@@ -146,11 +136,6 @@
                 </div>
 
             </div>
-
-            <!-- ======================================= -->
-            <!-- Trek Information -->
-            <!-- ======================================= -->
-
             <div class="card shadow-sm mb-4">
 
                 <div class="card-header bg-success text-white">
@@ -237,10 +222,6 @@
 
             </div>
 
-            <!-- ======================================= -->
-            <!-- Booking Information -->
-            <!-- ======================================= -->
-
             <div class="card shadow-sm mb-4">
 
                 <div class="card-header bg-success text-white">
@@ -324,11 +305,6 @@
                 </div>
 
             </div>
-
-            <!-- ======================================= -->
-            <!-- Booking Management -->
-            <!-- ======================================= -->
-
             <div class="card shadow-sm">
 
                 <div class="card-header bg-success text-white">
@@ -469,8 +445,6 @@ export default{
 
     methods:{
 
-        //--------------------------------------------------
-
         async loadBooking(){
 
             this.loading=true;
@@ -519,16 +493,11 @@ export default{
 
         },
 
-        //--------------------------------------------------
-
         closePanel(){
 
             this.offcanvas.hide();
 
         },
-
-        //--------------------------------------------------
-
         async updateBooking(){
 
             if(
@@ -648,8 +617,6 @@ export default{
 
 <style scoped>
 
-/* ---------------- Offcanvas ---------------- */
-
 .offcanvas{
 
     width:550px;
@@ -661,8 +628,6 @@ export default{
     background:#f8f9fa;
 
 }
-
-/* ---------------- Card ---------------- */
 
 .card{
 
@@ -682,8 +647,6 @@ export default{
 
 }
 
-/* ---------------- Typography ---------------- */
-
 strong{
 
     color:#198754;
@@ -702,8 +665,6 @@ p{
 
 }
 
-/* ---------------- Form ---------------- */
-
 .form-control,
 
 .form-select{
@@ -718,8 +679,6 @@ textarea{
 
 }
 
-/* ---------------- Buttons ---------------- */
-
 .btn{
 
     border-radius:10px;
@@ -727,8 +686,6 @@ textarea{
     font-weight:500;
 
 }
-
-/* ---------------- Badge ---------------- */
 
 .badge{
 
@@ -742,8 +699,6 @@ textarea{
 
 }
 
-/* ---------------- Loading ---------------- */
-
 .spinner-border{
 
     width:3rem;
@@ -751,8 +706,6 @@ textarea{
     height:3rem;
 
 }
-
-/* ---------------- Disabled ---------------- */
 
 .form-select:disabled,
 
@@ -771,8 +724,6 @@ textarea{
     cursor:not-allowed;
 
 }
-
-/* ---------------- Responsive ---------------- */
 
 @media (max-width:768px){
 

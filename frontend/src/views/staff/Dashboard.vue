@@ -7,7 +7,6 @@
     :searchEnabled="false"
 
 >
-
     <DashboardCards />
 
 </StaffLayout>
@@ -35,3 +34,10 @@ export default{
 }
 
 </script>
+<style scoped>
+h2{
+
+    color:#198754;
+
+}
+</style>

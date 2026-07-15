@@ -54,8 +54,6 @@ export function assignStaff(data){
 }
 
 
-// ----------------staff apis-------------------
-
 export function getMyProfile(){
 
     return api.get("/staff/profile");
@@ -101,19 +99,12 @@ export function getParticipants(){
 
 export function getAllAssignedParticipants(search=""){
 
-    return api.get(
-
-        "/staff/participants",
+    return api.get("/staff/participants",
         {
-
             params:{
-
                 search: search
-
             }
-
         }
-
     );
 
 }

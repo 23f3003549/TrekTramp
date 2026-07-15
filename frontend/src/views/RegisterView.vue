@@ -5,8 +5,19 @@
         <div class="card shadow p-4" style = "width:400px">
 
 
-            <div class="text-center mb-4">
-                <h1>Register</h1>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <h2 class="fw-bold mb-0" style="color: black;">
+                    Register
+                </h2>
+            
+                <RouterLink
+                    to="/"
+                    class="btn btn-outline-dark btn-sm"
+                >
+                    Home
+                </RouterLink>
+
             </div>
 
             <form @submit.prevent="register">
@@ -21,29 +32,6 @@
                 <input type="email" id= "email" class="form-control" placeholder="Enter your email" v-model="email" required>
             </div>
 
-            <!-- <div class=" mb-3 ">
-                <label for="age" class="form-label">Age</label>
-                <input type="number" id= "age" class="form-control" placeholder="Enter your age" v-model="age" required>
-            </div>
-
-            <div class=" mb-3  ">
-                <label for="gender" class="form-label">Gender</label>
-
-                <select class="form-select" id="gender" v-model="gender">
-                    <option disabled selected value="">Select Gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
-                </select>
-                
-                
-            </div>
-
-            <div class=" mb-3 ">
-                <label for="phone" class="form-label">Phone</label>
-                <input type="tel" id= "phone" class="form-control" placeholder="Enter your number", v-model="phone">
-            </div> -->
-
             <div class=" mb-3 ">
                 <label for="password" class="form-label">Password</label>
                 <input type="password" id= "password" class="form-control" placeholder="Enter password", v-model="password" required>
@@ -52,10 +40,31 @@
             <div v-if="errormessage" class="alert alert-danger">
                 {{ errormessage }}
             </div>
+                <button
+                    type="submit"
+                    class="btn btn-dark w-100 mt-2"
+                >
+                    Register
+                </button>
+                
+                <div class="text-center mt-4">
+                
+                    <small class="text-muted">
+                        Already have an account?
+                    </small>
+                
+                    <br>
+                
+                    <RouterLink
+                        to="/login"
+                        class="text-decoration-none fw-semibold"
+                    >
+                        Login here
+                    </RouterLink>
+                
+                </div>
 
-            <button type="submit" class="btn btn-dark">
-                Register
-            </button>
+            
             </form>
 
 
@@ -76,9 +85,6 @@ export default {
         return {
             "name": "",
             "email": "",
-            // "age": "",
-            // "gender": "",
-            // "phone":"",
             "password": "",
             "errormessage":""
         }
@@ -92,9 +98,6 @@ export default {
                 {
                     name : this.name,
                     email : this.email,
-                    // age : this.age,
-                    // gender : this.gender,
-                    // phone : this.phone,
                     password : this.password
 
                 }
@@ -116,3 +119,22 @@ export default {
 
 }
 </script>
+<style scoped>
+.card{
+
+    border-radius:8px;
+
+}
+
+.form-control{
+
+    border-radius:10px;
+
+}
+
+.btn{
+
+    border-radius:10px;
+
+}
+</style>

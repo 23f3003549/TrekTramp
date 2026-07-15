@@ -83,14 +83,14 @@
                                     class="btn btn-warning btn-sm me-2"
                                     @click.stop="editTrek(trek)"
                                 >
-                                    ✏️Edit
+                                    Edit
                                 </button>
 
                                 <button
                                     class="btn btn-danger btn-sm"
                                     @click.stop=" deleteTrek(trek.id)"
                                 >
-                                    🗑 Delete
+                                    Delete
                                 </button>
 
                             </td>
@@ -182,24 +182,35 @@ export default {
 
         async handleTrekSaved(search=""){
             this.showModal = false;
-            const response = await this.loadTreks();
-            this.treks=response.data.treks;
+             await this.loadTreks();
         },
 
         async deleteTrek(id){
-            try{
-                await deleteapi(id);
-                alert("Trek deleted successfully.");
-                const response = await this.loadTreks();
-                this.treks = response.data.treks;
 
+            try{
+        
+                const response = await deleteapi(id);
+        
+                alert(response.data.message);
+        
+                await this.loadTreks();
+        
             }
+        
             catch(error){
-                console.error(error)
+        
+                console.error(error);
+        
                 alert(
-                    error.response?.data?.message || "Unable to delete"
+        
+                    error.response?.data?.message ||
+        
+                    "Unable to delete."
+        
                 );
+        
             }
+        
         },
 
         openCreateModal(){

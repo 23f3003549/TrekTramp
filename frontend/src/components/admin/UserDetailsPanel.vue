@@ -6,8 +6,6 @@
     ref="offcanvasElement"
 >
 
-    <!-- HEADER -->
-
     <div class="offcanvas-header bg-success text-white">
 
         <h4 class="offcanvas-title">
@@ -25,8 +23,6 @@
 
     <div class="offcanvas-body">
 
-        <!-- Loading -->
-
         <div
             v-if="loading"
             class="text-center py-5"
@@ -36,13 +32,9 @@
 
         </div>
 
-        <!-- CONTENT -->
-
         <template
             v-else-if="user"
         >
-
-            <!-- Personal Information -->
 
             <div class="card shadow-sm mb-4">
 
@@ -137,8 +129,6 @@
 
             </div>
 
-            <!-- Booking Statistics -->
-
             <div class="card shadow-sm mb-4">
 
                 <div class="card-header bg-success text-white">
@@ -220,8 +210,6 @@
                 </div>
 
             </div>
-
-            <!-- Recent Bookings -->
 
             <div class="card shadow-sm mb-4">
 
@@ -328,8 +316,6 @@
                 </div>
 
             </div>
-
-            <!-- Account Management -->
 
             <div class="card shadow-sm">
 
@@ -529,8 +515,6 @@ export default{
 
     methods:{
 
-        //--------------------------------------------------
-
         async loadUser(){
 
             this.loading=true;
@@ -581,15 +565,11 @@ export default{
 
         },
 
-        //--------------------------------------------------
-
         closePanel(){
 
             this.offcanvas.hide();
 
         },
-
-        //--------------------------------------------------
 
         async updateStatus(){
 
@@ -689,19 +669,11 @@ export default{
 
 <style scoped>
 
-/* ==========================
-   Offcanvas
-========================== */
-
 .offcanvas{
 
     width:600px;
 
 }
-
-/* ==========================
-   Cards
-========================== */
 
 .card{
 
@@ -721,10 +693,6 @@ export default{
 
 }
 
-/* ==========================
-   Headers
-========================== */
-
 .card-header{
 
     font-weight:600;
@@ -733,10 +701,6 @@ export default{
 
 }
 
-/* ==========================
-   Labels
-========================== */
-
 strong{
 
     color:#198754;
@@ -744,10 +708,6 @@ strong{
     font-weight:600;
 
 }
-
-/* ==========================
-   Statistics
-========================== */
 
 .card-body h3{
 
@@ -764,10 +724,6 @@ strong{
     font-size:13px;
 
 }
-
-/* ==========================
-   Table
-========================== */
 
 .table{
 
@@ -795,10 +751,6 @@ strong{
 
 }
 
-/* ==========================
-   Badge
-========================== */
-
 .badge{
 
     font-size:12px;
@@ -808,10 +760,6 @@ strong{
     border-radius:8px;
 
 }
-
-/* ==========================
-   Form
-========================== */
 
 .form-control,
 
@@ -827,10 +775,6 @@ textarea{
 
 }
 
-/* ==========================
-   Previous Reason
-========================== */
-
 .alert{
 
     border-radius:10px;
@@ -838,10 +782,6 @@ textarea{
     font-size:14px;
 
 }
-
-/* ==========================
-   Button
-========================== */
 
 .btn-success{
 
@@ -861,10 +801,6 @@ textarea{
 
 }
 
-/* ==========================
-   Loading Spinner
-========================== */
-
 .spinner-border{
 
     width:3rem;
@@ -872,10 +808,6 @@ textarea{
     height:3rem;
 
 }
-
-/* ==========================
-   Responsive
-========================== */
 
 @media (max-width:768px){
 

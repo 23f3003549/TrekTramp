@@ -10,7 +10,6 @@
 
 >
 
-    <!-- Header -->
 
     <div class="offcanvas-header">
 
@@ -42,8 +41,6 @@
 
     <div class="offcanvas-body">
 
-        <!-- Loading -->
-
         <div
 
             v-if="loading"
@@ -57,8 +54,6 @@
         </div>
 
         <div v-else>
-
-            <!-- ================= Personal Information ================= -->
 
             <div class="card shadow-sm mb-4">
 
@@ -162,8 +157,6 @@
 
             </div>
 
-            <!-- ================= Booking Information ================= -->
-
             <div class="card shadow-sm mb-4">
 
                 <div class="card-header bg-primary text-white">
@@ -233,8 +226,6 @@
                 </div>
 
             </div>
-
-            <!-- ================= Manage Booking ================= -->
 
             <div class="card shadow-sm">
 
@@ -471,8 +462,6 @@ export default{
 
     methods:{
 
-        // ---------------- Load Participant ----------------
-
         async loadParticipant(){
 
             this.loading = true;
@@ -525,8 +514,6 @@ export default{
 
         },
 
-        // ---------------- Update ----------------
-
         async updateParticipant(){
 
             this.saving = true;
@@ -578,8 +565,6 @@ export default{
             }
 
         },
-
-        // ---------------- Close ----------------
 
         closePanel(){
 
@@ -645,8 +630,6 @@ export default{
 
 <style scoped>
 
-/* ================= Offcanvas ================= */
-
 .offcanvas{
 
     width:550px;
@@ -656,8 +639,6 @@ export default{
     border-bottom-left-radius:18px;
 
 }
-
-/* ================= Header ================= */
 
 .offcanvas-header{
 
@@ -682,8 +663,6 @@ export default{
     background:#f8f9fa;
 
 }
-
-/* ================= Cards ================= */
 
 .card{
 
@@ -713,8 +692,6 @@ export default{
 
 }
 
-/* ================= Labels ================= */
-
 label{
 
     font-size:13px;
@@ -728,8 +705,6 @@ label{
     display:block;
 
 }
-
-/* ================= Inputs ================= */
 
 .form-control,
 
@@ -755,7 +730,7 @@ label{
 
 }
 
-/* Read Only Inputs */
+
 
 .form-control:disabled{
 
@@ -767,8 +742,6 @@ label{
 
 }
 
-/* ================= Textarea ================= */
-
 textarea.form-control{
 
     min-height:110px;
@@ -776,8 +749,6 @@ textarea.form-control{
     resize:none;
 
 }
-
-/* ================= Update Button ================= */
 
 .btn-success{
 
@@ -799,8 +770,6 @@ textarea.form-control{
 
 }
 
-/* ================= Loading ================= */
-
 .spinner-border{
 
     width:3rem;
@@ -809,7 +778,6 @@ textarea.form-control{
 
 }
 
-/* ================= Scrollbar ================= */
 
 .offcanvas-body::-webkit-scrollbar{
 
@@ -830,8 +798,6 @@ textarea.form-control{
     background:#f1f1f1;
 
 }
-
-/* ================= Responsive ================= */
 
 @media(max-width:768px){
 

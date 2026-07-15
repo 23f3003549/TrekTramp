@@ -10,8 +10,6 @@
 
 >
 
-    <!-- No Treks -->
-
     <div
 
         v-if="!loading &&
@@ -45,8 +43,6 @@
 
     </div>
 
-    <!-- Accordion -->
-
     <div
 
         v-else
@@ -56,8 +52,6 @@
         id="trekAccordion"
 
     >
-
-        <!-- ================= Active ================= -->
 
         <div class="accordion-item mb-3">
 
@@ -209,8 +203,6 @@
 
         </div>
 
-        <!-- ================= Completed ================= -->
-
         <div class="accordion-item mb-3">
 
             <h2 class="accordion-header">
@@ -359,8 +351,6 @@
             </div>
 
         </div>
-
-        <!-- ================= Cancelled ================= -->
 
         <div class="accordion-item">
 
@@ -570,8 +560,6 @@ export default{
 
     methods:{
 
-        //--------------------------------------------------
-
         async loadTreks(search=""){
 
             this.loading = true;
@@ -620,8 +608,6 @@ export default{
 
         },
 
-        //--------------------------------------------------
-
         async searchTreks(keyword){
 
             await this.loadTreks(
@@ -632,15 +618,11 @@ export default{
 
         },
 
-        //--------------------------------------------------
-
         openDetails(id){
 
             this.selectedTrek = id;
 
         },
-
-        //--------------------------------------------------
 
         formatDate(date){
 
@@ -662,8 +644,7 @@ export default{
 
         },
 
-        //--------------------------------------------------
-
+       
         statusClass(status){
 
             return{
@@ -702,8 +683,6 @@ export default{
 
 <style scoped>
 
-/* ---------------- Page ---------------- */
-
 .accordion-item{
 
     border:none;
@@ -721,8 +700,6 @@ export default{
     margin-bottom:20px;
 
 }
-
-/* ---------------- Accordion Header ---------------- */
 
 .accordion-button{
 
@@ -756,8 +733,6 @@ export default{
 
 }
 
-/* ---------------- Accordion Body ---------------- */
-
 .accordion-body{
 
     background:#ffffff;
@@ -765,8 +740,6 @@ export default{
     padding:0;
 
 }
-
-/* ---------------- Table ---------------- */
 
 .table{
 
@@ -804,8 +777,6 @@ export default{
 
 }
 
-/* ---------------- Badges ---------------- */
-
 .badge{
 
     font-size:.82rem;
@@ -816,8 +787,6 @@ export default{
 
 }
 
-/* ---------------- Buttons ---------------- */
-
 .btn{
 
     border-radius:8px;
@@ -827,8 +796,6 @@ export default{
     font-weight:500;
 
 }
-
-/* ---------------- Empty State ---------------- */
 
 .text-center i{
 
@@ -847,8 +814,6 @@ export default{
     font-size:.95rem;
 
 }
-
-/* ---------------- Responsive ---------------- */
 
 @media(max-width:992px){
 

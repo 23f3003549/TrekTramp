@@ -10,8 +10,6 @@
 
 >
 
-    <!-- ===================== Filters ===================== -->
-
     <div class="d-flex flex-wrap gap-2 mb-4">
 
         <button
@@ -104,8 +102,6 @@
 
     </div>
 
-    <!-- ===================== Heading ===================== -->
-
     <div class="booking-header">
 
     <h4 class="page-title">
@@ -124,8 +120,6 @@
     </div>
 
 </div>
-
-    <!-- ===================== Booking Cards ===================== -->
 
     <div
 
@@ -164,8 +158,6 @@
         </div>
 
     </div>
-
-    <!-- ===================== Empty State ===================== -->
 
     <div
 
@@ -219,8 +211,6 @@
 
 </div>
 
-    <!-- ===================== Trek Details ===================== -->
-
     <TrekDetailsPanel
 
         v-if="selectedTrek"
@@ -228,6 +218,7 @@
         :trekId="selectedTrek"
 
         @close="selectedTrek = null"
+        @refresh="refreshTreks"
 
     />
 
@@ -364,7 +355,10 @@ export default{
         
                 );
         
-                this.loadBookings();
+                await this.loadBookings();
+                window.dispatchEvent(
+                    new CustomEvent("trek-updated")
+                );
         
             }
         
@@ -404,7 +398,7 @@ export default{
         
                 );
         
-                this.loadBookings();
+                await this.loadBookings();
         
             }
         
@@ -438,7 +432,10 @@ export default{
         
                 );
         
-                this.loadBookings();
+                await this.loadBookings();
+                window.dispatchEvent(
+                    new CustomEvent("trek-updated")
+                );
         
             }
         
@@ -533,8 +530,6 @@ export default{
 
 <style scoped>
 
-/* ================= Header ================= */
-
 .booking-header{
 
     display:flex;
@@ -581,8 +576,6 @@ export default{
 
 }
 
-/* ================= Export Button ================= */
-
 .export-btn{
 
     border-radius:12px;
@@ -603,8 +596,6 @@ export default{
 
 }
 
-/* ================= Filter Buttons ================= */
-
 .btn{
 
     border-radius:12px;
@@ -612,8 +603,6 @@ export default{
     font-weight:600;
 
 }
-
-/* ================= Empty State ================= */
 
 .text-center{
 
@@ -632,8 +621,6 @@ export default{
     font-size:15px;
 
 }
-
-/* ================= Responsive ================= */
 
 @media(max-width:768px){
 
@@ -654,8 +641,6 @@ export default{
     }
 
 }
-
-/* ================= Animation ================= */
 
 @keyframes fadeIn{
 

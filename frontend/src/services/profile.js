@@ -1,8 +1,5 @@
 import api from "./api";
 
-
-// ------------------------- Get Profile -------------------------
-
 export function getProfile(){
 
     return api.get(
@@ -14,7 +11,6 @@ export function getProfile(){
 }
 
 
-// ------------------------- Update Profile -------------------------
 
 export function updateProfile(data){
 

@@ -17,7 +17,6 @@
 
         </div>
 
-        <!-- No Bookings -->
 
         <div
 
@@ -30,8 +29,6 @@
             No bookings available.
 
         </div>
-
-        <!-- Accordion -->
 
         <div
 
@@ -51,7 +48,6 @@
 
             >
 
-                <!-- Accordion Header -->
 
                 <h2
 
@@ -115,8 +111,6 @@
 
                 </h2>
 
-                <!-- Accordion Body -->
-
                 <div
 
                     :id="'collapse'+trek.trek_id"
@@ -130,8 +124,6 @@
                 >
 
                     <div class="accordion-body">
-
-                        <!-- Statistics -->
 
                         <div class="row mb-4">
 
@@ -232,8 +224,6 @@
                             </div>
 
                         </div>
-
-                        <!-- Participants Table -->
 
                         <div class="table-responsive">
 
@@ -363,7 +353,6 @@
 
         </div>
 
-        <!-- Booking Details -->
 
         <BookingDetailsPanel
 
@@ -420,9 +409,6 @@ export default{
     },
 
     methods:{
-
-        //--------------------------------------------------
-
         async loadBookings(search=""){
 
             this.loading=true;
@@ -493,7 +479,6 @@ h2{
 
 }
 
-/* ---------------- Card ---------------- */
 
 .card{
 
@@ -502,8 +487,6 @@ h2{
     border-radius:14px;
 
 }
-
-/* ---------------- Accordion ---------------- */
 
 .accordion-item{
 
@@ -547,8 +530,6 @@ h2{
 
 }
 
-/* ---------------- Statistics Cards ---------------- */
-
 .card h4{
 
     font-weight:700;
@@ -562,8 +543,6 @@ h2{
     color:#6c757d;
 
 }
-
-/* ---------------- Table ---------------- */
 
 .table th{
 
@@ -583,7 +562,6 @@ h2{
 
 }
 
-/* ---------------- Badge ---------------- */
 
 .badge{
 
@@ -597,8 +575,6 @@ h2{
 
 }
 
-/* ---------------- Buttons ---------------- */
-
 .btn{
 
     border-radius:8px;
@@ -610,8 +586,6 @@ h2{
     color:white;
 
 }
-
-/* ---------------- Responsive ---------------- */
 
 .table-responsive{
 

@@ -1,16 +1,16 @@
 <template>
 
-    <div class="card shadow-sm dashboard-card">
+    <div class="card shadow-sm dashboard-card" style="margin-top: 25%; text-align: center;">
 
-        <div class="card-body">
+        <div class="card-body" >
 
-            <h6 class="card-title">
+            <h6 class="card-title fs-2" style="margin-top: 50px;">
 
                 {{ title }}
 
             </h6>
 
-            <h2 class="card-value">
+            <h2 class="card-value "style="margin-top: 30px; font-size: 50px;">
 
                 {{ count }}
 
@@ -59,13 +59,14 @@ export default{
 
     border:1px solid rgba(255,255,255,0.5);
 
-    border-top:4px solid #198754;
+    /* border-top:4px solid #198754; */
 
     border-radius:16px;
 
     box-shadow:0 8px 20px rgba(0,0,0,0.08);
 
     transition:all .3s ease;
+    height: 40vh;
 
 }
 
@@ -73,6 +74,8 @@ export default{
 
     transform:translateY(-5px);
     box-shadow:0 14px 30px rgba(25,135,84,0.15);
+    background-color: rgb(225, 246, 213);
+
 
 }
 

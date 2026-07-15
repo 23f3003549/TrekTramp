@@ -13,8 +13,6 @@
 
         </div>
 
-        <!-- Loading -->
-
         <div
             v-if="loading"
             class="text-center py-5"
@@ -25,10 +23,6 @@
         </div>
 
         <template v-else>
-
-            <!-- ====================================== -->
-            <!-- Dashboard Summary -->
-            <!-- ====================================== -->
 
             <div class="row g-4 mb-4">
 
@@ -114,10 +108,7 @@
 
             </div>
 
-            <!-- ====================================== -->
-            <!-- Pie Charts -->
-            <!-- ====================================== -->
-
+    
             <div class="row g-4 mb-4">
 
                 <div class="col-lg-6">
@@ -142,10 +133,7 @@
 
             </div>
 
-            <!-- ====================================== -->
-            <!-- Popular Treks -->
-            <!-- ====================================== -->
-
+           
             <div class="mb-4">
 
                 <PopularTreksChart
@@ -156,10 +144,7 @@
 
             </div>
 
-            <!-- ====================================== -->
-            <!-- Staff Performance -->
-            <!-- ====================================== -->
-
+          
             <div class="mb-4">
 
                 <StaffCharts
@@ -169,10 +154,6 @@
                 />
 
             </div>
-
-            <!-- ====================================== -->
-            <!-- Monthly Booking -->
-            <!-- ====================================== -->
 
             <div class="mb-4">
 
@@ -184,10 +165,7 @@
 
             </div>
 
-            <!-- ====================================== -->
-            <!-- Export Reports -->
-            <!-- ====================================== -->
-
+        
             <div class="card shadow-sm">
 
                 <div class="card-header bg-success text-white">
@@ -386,8 +364,6 @@ export default{
 
     methods:{
 
-        //--------------------------------------------------
-
         async loadReports(){
 
             this.loading=true;
@@ -445,8 +421,6 @@ export default{
 
         },
 
-        //--------------------------------------------------
-
         downloadFile(blob,filename){
 
             const url = window.URL.createObjectURL(
@@ -487,8 +461,6 @@ export default{
 
         },
 
-        //--------------------------------------------------
-
         async downloadUsers(){
 
             try{
@@ -520,8 +492,6 @@ export default{
             }
 
         },
-
-        //--------------------------------------------------
 
         async downloadStaff(){
 
@@ -555,8 +525,6 @@ export default{
 
         },
 
-        //--------------------------------------------------
-
         async downloadTreks(){
 
             try{
@@ -588,8 +556,6 @@ export default{
             }
 
         },
-
-        //--------------------------------------------------
 
         async downloadBookings(){
 
@@ -645,15 +611,12 @@ h2{
 
 }
 
-/* ---------------- Summary Cards ---------------- */
 
 .row{
 
     margin-bottom:0;
 
 }
-
-/* ---------------- Main Cards ---------------- */
 
 .card{
 
@@ -671,15 +634,11 @@ h2{
 
 }
 
-/* ---------------- Export Section ---------------- */
-
 .card-body{
 
     background:#f8f9fa;
 
 }
-
-/* ---------------- Loading ---------------- */
 
 .spinner-border{
 
@@ -688,8 +647,6 @@ h2{
     height:3rem;
 
 }
-
-/* ---------------- Responsive ---------------- */
 
 @media (max-width:991px){
 

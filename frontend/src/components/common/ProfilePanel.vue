@@ -6,8 +6,6 @@
     ref="offcanvasElement"
 >
 
-    <!-- HEADER -->
-
     <div class="offcanvas-header bg-success text-white">
 
         <h4 class="offcanvas-title">
@@ -23,11 +21,7 @@
 
     </div>
 
-    <!-- BODY -->
-
     <div class="offcanvas-body">
-
-        <!-- LOADER -->
 
         <div
             v-if="loading"
@@ -38,11 +32,7 @@
 
         </div>
 
-        <!-- PROFILE -->
-
         <div v-else>
-
-            <!-- ================= VIEW MODE ================= -->
 
             <div v-if="!editMode">
 
@@ -141,8 +131,6 @@
 
             </div>
 
-            <!-- ================= EDIT MODE ================= -->
-
             <div v-else>
 
                 <form @submit.prevent="saveProfile">
@@ -169,8 +157,6 @@
 
                     </div>
 
-                    <!-- EMAIL -->
-
                     <div class="mb-3">
 
                         <label class="form-label">
@@ -193,8 +179,6 @@
 
                     </div>
 
-                    <!-- PHONE -->
-
                     <div class="mb-3">
 
                         <label class="form-label">
@@ -215,8 +199,6 @@
 
                     </div>
 
-                    <!-- AGE -->
-
                     <div class="mb-3">
 
                         <label class="form-label">
@@ -236,8 +218,6 @@
                         >
 
                     </div>
-
-                    <!-- GENDER -->
 
                     <div class="mb-4">
 
@@ -400,8 +380,6 @@ export default{
 
     methods:{
 
-        // ---------------- Load Profile ----------------
-
         async loadProfile(){
 
             this.loading=true;
@@ -450,15 +428,11 @@ export default{
 
         },
 
-        // ---------------- Enable Edit ----------------
-
         enableEdit(){
 
             this.editMode=true;
 
         },
-
-        // ---------------- Cancel Edit ----------------
 
         cancelEdit(){
 
@@ -480,8 +454,6 @@ export default{
 
         },
 
-        // ---------------- Save Profile ----------------
-
         async saveProfile(){
 
             this.saving=true;
@@ -494,7 +466,6 @@ export default{
             
                 );
             
-                // Update localStorage if the name changed
                 if(response.data.profile){
             
                     localStorage.setItem(
@@ -514,7 +485,6 @@ export default{
                 );
             
                 this.editMode = false;
-            // --------------------------------------------------------------------
                 await this.loadProfile();
                 this.offcanvas.hide()
                
@@ -542,8 +512,6 @@ export default{
             }
 
         },
-
-        // ---------------- Close Panel ----------------
 
         closePanel(){
 
@@ -598,16 +566,12 @@ export default{
 }
 
 
-/* ================= HEADER ================= */
-
 .offcanvas-header{
 
     border-bottom:1px solid #dee2e6;
 
 }
 
-
-/* ================= AVATAR ================= */
 
 .profile-avatar{
 
@@ -638,8 +602,6 @@ export default{
 }
 
 
-/* ================= CARD ================= */
-
 .card{
 
     border:none;
@@ -655,9 +617,6 @@ export default{
 
 }
 
-
-/* ================= LABELS ================= */
-
 .form-label{
 
     font-weight:600;
@@ -665,9 +624,6 @@ export default{
     color:#495057;
 
 }
-
-
-/* ================= INPUTS ================= */
 
 .form-control,
 
@@ -689,8 +645,6 @@ export default{
 }
 
 
-/* ================= BUTTONS ================= */
-
 .btn{
 
     border-radius:10px;
@@ -698,9 +652,6 @@ export default{
     padding:9px 18px;
 
 }
-
-
-/* ================= BADGE ================= */
 
 .badge{
 
@@ -711,9 +662,6 @@ export default{
     border-radius:20px;
 
 }
-
-
-/* ================= MOBILE ================= */
 
 @media(max-width:576px){
 

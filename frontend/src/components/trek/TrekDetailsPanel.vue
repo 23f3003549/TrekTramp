@@ -23,8 +23,6 @@
 
     <div class="offcanvas-body">
 
-        <!-- LOADING -->
-
         <div
             v-if="loading"
             class="text-center py-5"
@@ -34,14 +32,13 @@
 
         </div>
 
-        <!-- CONTENT -->
+   
 
         <div
             v-else-if="trek"
         >
 
-            <!-- BASIC INFORMATION -->
-
+     
             <div class="card shadow-sm mb-4">
 
                 <div class="card-header bg-success text-white">
@@ -167,7 +164,6 @@
 
             </div>
 
-            <!-- DESCRIPTION -->
 
             <div class="card shadow-sm mb-4">
 
@@ -184,8 +180,6 @@
                 </div>
 
             </div>
-
-            <!-- ASSIGNED STAFF -->
 
             <div class="card shadow-sm mb-4">
 
@@ -237,8 +231,6 @@
 
             </div>
 
-            <!-- BOOKING SUMMARY -->
-
             <div class="card shadow-sm mb-4">
 
                 <div class="card-header bg-success text-white">
@@ -277,7 +269,6 @@
 
             </div>
 
-            <!-- ACTIONS -->
 
             <div class="card shadow-sm">
 
@@ -288,8 +279,6 @@
                 </div>
 
                 <div class="card-body">
-
-                    <!-- ADMIN -->
 
                     <div
                         v-if="role==='admin'"
@@ -306,13 +295,9 @@
 
                     </div>
 
-                    <!-- STAFF -->
-
                     <div
                         v-else-if="role==='staff'"
                     >
-
-                        <!-- OPEN -->
 
                         <div
                             v-if="trek.status==='open'"
@@ -380,8 +365,6 @@
 
                         </div>
 
-                        <!-- STARTED -->
-
                         <div
                             v-else-if="trek.status==='started'"
                         >
@@ -412,8 +395,6 @@
 
                         </div>
 
-                        <!-- COMPLETED / CANCELLED -->
-
                         <div
                             v-else
                         >
@@ -437,8 +418,6 @@
                         </div>
 
                     </div>
-
-                    <!-- TREKKER -->
 
                     <div
                         v-else
@@ -513,7 +492,7 @@ export default{
 
     },
 
-    emits:["close"],
+    emits:["close","refresh"],
 
     data(){
 
@@ -562,8 +541,6 @@ export default{
     },
 
     methods:{
-
-        //--------------------------------------------------
 
         async loadTrek(){
 
@@ -618,6 +595,9 @@ export default{
                 );
         
                 await this.loadTrek();
+                window.dispatchEvent(
+                    new CustomEvent("trek-updated")
+                );
         
                 this.$emit("refresh");
         
@@ -670,23 +650,17 @@ export default{
             }
         },    
             
-        //--------------------------------------------------
-
         closePanel(){
 
             this.offcanvas.hide();
 
         },
 
-        //--------------------------------------------------
-
         openAssignPanel(){
 
             this.showAssignPanel=true;
 
         },
-
-        //--------------------------------------------------
 
         async handleStaffAssigned(){
 
@@ -695,8 +669,6 @@ export default{
             await this.loadTrek();
 
         },
-
-        //--------------------------------------------------
 
         async updateCapacity(){
 
@@ -743,8 +715,6 @@ export default{
             }
 
         },
-
-        //--------------------------------------------------
 
         async changeStatus(status){
 

@@ -26,8 +26,6 @@ export function updateStaffStatus(staffId, data){
 
 }
 
-// ---------------------- Get User Details ----------------------
-
 export function getUserDetails(userId){
 
     return api.get(
@@ -37,9 +35,6 @@ export function getUserDetails(userId){
     );
 
 }
-
-
-// ---------------------- Update User Status ----------------------
 
 export function updateUserStatus(userId, data){
 
@@ -52,8 +47,6 @@ export function updateUserStatus(userId, data){
     );
 
 }
-
-//---------------------- Get All Users ----------------------
 
 export function getAllUsers(search=""){
 
@@ -69,9 +62,6 @@ export function getAllUsers(search=""){
 
 }
 
-
-//---------------------- Get Single User ----------------------
-
 export function getUser(userId){
 
     return api.get(
@@ -81,8 +71,6 @@ export function getUser(userId){
     );
 
 }
-
-// ---------------------- Get All Bookings ----------------------
 
 export function getAllBookings(search=""){
 
@@ -99,8 +87,6 @@ export function getAllBookings(search=""){
 }
 
 
-// ---------------------- Get Booking Details ----------------------
-
 export function getBookingDetails(bookingId){
 
     return api.get(
@@ -111,8 +97,6 @@ export function getBookingDetails(bookingId){
 
 }
 
-
-// ---------------------- Update Booking ----------------------
 
 export function updateBooking(bookingId,data){
 
@@ -126,7 +110,7 @@ export function updateBooking(bookingId,data){
 
 }
 
-//-------------------------------------------user reports-----------------
+
 export function getReports(){
 
     return api.get(
@@ -137,7 +121,6 @@ export function getReports(){
 
 }
 
-// ---------------------- Export Users Report ----------------------
 
 export function exportUsersReport(){
 
@@ -155,8 +138,6 @@ export function exportUsersReport(){
 
 }
 
-// ---------------------- Export Staff Report ----------------------
-
 export function exportStaffReport(){
 
     return api.get(
@@ -173,7 +154,6 @@ export function exportStaffReport(){
 
 }
 
-// ---------------------- Export Booking Report ----------------------
 
 export function exportBookingReport(){
 
@@ -191,7 +171,6 @@ export function exportBookingReport(){
 
 }
 
-// ---------------------- Export Trek Report ----------------------
 
 export function exportTrekReport(){
 
@@ -209,8 +188,6 @@ export function exportTrekReport(){
 
 }
 
-// ---------------------- Get Admin Profile ----------------------
-
 export function getAdminProfile(){
 
     return api.get(
@@ -220,8 +197,6 @@ export function getAdminProfile(){
     );
 
 }
-
-// ---------------------- Update Admin Profile ----------------------
 
 export function updateAdminProfile(data){
 
@@ -234,8 +209,6 @@ export function updateAdminProfile(data){
     );
 
 }
-
-// ---------------------- Change Admin Password ----------------------
 
 export function changeAdminPassword(data){
 

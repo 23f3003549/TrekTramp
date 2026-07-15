@@ -43,7 +43,7 @@
                     </div>
     
                     <div class="col-md-6 mb-3">
-                        <label class="form-label fw-semibold"> Maxximum Age</label>
+                        <label class="form-label fw-semibold"> Maximum Age</label>
                         <input type="number" class="form-control" placeholder="Maximum age" v-model="form.max_age" min="5">
                     </div>
                 </div>

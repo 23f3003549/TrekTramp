@@ -3,10 +3,8 @@
     <header class="top-navbar">
         <div>
 
-            <h4 class="mb-0 fw-bold">
-
+            <h4 class="mb-0 fw-bold" style="color: grey;">
                 Hello Admin
-
             </h4>
 
         </div>
@@ -18,16 +16,13 @@
                @click="searchData"></i>
 
             <input
-
                 type="text"
                 class="form-control"
                 :placeholder="placeholder"
-                :disabled = "!searchEnabled"
-                v-model ="search"
-                @keyup.enter="searchData"
-                disabled
-
-            >
+                :disabled="!searchEnabled"
+                v-model="search"
+                @input="debouncedSearch"
+            />
 
         </div>
         <div
@@ -75,6 +70,8 @@ export default{
 
         return{
             search:"",
+
+            searchTimer:null,
 
             showProfile:false,
 
@@ -167,6 +164,17 @@ export default{
                 );
 
             }
+
+        },
+        debouncedSearch(){
+
+            clearTimeout(this.searchTimer);
+    
+            this.searchTimer = setTimeout(()=>{
+    
+                this.searchData();
+    
+            },300);
 
         },
         searchData(){

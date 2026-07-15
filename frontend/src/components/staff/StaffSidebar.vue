@@ -2,19 +2,6 @@
 
 <div class="sidebar d-flex flex-column">
 
-    <!-- Logo
-     <h6 class="mt-2 mb-0">
-
-    {{ staffName }}
-
-</h6>
-
-<small class="text-light">
-
-    Trek Staff
-
-</small> -->
-
     <div class="logo-section">
 
         <h3 class="logo">
@@ -23,15 +10,8 @@
 
         </h3>
 
-        <!-- <small class="text-light">
-
-            Staff Panel
-
-        </small> -->
-
     </div>
 
-    <!-- Navigation -->
 
     <ul class="nav flex-column mt-4 flex-grow-1">
 
@@ -42,8 +22,6 @@
                 class="nav-link"
                 active-class="active-link"
             >
-
-                <i class="bi bi-grid-fill me-2"></i>
 
                 Dashboard
 
@@ -59,8 +37,6 @@
                 active-class="active-link"
             >
 
-                <i class="bi bi-map-fill me-2"></i>
-
                 My Treks
 
             </router-link>
@@ -74,49 +50,22 @@
                 class="nav-link"
                 active-class="active-link"
             >
-
-                <i class="bi bi-people-fill me-2"></i>
-
                 Participants
 
             </router-link>
 
         </li>
 
-        <!-- <li class="nav-item">
-
-            <router-link
-                to="/staff/profile"
-                class="nav-link"
-                active-class="active-link"
-            >
-
-                <i class="bi bi-person-circle me-2"></i>
-
-                Profile
-
-            </router-link>
-
-        </li> -->
-
     </ul>
 
-    <!-- Logout -->
+    <div class="logout mt-auto">
 
-    <div class="logout-section">
+            <RouterLink to="/" class="nav-link">
+                <i class="bi bi-box-arrow-right me-2"></i>
+                Logout
+            </RouterLink>
 
-        <button
-            class="btn btn-danger w-100"
-            @click="logout"
-        >
-
-            <i class="bi bi-box-arrow-right me-2"></i>
-
-            Logout
-
-        </button>
-
-    </div>
+        </div>
 
 </div>
 
@@ -233,19 +182,19 @@ export default{
 
 }
 
-.logout-section{
 
+.btn{
+    color: white;
+    border-radius:10px;
+
+}
+.logout{
+    text-align: center;
     margin-top:auto;
 
     padding-top:20px;
 
     border-top:1px solid rgba(255,255,255,.25);
-
-}
-
-.btn{
-
-    border-radius:10px;
 
 }
 

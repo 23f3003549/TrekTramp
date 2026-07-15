@@ -2,7 +2,7 @@
 
 <TrekkerLayout
     title="Dashboard"
-    placeholder="Search Treks..."
+    :searchEnabled="false"
 >
 
     <TrekkerStats/>

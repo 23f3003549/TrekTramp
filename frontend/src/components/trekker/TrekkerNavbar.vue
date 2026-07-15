@@ -4,15 +4,12 @@
 
     <div class="container-fluid">
 
-        <!-- Page Title -->
 
         <h4 class="fw-bold mb-0">
 
             {{ title }}
 
         </h4>
-
-        <!-- Search -->
 
         <div v-if="searchEnabled" class="mx-auto search-box">
 
@@ -43,8 +40,6 @@
             </div>
 
         </div>
-
-        <!-- Right Section -->
 
         <div class="d-flex align-items-center">
 
@@ -227,6 +222,11 @@ export default{
 </script>
 
 <style scoped>
+h4{
+
+    color:#198754;
+
+}
 
 .navbar{
 

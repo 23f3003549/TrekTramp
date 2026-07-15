@@ -4,9 +4,13 @@
     :searchEnabled="false" placeholder=""
     >
 
-        <div class="container py-4">
+         <div class="d-flex justify-content-between align-items-center mb-4">
 
-            <h2>Dashboard</h2>
+            <h2 class="fw-bold" >
+
+                Dashboard
+
+            </h2>
 
         </div>
         <div class="row">
@@ -87,5 +91,10 @@ export default{
 </script>
 
 <style>
+h2{
+
+    color:#198754;
+
+}
 
 </style>

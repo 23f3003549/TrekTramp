@@ -2,15 +2,9 @@
 
 <div class="staff-layout">
 
-    <!-- Sidebar -->
-
     <StaffSidebar />
 
-    <!-- Main Section -->
-
     <div class="main-content">
-
-        <!-- Navbar -->
 
         <StaffNavbar
 
@@ -22,8 +16,6 @@
             @search="handleSearch"
 
         />
-
-        <!-- Page Content -->
 
         <div class="page-content">
 

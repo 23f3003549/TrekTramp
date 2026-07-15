@@ -4,8 +4,6 @@
     placeholder="Search Users....." @search="searchUsers"
     >
 
-        <!-- Header -->
-
         <div class="d-flex justify-content-between align-items-center mb-4">
 
             <h2 class="fw-bold">
@@ -16,7 +14,6 @@
 
         </div>
 
-        <!-- Users Table -->
 
         <div class="card shadow-sm">
 
@@ -129,8 +126,6 @@
             </div>
 
         </div>
-
-        <!-- User Details -->
 
         <UserDetailsPanel
 

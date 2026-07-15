@@ -9,8 +9,7 @@
     @search="handleSearch"
     
 >
-    <!-- Empty State -->
-
+ 
 <div
 
     v-if="!loading && treks.length===0"
@@ -40,8 +39,6 @@
     </p>
 
 </div>
-
-<!-- Trek Cards -->
 
 <div
 
@@ -81,6 +78,7 @@
         :trekId="selectedTrek"
 
         @close="selectedTrek=null"
+        @refresh="refreshTreks"
 
     />
 
@@ -159,15 +157,11 @@ export default{
             }
 
         },
-        // async searchTreks(keyword){
+        async refreshTreks(){
 
-        //     await this.loadTreks(
-        
-        //         keyword
-        
-        //     );
+           await this.loadTreks();
 
-        // },
+        },
 
         openDetails(id){
 
@@ -207,6 +201,11 @@ export default{
             "profile-updated",
              this.reopenLastTrek
         );
+        window.addEventListener(
+        "trek-updated",
+        this.loadTreks
+        );
+
 
     },
 
@@ -215,6 +214,10 @@ export default{
         window.removeEventListener(
             "profile-updated",
             this.reopenLastTrek
+        );
+        window.removeEventListener(
+            "trek-updated",
+            this.loadTreks
         );
 
     }

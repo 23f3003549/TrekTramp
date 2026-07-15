@@ -4,15 +4,20 @@
 
     <div class="card shadow p-4" style="width: 400px;">
 
-      <!-- <div v-if="successmessage" class="alert alert-success">
+      <div class="d-flex justify-content-between align-items-center mb-4">
 
-        {{ successmessage }}
+          <h2 class="fw-bold mb-0" style="color: black;">
+              Login
+          </h2>
+      
+          <RouterLink
+              to="/"
+              class="btn btn-outline-dark btn-sm"
+          >
+              Home
+          </RouterLink>
 
-      </div> -->
-
-      <h2 class="text-center mb-4">
-        Login
-      </h2>
+      </div>
 
       <div class="mb-3">
 
@@ -63,6 +68,22 @@
       >
         Login
       </button>
+      <div class="text-center mt-4">
+
+    <small class="text-muted">
+        New to TrekTramp?
+    </small>
+
+    <br>
+
+    <RouterLink
+        to="/register"
+        class="text-decoration-none fw-semibold"
+    >
+        Register Here
+    </RouterLink>
+
+</div>
 
     </div>
 
@@ -174,3 +195,18 @@ export default {
 }
 
 </script>
+
+<style scoped>
+.card{
+    border-radius:8px;
+}
+
+.form-control{
+    border-radius:10px;
+}
+
+.btn{
+    border-radius:10px;
+}
+
+</style>

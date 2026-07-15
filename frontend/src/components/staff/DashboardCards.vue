@@ -1,10 +1,9 @@
 <template>
 
-<div class="row g-4">
+<div class="row g-4" style="place-items: center; padding-top: 13%;">
 
-    <!-- Assigned Treks -->
 
-    <div class="col-lg-4 col-md-6">
+    <div class="col-lg-4 col-md-6" >
 
         <div class="card stat-card shadow-sm border-0">
 
@@ -14,13 +13,13 @@
 
                     <div>
 
-                        <h6 class="text-muted">
+                        <h6 class="text-muted fs-2">
 
                             Assigned Treks
 
                         </h6>
 
-                        <h2 class="fw-bold">
+                        <h2 class="fw-bold" style="margin-top: 30px; font-size: 50px;">
 
                             {{ statistics.assigned_treks }}
 
@@ -42,8 +41,6 @@
 
     </div>
 
-    <!-- Participants -->
-
     <div class="col-lg-4 col-md-6">
 
         <div class="card stat-card shadow-sm border-0">
@@ -54,13 +51,13 @@
 
                     <div>
 
-                        <h6 class="text-muted">
+                        <h6 class="text-muted fs-2">
 
                             Total Participants
 
                         </h6>
 
-                        <h2 class="fw-bold">
+                        <h2 class="fw-bold " style="margin-top: 30px; font-size: 50px;">
 
                             {{ statistics.total_participants }}
 
@@ -82,9 +79,7 @@
 
     </div>
 
-    <!-- Completed Treks -->
-
-    <div class="col-lg-4 col-md-6">
+    <div class="col-lg-4 col-md-6" >
 
         <div class="card stat-card shadow-sm border-0">
 
@@ -94,13 +89,13 @@
 
                     <div>
 
-                        <h6 class="text-muted">
+                        <h6 class="text-muted fs-2">
 
                             Completed Treks
 
                         </h6>
 
-                        <h2 class="fw-bold">
+                        <h2 class="fw-bold" style="margin-top: 30px; font-size: 50px;">
 
                             {{ statistics.completed_treks }}
 
@@ -199,6 +194,9 @@ export default{
     transition:.3s;
 
     cursor:pointer;
+    height:40vh;
+    
+
 
 }
 
@@ -206,15 +204,16 @@ export default{
 
     transform:translateY(-6px);
 
-    box-shadow:0 10px 25px rgba(0,0,0,.12);
+    box-shadow:0 15px 25px rgba(0,0,0,.12);
+    background-color: rgb(225, 246, 213);
 
 }
 
 .icon{
 
-    width:70px;
+    width:150px;
 
-    height:70px;
+    height:150px;
 
     border-radius:50%;
 

@@ -24,8 +24,6 @@
 
             <form @submit.prevent="submitForm">
 
-                <!-- Name -->
-
                 <div class="mb-3">
 
                     <label class="form-label fw-semibold">
@@ -43,8 +41,6 @@
                     >
 
                 </div>
-
-                <!-- Email -->
 
                 <div class="mb-4">
 
@@ -70,8 +66,6 @@
                     </small>
 
                 </div>
-
-                <!-- Buttons -->
 
                 <div class="d-flex justify-content-end">
 

@@ -2,7 +2,6 @@
 
 <div class="card trek-card shadow-sm h-100">
 
-    <!-- Image -->
 
     <img
 
@@ -13,9 +12,6 @@
         :alt="trek.trek_name"
 
     />
-    <p>{{ trek.difficulty }}</p>
-
-    <p>{{ getImage() }}</p>
 
     <div class="card-body d-flex flex-column">
 
@@ -114,12 +110,6 @@ export default{
         }
 
     },
-
-    // emits:[
-
-    //     "view"
-
-    // ],
 
     methods:{
 

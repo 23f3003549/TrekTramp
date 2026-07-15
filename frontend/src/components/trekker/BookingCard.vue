@@ -2,8 +2,6 @@
 
 <div class="card booking-card shadow-sm h-100">
 
-    <!-- Trek Image -->
-
     <img
     :src="getImage()"
 
@@ -12,8 +10,6 @@
         :alt="booking.trek_name">
 
     <div class="card-body d-flex flex-column">
-
-        <!-- Header -->
 
         <div class="d-flex justify-content-between align-items-start mb-2">
 
@@ -51,8 +47,6 @@
 
         <hr>
 
-        <!-- Difficulty + Duration -->
-
         <div class="d-flex justify-content-between mb-3">
 
             <span class="badge bg-dark">
@@ -68,8 +62,6 @@
             </span>
 
         </div>
-
-        <!-- Dates -->
 
         <div class="info-row">
 
@@ -93,8 +85,6 @@
 
         </div>
 
-        <!-- Booking -->
-
         <div class="info-row">
 
             <span>
@@ -113,8 +103,6 @@
 
         </div>
 
-        <!-- Amount -->
-
         <div class="info-row">
 
             <span>
@@ -132,8 +120,6 @@
             </strong>
 
         </div>
-
-        <!-- Payment -->
 
         <div class="info-row mb-4">
 
@@ -159,8 +145,6 @@
 
         </div>
 
-        <!-- Always Available -->
-
         <button
 
             class="btn btn-outline-success w-100 mb-2"
@@ -174,8 +158,6 @@
             View Details
 
         </button>
-
-        <!-- Dynamic Actions -->
 
         <div class="d-grid gap-2 mt-auto">
 
@@ -302,8 +284,6 @@ export default{
 
     computed:{
 
-        // ---------------- Booking Status Badge ----------------
-
         statusClass(){
 
             switch(this.booking.status){
@@ -331,8 +311,6 @@ export default{
             }
 
         },
-
-        // ---------------- Payment Badge ----------------
 
         paymentClass(){
 
@@ -365,8 +343,6 @@ export default{
     },
 
     methods:{
-
-        // ---------------- Trek Image ----------------
 
         getImage(){
 
@@ -403,13 +379,11 @@ export default{
 
 <style scoped>
 
-/* ================= Card ================= */
-
 .booking-card{
 
     border:none;
 
-    border-radius:20px;
+    border-radius:8px;
 
     overflow:hidden;
 
@@ -427,8 +401,6 @@ export default{
 
 }
 
-/* ================= Image ================= */
-
 .card-img-top{
 
     height:220px;
@@ -445,15 +417,11 @@ export default{
 
 }
 
-/* ================= Body ================= */
-
 .card-body{
 
     padding:1.3rem;
 
 }
-
-/* ================= Trek Name ================= */
 
 h5{
 
@@ -463,15 +431,12 @@ h5{
 
 }
 
-/* ================= Location ================= */
-
 .text-muted{
 
     font-size:.92rem;
 
 }
 
-/* ================= Divider ================= */
 
 hr{
 
@@ -480,8 +445,6 @@ hr{
     opacity:.15;
 
 }
-
-/* ================= Information Rows ================= */
 
 .info-row{
 
@@ -521,8 +484,6 @@ hr{
 
 }
 
-/* ================= Badges ================= */
-
 .badge{
 
     font-size:.78rem;
@@ -536,8 +497,6 @@ hr{
     letter-spacing:.3px;
 
 }
-
-/* ================= Buttons ================= */
 
 .btn{
 
@@ -555,41 +514,9 @@ hr{
 
 }
 
-/* ================= Icons ================= */
-
 .bi{
 
     margin-right:5px;
-
-}
-
-/* ================= Mobile ================= */
-
-@media(max-width:768px){
-
-    .card-img-top{
-
-        height:190px;
-
-    }
-
-    .card-body{
-
-        padding:1rem;
-
-    }
-
-    h5{
-
-        font-size:1rem;
-
-    }
-
-    .info-row{
-
-        font-size:.88rem;
-
-    }
 
 }
 

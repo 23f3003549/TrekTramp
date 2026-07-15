@@ -10,16 +10,12 @@ import ManageStaff from '../views/ManageStaff.vue'
 import ManageUsers from '../views/ManageUsers.vue'
 import ManageBookings from '../views/ManageBookings.vue'
 import Reports from "../views/Reports.vue";
-
-import CreateTrek from '../views/CreateTrek.vue'
 import TrekDetails from '../views/TrekDetails.vue'
 import CompleteProfile from '../views/staff/CompleteProfile.vue'
-
 import StaffDashboard from '../views/staff/Dashboard.vue'
 import StaffMyTreks from "../views/staff/MyTreks.vue";
 import TrekkerDashboard from "../views/trekker/Dashboard.vue"
 import BrowseTreks from "../views/trekker/BrowseTreks.vue";
-// import TrekkerProfile from "../views/trekker/Profile.vue";
 import TrekkerMyTreks from '../views/trekker/MyTreks.vue'
 import StaffParticipants from '../views/staff/Participants.vue'
 
@@ -52,11 +48,6 @@ const routes = [
         path: '/admin/treks',
         name: 'manage-treks',
         component: ManageTreks
-    },
-    {
-        path: '/admin/treks/create',
-        name: 'create-trek',
-        component: CreateTrek
     },
     {
         path: '/admin/treks/:id',
@@ -93,11 +84,7 @@ const routes = [
         name: "staff-my-Treks",
         component: StaffMyTreks
     },
-    // {   path: "/staff/profile",
-    //     name: "staff-profile",
-    //     component : Profile
-
-    // },
+  
     {
         path: "/trekker/dashboard",
         name: "trekker-dashboard",

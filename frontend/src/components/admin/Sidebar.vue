@@ -1,11 +1,11 @@
 <template>
-    <aside class="sidebar">
+    <aside class="sidebar d-flex flex-column">
 
-        <div class="logo">
-            <h3>TrekTramp</h3>
+        <div class="logo-section">
+            <h3 class="logo">🥾 TrekTramp</h3>
         </div>
 
-        <nav class="nav flex-column">
+        <nav class="nav flex-column mt-4 flex-grow-1 ">
 
             <RouterLink to="/admin" class="nav-link" active-class="active">
                 Dashboard
@@ -36,6 +36,7 @@
         <div class="logout mt-auto">
 
             <RouterLink to="/" class="nav-link">
+                <i class="bi bi-box-arrow-right me-2"></i>
                 Logout
             </RouterLink>
 
@@ -60,43 +61,73 @@ export default {
 <style scoped>
 
 .sidebar{
-    width:250px;
-    height:100vh;
-    background:#1f2937;
-    color:white;
-    display:flex;
-    flex-direction:column;
-    padding:20px;
-}
 
-.logo{
-    margin-bottom:30px;
-}
+    width:260px;
 
-.logo h3{
-    font-weight:bold;
-}
-
-.nav-link{
-    color:white;
-    margin-bottom:10px;
-    border-radius:8px;
-    padding:10px;
-    text-decoration:none;
-}
-
-.nav-link:hover{
-    background:#2f855a;
-    color:white;
-}
-
-.nav-link.active{
+    min-height:100vh;
 
     background:#198754;
 
     color:white;
 
-    border-radius:8px;
+    position:fixed;
+
+    left:0;
+
+    top:0;
+
+    padding:20px;
+
+    box-shadow:2px 0 12px rgba(0,0,0,.15);
+
+}
+.logo-section{
+
+    text-align:center;
+
+    padding-bottom:20px;
+
+    border-bottom:1px solid rgba(255,255,255,.25);
+
+}
+
+.logo{
+
+    font-weight:700;
+
+    margin-bottom:5px;
+
+}
+
+.nav-link{
+
+    color:white;
+
+    margin-bottom:10px;
+
+    border-radius:10px;
+
+    padding:12px 15px;
+
+    transition:.3s;
+
+}
+.nav-link:hover{
+
+    background:rgba(255,255,255,.18);
+
+    color:white;
+
+}
+
+.nav-link.active{
+
+    background:white;
+
+    color:#198754 !important;
+
+    font-weight:600;
+
 
 }
 
@@ -106,7 +137,13 @@ export default {
 }
 
 .logout{
+    text-align: center;
     margin-top:auto;
+
+    padding-top:20px;
+
+    border-top:1px solid rgba(255,255,255,.25);
+
 }
 
 </style>

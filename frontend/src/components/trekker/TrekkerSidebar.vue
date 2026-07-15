@@ -1,27 +1,24 @@
 <template>
 
 <div
-    class="d-flex flex-column bg-white border-end shadow-sm vh-100"
+    class=" sidebar d-flex flex-column"
     style="width: 260px;"
 >
 
-    <!-- Logo -->
 
     <div
-        class="text-center py-4 border-bottom"
+        class=" logo-section "
     >
 
         <h4
-            class="fw-bold text-success mb-0"
+            class=" logo "
         >
 
-            TrekTramp
+            🥾 TrekTramp
 
         </h4>
 
     </div>
-
-    <!-- Navigation -->
 
     <div class="flex-grow-1">
 
@@ -34,8 +31,6 @@
                     class="nav-link"
                     active-class="active-link"
                 >
-
-                    <i class="bi bi-speedometer2 me-2"></i>
 
                     Dashboard
 
@@ -51,8 +46,6 @@
                     active-class="active-link"
                 >
 
-                    <i class="bi bi-compass me-2"></i>
-
                     Browse Treks
 
                 </RouterLink>
@@ -66,69 +59,24 @@
                     class="nav-link"
                     active-class="active-link"
                 >
-
-                    <i class="bi bi-calendar-check me-2"></i>
-
                     My Treks
 
                 </RouterLink>
 
             </li>
 
-            <!-- <li class="nav-item mb-2">
-
-                <RouterLink
-                    to="/trekker/history"
-                    class="nav-link"
-                    active-class="active-link"
-                >
-
-                    <i class="bi bi-clock-history me-2"></i>
-
-                    History
-
-                </RouterLink>
-
-            </li> -->
-
-            <!-- <li class="nav-item mb-2">
-
-                <RouterLink
-                    to="/trekker/profile"
-                    class="nav-link"
-                    active-class="active-link"
-                >
-
-                    <i class="bi bi-person me-2"></i>
-
-                    Profile
-
-                </RouterLink>
-
-            </li> -->
-
         </ul>
 
     </div>
 
-    <!-- Logout -->
+    <div class="logout mt-auto">
 
-    <div
-        class="border-top p-3"
-    >
+            <RouterLink to="/" class="nav-link">
+                <i class="bi bi-box-arrow-right me-2"></i>
+                Logout
+            </RouterLink>
 
-        <button
-            class="btn btn-outline-danger w-100"
-            @click="logout"
-        >
-
-            <i class="bi bi-box-arrow-right me-2"></i>
-
-            Logout
-
-        </button>
-
-    </div>
+        </div>
 
 </div>
 
@@ -161,40 +109,86 @@ export default {
 </script>
 
 <style scoped>
+.sidebar{
+    width:260px;
 
+    min-height:100vh;
+
+    background:#198754;
+
+    color:white;
+
+    position:fixed;
+
+    left:0;
+
+    top:0;
+
+    padding:20px;
+
+    box-shadow:2px 0 12px rgba(0,0,0,.15);
+}
 .nav-link{
 
-    color:#495057;
+    color:white;
+
+    margin-bottom:10px;
 
     border-radius:10px;
 
-    padding:12px 16px;
+    padding:12px 15px;
 
-    transition:0.3s;
-
-    font-weight:500;
+    transition:.3s;
 
 }
 
 .nav-link:hover{
 
-    background:#e8f5e9;
+    background:rgba(255,255,255,.18);
 
-    color:#198754;
+    color:white;
+
 
 }
 
 .active-link{
 
-    background:#198754;
+    background:white;
 
-    color:white !important;
+    color:#198754 !important;
+
+    font-weight:600;
 
 }
 
 button{
 
     border-radius:10px;
+
+}
+.logo-section{
+
+    text-align:center;
+
+    padding-bottom:20px;
+
+    border-bottom:1px solid rgba(255,255,255,.25);
+
+}
+.logo{
+
+    font-weight:700;
+
+    margin-bottom:5px;
+
+}
+.logout{
+    text-align: center;
+    margin-top:auto;
+
+    padding-top:20px;
+
+    border-top:1px solid rgba(255,255,255,.25);
 
 }
 
